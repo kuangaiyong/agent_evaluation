@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500" width="960" height="500" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="960" height="500" fill="#FFFFFF"/>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">难度分布决定评测集有没有区分能力</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">同样 100 个任务，三种难度分布，只有第三种能持续告诉你「这次改动是变好了还是变坏了」。</text>
+
+  <!-- ============ 面板 A：全是简单 ============ -->
+  <rect x="30" y="74" width="290" height="386" rx="6" fill="#FFF5F5" stroke="#FA5252" stroke-width="2"/>
+  <text x="46" y="100" font-size="14" font-weight="700" fill="#C92A2A">① 全堆在简单档</text>
+  <text x="46" y="120" font-size="11.5" fill="#495057">简单 80 · 中等 15 · 困难 5</text>
+
+  <!-- 柱状图 A -->
+  <g>
+    <line x1="60" y1="250" x2="300" y2="250" stroke="#ADB5BD" stroke-width="1.5"/>
+    <rect x="72" y="138" width="52" height="112" fill="#FFC9C9" stroke="#FA5252"/>
+    <text x="98" y="130" text-anchor="middle" font-size="11" fill="#C92A2A">80</text>
+    <rect x="146" y="229" width="52" height="21" fill="#FFC9C9" stroke="#FA5252"/>
+    <text x="172" y="221" text-anchor="middle" font-size="11" fill="#C92A2A">15</text>
+    <rect x="220" y="243" width="52" height="7" fill="#FFC9C9" stroke="#FA5252"/>
+    <text x="246" y="235" text-anchor="middle" font-size="11" fill="#C92A2A">5</text>
+    <text x="98"  y="268" text-anchor="middle" font-size="11" fill="#868E96">简单</text>
+    <text x="172" y="268" text-anchor="middle" font-size="11" fill="#868E96">中等</text>
+    <text x="246" y="268" text-anchor="middle" font-size="11" fill="#868E96">困难</text>
+  </g>
+
+  <line x1="46" y1="290" x2="304" y2="290" stroke="#FFC9C9"/>
+  <text x="46" y="312" font-size="12" font-weight="700" fill="#212529">跑出来的样子</text>
+  <text x="46" y="334" font-size="12" fill="#495057">总体通过率 <tspan font-weight="700" fill="#C92A2A">94%</tspan>，三档几乎一样高</text>
+  <text x="46" y="360" font-size="12" font-weight="700" fill="#C92A2A">后果</text>
+  <text x="46" y="382" font-size="11.5" fill="#495057">已经饱和。做了三轮优化，分数从</text>
+  <text x="46" y="400" font-size="11.5" fill="#495057">94% 到 95%——涨的这 1 个点还没有</text>
+  <text x="46" y="418" font-size="11.5" fill="#495057">试次噪声 σ 大，说明不了任何事。</text>
+  <text x="46" y="444" font-size="11.5" font-weight="700" fill="#C92A2A">改进看不见 → 团队失去动力</text>
+
+  <!-- ============ 面板 B：全是困难 ============ -->
+  <rect x="335" y="74" width="290" height="386" rx="6" fill="#FFF5F5" stroke="#FA5252" stroke-width="2"/>
+  <text x="351" y="100" font-size="14" font-weight="700" fill="#C92A2A">② 全堆在困难档</text>
+  <text x="351" y="120" font-size="11.5" fill="#495057">简单 5 · 中等 15 · 困难 80</text>
+
+  <!-- 柱状图 B -->
+  <g>
+    <line x1="365" y1="250" x2="605" y2="250" stroke="#ADB5BD" stroke-width="1.5"/>
+    <rect x="377" y="243" width="52" height="7" fill="#FFC9C9" stroke="#FA5252"/>
+    <text x="403" y="235" text-anchor="middle" font-size="11" fill="#C92A2A">5</text>
+    <rect x="451" y="229" width="52" height="21" fill="#FFC9C9" stroke="#FA5252"/>
+    <text x="477" y="221" text-anchor="middle" font-size="11" fill="#C92A2A">15</text>
+    <rect x="525" y="138" width="52" height="112" fill="#FFC9C9" stroke="#FA5252"/>
+    <text x="551" y="130" text-anchor="middle" font-size="11" fill="#C92A2A">80</text>
+    <text x="403" y="268" text-anchor="middle" font-size="11" fill="#868E96">简单</text>
+    <text x="477" y="268" text-anchor="middle" font-size="11" fill="#868E96">中等</text>
+    <text x="551" y="268" text-anchor="middle" font-size="11" fill="#868E96">困难</text>
+  </g>
+
+  <line x1="351" y1="290" x2="609" y2="290" stroke="#FFC9C9"/>
+  <text x="351" y="312" font-size="12" font-weight="700" fill="#212529">跑出来的样子</text>
+  <text x="351" y="334" font-size="12" fill="#495057">总体通过率 <tspan font-weight="700" fill="#C92A2A">9%</tspan>，绝大多数全灭</text>
+  <text x="351" y="360" font-size="12" font-weight="700" fill="#C92A2A">后果</text>
+  <text x="351" y="382" font-size="11.5" fill="#495057">分不清「智能体不行」和「任务坏了」。</text>
+  <text x="351" y="400" font-size="11.5" fill="#495057">pass@100 = 0% 的任务里，往往混着一批</text>
+  <text x="351" y="418" font-size="11.5" fill="#495057">规格含糊、判据僵化的坏任务。</text>
+  <text x="351" y="444" font-size="11.5" font-weight="700" fill="#C92A2A">改进也看不见 → 且归因不了</text>
+
+  <!-- ============ 面板 C：完整梯度 ============ -->
+  <rect x="640" y="74" width="290" height="386" rx="6" fill="#E6FCF5" stroke="#12B886" stroke-width="2.5"/>
+  <text x="656" y="100" font-size="14" font-weight="700" fill="#087F5B">③ 完整梯度（推荐）</text>
+  <text x="656" y="120" font-size="11.5" fill="#495057">简单 40 · 中等 35 · 困难 25</text>
+
+  <!-- 柱状图 C -->
+  <g>
+    <line x1="670" y1="250" x2="910" y2="250" stroke="#ADB5BD" stroke-width="1.5"/>
+    <rect x="682" y="194" width="52" height="56" fill="#96F2D7" stroke="#12B886"/>
+    <text x="708" y="186" text-anchor="middle" font-size="11" fill="#087F5B">40</text>
+    <rect x="756" y="201" width="52" height="49" fill="#96F2D7" stroke="#12B886"/>
+    <text x="782" y="193" text-anchor="middle" font-size="11" fill="#087F5B">35</text>
+    <rect x="830" y="215" width="52" height="35" fill="#96F2D7" stroke="#12B886"/>
+    <text x="856" y="207" text-anchor="middle" font-size="11" fill="#087F5B">25</text>
+    <text x="708" y="268" text-anchor="middle" font-size="11" fill="#868E96">简单</text>
+    <text x="782" y="268" text-anchor="middle" font-size="11" fill="#868E96">中等</text>
+    <text x="856" y="268" text-anchor="middle" font-size="11" fill="#868E96">困难</text>
+  </g>
+
+  <line x1="656" y1="290" x2="914" y2="290" stroke="#96F2D7"/>
+  <text x="656" y="312" font-size="12" font-weight="700" fill="#212529">跑出来的样子</text>
+  <text x="656" y="334" font-size="12" fill="#495057">简单 <tspan font-weight="700" fill="#087F5B">88%</tspan> · 中等 <tspan font-weight="700" fill="#087F5B">62%</tspan> · 困难 <tspan font-weight="700" fill="#087F5B">31%</tspan></text>
+  <text x="656" y="360" font-size="12" font-weight="700" fill="#087F5B">后果</text>
+  <text x="656" y="382" font-size="11.5" fill="#495057">分数<tspan font-weight="700">单调退化</tspan>——这本身就是难度</text>
+  <text x="656" y="400" font-size="11.5" fill="#495057">标签有效的证据。改动落在哪一档，</text>
+  <text x="656" y="418" font-size="11.5" fill="#495057">哪一档先动，归因路径清晰。</text>
+  <text x="656" y="444" font-size="11.5" font-weight="700" fill="#087F5B">既不会被刷爆，也不会难到无解</text>
+
+  <!-- 底部判定标准 -->
+  <rect x="30" y="472" width="900" height="0" fill="none"/>
+  <text x="30" y="488" font-size="12" fill="#343A40"><tspan font-weight="700">一条自查标准：</tspan>如果你的三档难度跑出来分数差不多，说明难度标签没反映真实难度——不是评测集好，是标签白打了，得重新分级。</text>
+</svg>

@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 790" width="1020" height="790" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="1020" height="790" fill="#FFFFFF"/>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">四形态核心指标对照：同一个指标，地位天差地别</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">照搬别的形态的指标集和阈值，是产品智能体评测最常见的翻车方式。</text>
+
+  <!-- 图例 -->
+  <g font-size="11.5">
+    <rect x="30" y="66" width="14" height="14" fill="#FFC9C9" stroke="#FA5252"/>
+    <text x="50" y="78" fill="#C92A2A" font-weight="700">硬门禁　不达标阻断发布</text>
+    <rect x="230" y="66" width="14" height="14" fill="#FFE8CC" stroke="#F59F00"/>
+    <text x="250" y="78" fill="#B54708" font-weight="700">告警　劣化需说明原因</text>
+    <rect x="420" y="66" width="14" height="14" fill="#E9ECEF" stroke="#ADB5BD"/>
+    <text x="440" y="78" fill="#495057">诊断　平时不看</text>
+    <rect x="570" y="66" width="14" height="14" fill="#FFFFFF" stroke="#DEE2E6"/>
+    <text x="590" y="78" fill="#868E96">不适用</text>
+  </g>
+
+  <!-- 列表头 -->
+  <rect x="30"  y="94" width="238" height="52" fill="#F1F3F5" stroke="#ADB5BD"/>
+  <text x="44" y="118" font-size="12.5" font-weight="700" fill="#212529">指标</text>
+  <text x="44" y="136" font-size="10.5" fill="#868E96">编号见 01 分册指标字典</text>
+
+  <rect x="270" y="94" width="180" height="52" fill="#E7F0FF" stroke="#4C6EF5" stroke-width="2"/>
+  <text x="360" y="115" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1C3FAA">形态一</text>
+  <text x="360" y="134" text-anchor="middle" font-size="11" fill="#4C6EF5">对话与 RAG 问答</text>
+
+  <rect x="452" y="94" width="180" height="52" fill="#FFF5F5" stroke="#FA5252" stroke-width="2"/>
+  <text x="542" y="115" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C92A2A">形态二</text>
+  <text x="542" y="134" text-anchor="middle" font-size="11" fill="#FA5252">工作流与工具编排</text>
+
+  <rect x="634" y="94" width="180" height="52" fill="#FFF4E6" stroke="#F59F00" stroke-width="2"/>
+  <text x="724" y="115" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B54708">形态三</text>
+  <text x="724" y="134" text-anchor="middle" font-size="11" fill="#F59F00">嵌入式 AI 能力</text>
+
+  <rect x="816" y="94" width="174" height="52" fill="#F8F0FC" stroke="#AE3EC9" stroke-width="2"/>
+  <text x="903" y="115" text-anchor="middle" font-size="12.5" font-weight="700" fill="#862E9C">形态四</text>
+  <text x="903" y="134" text-anchor="middle" font-size="11" fill="#AE3EC9">多模态与 GUI</text>
+
+  <!-- 行 1: A-01 -->
+  <rect x="30" y="148" width="238" height="38" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="44" y="172" font-size="12" fill="#343A40">A-01　任务成功率</text>
+  <rect x="270" y="148" width="180" height="38" fill="#E9ECEF" stroke="#DEE2E6"/>
+  <text x="360" y="172" text-anchor="middle" font-size="11.5" fill="#495057">诊断 · 问了就算答了</text>
+  <rect x="452" y="148" width="180" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="542" y="172" text-anchor="middle" font-size="11.5" fill="#B54708">告警 · 核心效果</text>
+  <rect x="634" y="148" width="180" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="724" y="172" text-anchor="middle" font-size="11.5" fill="#B54708">告警 ≥ 85%</text>
+  <rect x="816" y="148" width="174" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="903" y="172" text-anchor="middle" font-size="11.5" fill="#B54708">告警 · 按领域分设</text>
+
+  <!-- 行 2: A-04 -->
+  <rect x="30" y="188" width="238" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="44" y="212" font-size="12" fill="#343A40">A-04　pass^3</text>
+  <rect x="270" y="188" width="180" height="38" fill="#E9ECEF" stroke="#DEE2E6"/>
+  <text x="360" y="212" text-anchor="middle" font-size="11.5" fill="#495057">诊断</text>
+  <rect x="452" y="188" width="180" height="38" fill="#FFC9C9" stroke="#DEE2E6"/>
+  <text x="542" y="212" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C92A2A">硬门禁 ≥ 90%</text>
+  <rect x="634" y="188" width="180" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="724" y="212" text-anchor="middle" font-size="11.5" fill="#868E96">不适用 · 看 pass@1</text>
+  <rect x="816" y="188" width="174" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="903" y="212" text-anchor="middle" font-size="11.5" fill="#B54708">告警 ≥ 40%</text>
+
+  <!-- 行 3: B-01 -->
+  <rect x="30" y="228" width="238" height="38" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="44" y="252" font-size="12" fill="#343A40">B-01　调用决策准确率（双向）</text>
+  <rect x="270" y="228" width="180" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="360" y="252" text-anchor="middle" font-size="11.5" fill="#B54708">告警 · 检索触发</text>
+  <rect x="452" y="228" width="180" height="38" fill="#E9ECEF" stroke="#DEE2E6"/>
+  <text x="542" y="252" text-anchor="middle" font-size="11.5" fill="#495057">诊断</text>
+  <rect x="634" y="228" width="180" height="38" fill="#FFC9C9" stroke="#DEE2E6"/>
+  <text x="724" y="252" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C92A2A">硬门禁 · 第一重心</text>
+  <rect x="816" y="228" width="174" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="903" y="252" text-anchor="middle" font-size="11.5" fill="#868E96">不适用</text>
+
+  <!-- 行 4: B-07 -->
+  <rect x="30" y="268" width="238" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="44" y="292" font-size="12" fill="#343A40">B-07　工具序列正确率</text>
+  <rect x="270" y="268" width="180" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="360" y="292" text-anchor="middle" font-size="11.5" fill="#868E96">不适用</text>
+  <rect x="452" y="268" width="180" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="542" y="292" text-anchor="middle" font-size="11.5" fill="#B54708">告警 · 节点/边 F1</text>
+  <rect x="634" y="268" width="180" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="724" y="292" text-anchor="middle" font-size="11.5" fill="#868E96">不适用</text>
+  <rect x="816" y="268" width="174" height="38" fill="#E9ECEF" stroke="#DEE2E6"/>
+  <text x="903" y="292" text-anchor="middle" font-size="11.5" fill="#495057">诊断</text>
+
+  <!-- 行 5: E-02 -->
+  <rect x="30" y="308" width="238" height="38" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="44" y="332" font-size="12" fill="#343A40">E-02　输出格式合规率</text>
+  <rect x="270" y="308" width="180" height="38" fill="#E9ECEF" stroke="#DEE2E6"/>
+  <text x="360" y="332" text-anchor="middle" font-size="11.5" fill="#495057">诊断</text>
+  <rect x="452" y="308" width="180" height="38" fill="#E9ECEF" stroke="#DEE2E6"/>
+  <text x="542" y="332" text-anchor="middle" font-size="11.5" fill="#495057">诊断</text>
+  <rect x="634" y="308" width="180" height="38" fill="#FFC9C9" stroke="#DEE2E6"/>
+  <text x="724" y="332" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C92A2A">硬门禁 ≥ 99%</text>
+  <rect x="816" y="308" width="174" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="903" y="332" text-anchor="middle" font-size="11.5" fill="#B54708">告警 · 产物 schema</text>
+
+  <!-- 行 6: E-03 -->
+  <rect x="30" y="348" width="238" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="44" y="372" font-size="12" fill="#343A40">E-03　政策前置查询率</text>
+  <rect x="270" y="348" width="180" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="360" y="372" text-anchor="middle" font-size="11.5" fill="#868E96">不适用</text>
+  <rect x="452" y="348" width="180" height="38" fill="#FFC9C9" stroke="#DEE2E6"/>
+  <text x="542" y="372" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C92A2A">硬门禁 100%</text>
+  <rect x="634" y="348" width="180" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="724" y="372" text-anchor="middle" font-size="11.5" fill="#868E96">不适用</text>
+  <rect x="816" y="348" width="174" height="38" fill="#E9ECEF" stroke="#DEE2E6"/>
+  <text x="903" y="372" text-anchor="middle" font-size="11.5" fill="#495057">诊断</text>
+
+  <!-- 行 7: E-07 -->
+  <rect x="30" y="388" width="238" height="38" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="44" y="412" font-size="12" fill="#343A40">E-07　拒答边界（双向）</text>
+  <rect x="270" y="388" width="180" height="38" fill="#FFC9C9" stroke="#DEE2E6"/>
+  <text x="360" y="412" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C92A2A">硬门禁 欠拒≤2%</text>
+  <rect x="452" y="388" width="180" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="542" y="412" text-anchor="middle" font-size="11.5" fill="#B54708">告警</text>
+  <rect x="634" y="388" width="180" height="38" fill="#E9ECEF" stroke="#DEE2E6"/>
+  <text x="724" y="412" text-anchor="middle" font-size="11.5" fill="#495057">诊断</text>
+  <rect x="816" y="388" width="174" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="903" y="412" text-anchor="middle" font-size="11.5" fill="#868E96">不适用</text>
+
+  <!-- 行 8: F-02 -->
+  <rect x="30" y="428" width="238" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="44" y="452" font-size="12" fill="#343A40">F-02　有据性</text>
+  <rect x="270" y="428" width="180" height="38" fill="#FFC9C9" stroke="#DEE2E6"/>
+  <text x="360" y="452" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C92A2A">硬门禁 ≥ 90%</text>
+  <rect x="452" y="428" width="180" height="38" fill="#E9ECEF" stroke="#DEE2E6"/>
+  <text x="542" y="452" text-anchor="middle" font-size="11.5" fill="#495057">诊断 · 诊断结论用</text>
+  <rect x="634" y="428" width="180" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="724" y="452" text-anchor="middle" font-size="11.5" fill="#B54708">告警</text>
+  <rect x="816" y="428" width="174" height="38" fill="#E9ECEF" stroke="#DEE2E6"/>
+  <text x="903" y="452" text-anchor="middle" font-size="11.5" fill="#495057">诊断</text>
+
+  <!-- 行 9: F-03 -->
+  <rect x="30" y="468" width="238" height="38" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="44" y="492" font-size="12" fill="#343A40">F-03　幻觉率</text>
+  <rect x="270" y="468" width="180" height="38" fill="#FFC9C9" stroke="#DEE2E6"/>
+  <text x="360" y="492" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C92A2A">硬门禁 ≤ 2%</text>
+  <rect x="452" y="468" width="180" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="542" y="492" text-anchor="middle" font-size="11.5" fill="#B54708">告警 · 编参数值</text>
+  <rect x="634" y="468" width="180" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="724" y="492" text-anchor="middle" font-size="11.5" fill="#B54708">告警</text>
+  <rect x="816" y="468" width="174" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="903" y="492" text-anchor="middle" font-size="11.5" fill="#B54708">告警 · 编不存在的元素</text>
+
+  <!-- 行 10: H-01 -->
+  <rect x="30" y="508" width="238" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="44" y="532" font-size="12" fill="#343A40">H-01　注入故障恢复率</text>
+  <rect x="270" y="508" width="180" height="38" fill="#E9ECEF" stroke="#DEE2E6"/>
+  <text x="360" y="532" text-anchor="middle" font-size="11.5" fill="#495057">诊断 · 检索失败</text>
+  <rect x="452" y="508" width="180" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="542" y="532" text-anchor="middle" font-size="11.5" fill="#B54708">告警 ≥ 0.7</text>
+  <rect x="634" y="508" width="180" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="724" y="532" text-anchor="middle" font-size="11.5" fill="#868E96">不适用 · 看降级</text>
+  <rect x="816" y="508" width="174" height="38" fill="#E9ECEF" stroke="#DEE2E6"/>
+  <text x="903" y="532" text-anchor="middle" font-size="11.5" fill="#495057">诊断</text>
+
+  <!-- 行 11: I-01 -->
+  <rect x="30" y="548" width="238" height="38" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="44" y="572" font-size="12" fill="#343A40">I-01　安全门控通过率</text>
+  <rect x="270" y="548" width="180" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="360" y="572" text-anchor="middle" font-size="11.5" fill="#B54708">告警 · 无写操作</text>
+  <rect x="452" y="548" width="180" height="38" fill="#FFC9C9" stroke="#DEE2E6"/>
+  <text x="542" y="572" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C92A2A">硬门禁 100%</text>
+  <rect x="634" y="548" width="180" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="724" y="572" text-anchor="middle" font-size="11.5" fill="#B54708">告警</text>
+  <rect x="816" y="548" width="174" height="38" fill="#FFC9C9" stroke="#DEE2E6"/>
+  <text x="903" y="572" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C92A2A">硬门禁 100%</text>
+
+  <!-- 行 12: I-04 -->
+  <rect x="30" y="588" width="238" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="44" y="612" font-size="12" fill="#343A40">I-04　提示注入抵抗率</text>
+  <rect x="270" y="588" width="180" height="38" fill="#FFC9C9" stroke="#DEE2E6"/>
+  <text x="360" y="612" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C92A2A">硬门禁 ≥ 98%</text>
+  <rect x="452" y="588" width="180" height="38" fill="#FFC9C9" stroke="#DEE2E6"/>
+  <text x="542" y="612" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C92A2A">硬门禁 ≥ 98%</text>
+  <rect x="634" y="588" width="180" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="724" y="612" text-anchor="middle" font-size="11.5" fill="#B54708">告警 · 日志内容注入</text>
+  <rect x="816" y="588" width="174" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="903" y="612" text-anchor="middle" font-size="11.5" fill="#B54708">告警 · 图中藏指令</text>
+
+  <!-- 行 13: J-01 -->
+  <rect x="30" y="628" width="238" height="38" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="44" y="652" font-size="12" fill="#343A40">J-01/J-02　延迟</text>
+  <rect x="270" y="628" width="180" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="360" y="652" text-anchor="middle" font-size="11.5" fill="#B54708">TTFT P95 ≤ 2s</text>
+  <rect x="452" y="628" width="180" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="542" y="652" text-anchor="middle" font-size="11.5" fill="#B54708">端到端 P95 ≤ 10min</text>
+  <rect x="634" y="628" width="180" height="38" fill="#FFC9C9" stroke="#DEE2E6"/>
+  <text x="724" y="652" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C92A2A">TTFT P95 ≤ 1.5s</text>
+  <rect x="816" y="628" width="174" height="38" fill="#FFE8CC" stroke="#DEE2E6"/>
+  <text x="903" y="652" text-anchor="middle" font-size="11.5" fill="#B54708">按场景定</text>
+
+  <!-- 行 14: 宿主性能 -->
+  <rect x="30" y="668" width="238" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="44" y="692" font-size="12" fill="#343A40">宿主功能性能回归 / 降级路径</text>
+  <rect x="270" y="668" width="180" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="360" y="692" text-anchor="middle" font-size="11.5" fill="#868E96">不适用</text>
+  <rect x="452" y="668" width="180" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="542" y="692" text-anchor="middle" font-size="11.5" fill="#868E96">不适用</text>
+  <rect x="634" y="668" width="180" height="38" fill="#FFC9C9" stroke="#DEE2E6"/>
+  <text x="724" y="692" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C92A2A">硬门禁 · 劣化 ≤ 5%</text>
+  <rect x="816" y="668" width="174" height="38" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="903" y="692" text-anchor="middle" font-size="11.5" fill="#868E96">不适用</text>
+
+  <!-- 底部要点 -->
+  <text x="30" y="732" font-size="12" fill="#343A40"><tspan font-weight="700">读图要点一：</tspan>A-01 任务成功率在对话/RAG 型几乎没有诊断价值（问了就答了），在工作流编排型却是核心——同一个指标，地位相反。</text>
+  <text x="30" y="752" font-size="12" fill="#343A40"><tspan font-weight="700">读图要点二：</tspan>安全门控只在会改变外部状态的两种形态是硬约束。</text>
+  <text x="30" y="772" font-size="12" fill="#343A40"><tspan font-weight="700">读图要点三：</tspan>延迟阈值跨形态差三个数量级（1.5 秒 vs 10 分钟）。用一套延迟阈值卡所有形态，是最常见的门禁误配。</text>
+</svg>

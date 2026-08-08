@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" width="960" height="620" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="960" height="620" fill="#FFFFFF"/>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">净节省工时：只讲第一格是自欺，讲完五格才是 ROI</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">示例为一个中等规模需求的用例设计（42 条用例）。数字为示意，需按本部门实测替换。</text>
+
+  <!-- Y 轴 -->
+  <line x1="52" y1="110" x2="52" y2="450" stroke="#ADB5BD" stroke-width="1.5"/>
+  <line x1="52" y1="450" x2="900" y2="450" stroke="#ADB5BD" stroke-width="1.5"/>
+  <g font-size="11" fill="#868E96" text-anchor="end">
+    <text x="46" y="124">16h</text>
+    <text x="46" y="204">12h</text>
+    <text x="46" y="284">8h</text>
+    <text x="46" y="364">4h</text>
+    <text x="46" y="454">0</text>
+  </g>
+  <g stroke="#F1F3F5" stroke-width="1">
+    <line x1="52" y1="120" x2="900" y2="120"/>
+    <line x1="52" y1="200" x2="900" y2="200"/>
+    <line x1="52" y1="280" x2="900" y2="280"/>
+    <line x1="52" y1="360" x2="900" y2="360"/>
+  </g>
+
+  <!-- 连接虚线 -->
+  <g stroke="#ADB5BD" stroke-width="1" stroke-dasharray="4,3">
+    <line x1="160" y1="120" x2="185" y2="120"/>
+    <line x1="275" y1="124" x2="300" y2="124"/>
+    <line x1="390" y1="254" x2="415" y2="254"/>
+    <line x1="505" y1="314" x2="530" y2="314"/>
+    <line x1="620" y1="344" x2="645" y2="344"/>
+    <line x1="735" y1="360" x2="760" y2="360"/>
+  </g>
+
+  <!-- ① 人工基线 16.0h -->
+  <rect x="70" y="120" width="90" height="330" fill="#4C6EF5"/>
+  <text x="115" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#1C3FAA">16.0h</text>
+  <text x="115" y="472" text-anchor="middle" font-size="12" font-weight="700" fill="#343A40">人工基线</text>
+  <text x="115" y="490" text-anchor="middle" font-size="10.5" fill="#868E96">引入前实测</text>
+
+  <!-- ② − 生成 0.2h -->
+  <rect x="185" y="120" width="90" height="4" fill="#12B886"/>
+  <text x="230" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#087F5B">−0.2h</text>
+  <text x="230" y="472" text-anchor="middle" font-size="12" fill="#343A40">智能体生成</text>
+  <text x="230" y="490" text-anchor="middle" font-size="10.5" fill="#868E96">12 分钟</text>
+
+  <!-- ③ − 审查 6.5h -->
+  <rect x="300" y="124" width="90" height="130" fill="#FA5252"/>
+  <text x="345" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="#C92A2A">−6.5h</text>
+  <text x="345" y="472" text-anchor="middle" font-size="12" font-weight="700" fill="#C92A2A">审查工时</text>
+  <text x="345" y="490" text-anchor="middle" font-size="10.5" fill="#C92A2A">最大的一项</text>
+  <text x="345" y="506" text-anchor="middle" font-size="10.5" fill="#868E96">58 条含 16 条冗余</text>
+
+  <!-- ④ − 修改 3.0h -->
+  <rect x="415" y="254" width="90" height="60" fill="#F59F00"/>
+  <text x="460" y="246" text-anchor="middle" font-size="12" font-weight="700" fill="#B54708">−3.0h</text>
+  <text x="460" y="472" text-anchor="middle" font-size="12" fill="#343A40">修改工时</text>
+  <text x="460" y="490" text-anchor="middle" font-size="10.5" fill="#868E96">补 9 条边界</text>
+  <text x="460" y="506" text-anchor="middle" font-size="10.5" fill="#868E96">改写 12 条判据</text>
+
+  <!-- ⑤ − 返工 1.5h -->
+  <rect x="530" y="314" width="90" height="30" fill="#F59F00"/>
+  <text x="575" y="306" text-anchor="middle" font-size="12" font-weight="700" fill="#B54708">−1.5h</text>
+  <text x="575" y="472" text-anchor="middle" font-size="12" fill="#343A40">返工工时</text>
+  <text x="575" y="490" text-anchor="middle" font-size="10.5" fill="#868E96">评审驳回 5 条</text>
+
+  <!-- ⑥ − 摊销 0.8h -->
+  <rect x="645" y="344" width="90" height="16" fill="#868E96"/>
+  <text x="690" y="336" text-anchor="middle" font-size="12" font-weight="700" fill="#495057">−0.8h</text>
+  <text x="690" y="472" text-anchor="middle" font-size="12" fill="#343A40">培训维护摊销</text>
+  <text x="690" y="490" text-anchor="middle" font-size="10.5" fill="#868E96">提示词调优等</text>
+
+  <!-- ⑦ = 净节省 4.0h -->
+  <rect x="760" y="360" width="90" height="90" fill="#12B886" stroke="#087F5B" stroke-width="3"/>
+  <text x="805" y="352" text-anchor="middle" font-size="16" font-weight="700" fill="#087F5B">4.0h</text>
+  <text x="805" y="472" text-anchor="middle" font-size="12.5" font-weight="700" fill="#087F5B">净节省</text>
+  <text x="805" y="492" text-anchor="middle" font-size="12.5" font-weight="700" fill="#087F5B">提效 25%</text>
+
+  <!-- 对比标注 -->
+  <rect x="30" y="524" width="440" height="80" rx="6" fill="#FFF5F5" stroke="#FA5252" stroke-width="2"/>
+  <text x="46" y="548" font-size="13" font-weight="700" fill="#C92A2A">✗ 只讲第二格</text>
+  <text x="46" y="572" font-size="12" fill="#343A40">「12 分钟生成 58 条用例，效率提升 80 倍」</text>
+  <text x="46" y="594" font-size="11.5" fill="#C92A2A">第一次被追问就会崩，并且损害后续所有汇报的可信度。</text>
+
+  <rect x="490" y="524" width="440" height="80" rx="6" fill="#E6FCF5" stroke="#12B886" stroke-width="2.5"/>
+  <text x="506" y="548" font-size="13" font-weight="700" fill="#087F5B">✓ 讲完五格</text>
+  <text x="506" y="572" font-size="12" fill="#343A40">「净节省 4 小时／需求，提效 25%，缺陷逃逸未增加」</text>
+  <text x="506" y="594" font-size="11.5" fill="#087F5B">数字不惊艳，但经得起追问，能持续拿到资源。</text>
+</svg>

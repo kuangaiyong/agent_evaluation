@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="960" height="540" fill="#FFFFFF"/>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">单边评测导致单边优化</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">以「该不该调用搜索工具」为例。只测一半，一定会把智能体推到另一个极端——而且它在你的评测集上还是满分。</text>
+
+  <!-- ========== 左：四象限 ========== -->
+  <text x="30" y="88" font-size="14" font-weight="700" fill="#212529">完整的判定空间有四格，评测集必须盖满</text>
+
+  <!-- 轴标签 -->
+  <text x="205" y="118" text-anchor="middle" font-size="12.5" font-weight="700" fill="#495057">智能体的实际行为</text>
+  <text x="150" y="140" text-anchor="middle" font-size="12" fill="#868E96">调用了</text>
+  <text x="290" y="140" text-anchor="middle" font-size="12" fill="#868E96">没调用</text>
+
+  <g transform="translate(48,300) rotate(-90)">
+    <text x="0" y="0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#495057">金标准</text>
+  </g>
+  <text x="76" y="196" text-anchor="middle" font-size="12" fill="#868E96">该调</text>
+  <text x="76" y="216" text-anchor="middle" font-size="12" fill="#868E96">用</text>
+  <text x="76" y="296" text-anchor="middle" font-size="12" fill="#868E96">不该</text>
+  <text x="76" y="316" text-anchor="middle" font-size="12" fill="#868E96">调用</text>
+
+  <!-- 四格 -->
+  <rect x="94" y="150" width="126" height="110" fill="#E6FCF5" stroke="#12B886" stroke-width="2"/>
+  <text x="157" y="182" text-anchor="middle" font-size="24" fill="#087F5B">✓</text>
+  <text x="157" y="208" text-anchor="middle" font-size="12" font-weight="700" fill="#087F5B">正确触发</text>
+  <text x="157" y="230" text-anchor="middle" font-size="10.5" fill="#495057">查天气 → 去搜</text>
+
+  <rect x="222" y="150" width="126" height="110" fill="#FFF5F5" stroke="#FA5252" stroke-width="2"/>
+  <text x="285" y="182" text-anchor="middle" font-size="24" fill="#C92A2A">✗</text>
+  <text x="285" y="208" text-anchor="middle" font-size="12" font-weight="700" fill="#C92A2A">欠触发</text>
+  <text x="285" y="230" text-anchor="middle" font-size="10.5" fill="#495057">查天气 → 瞎编</text>
+
+  <rect x="94" y="262" width="126" height="110" fill="#FFF5F5" stroke="#FA5252" stroke-width="2"/>
+  <text x="157" y="294" text-anchor="middle" font-size="24" fill="#C92A2A">✗</text>
+  <text x="157" y="320" text-anchor="middle" font-size="12" font-weight="700" fill="#C92A2A">过触发</text>
+  <text x="157" y="342" text-anchor="middle" font-size="10.5" fill="#495057">问常识 → 也去搜</text>
+
+  <rect x="222" y="262" width="126" height="110" fill="#E6FCF5" stroke="#12B886" stroke-width="2"/>
+  <text x="285" y="294" text-anchor="middle" font-size="24" fill="#087F5B">✓</text>
+  <text x="285" y="320" text-anchor="middle" font-size="12" font-weight="700" fill="#087F5B">正确不触发</text>
+  <text x="285" y="342" text-anchor="middle" font-size="10.5" fill="#495057">问常识 → 直接答</text>
+
+  <!-- 覆盖标注 -->
+  <line x1="94" y1="150" x2="348" y2="150" stroke="#4C6EF5" stroke-width="0"/>
+  <path d="M 86,150 L 78,150 L 78,260 L 86,260" fill="none" stroke="#4C6EF5" stroke-width="2"/>
+  <path d="M 86,262 L 78,262 L 78,372 L 86,372" fill="none" stroke="#F59F00" stroke-width="2"/>
+
+  <!-- ========== 右：两种单边评测的后果 ========== -->
+  <text x="400" y="88" font-size="14" font-weight="700" fill="#212529">只测一半会发生什么</text>
+
+  <rect x="400" y="104" width="530" height="128" rx="6" fill="#F5F8FF" stroke="#4C6EF5" stroke-width="2"/>
+  <text x="416" y="128" font-size="13" font-weight="700" fill="#1C3FAA">情形 A · 评测集里只有「该调用」的样本</text>
+  <text x="416" y="152" font-size="11.5" fill="#495057">评测集分数：<tspan font-weight="700" fill="#087F5B">98%</tspan>　看板一片绿，团队认为搜索能力很强。</text>
+  <text x="416" y="174" font-size="11.5" fill="#495057">优化方向：既然「调了就得分、不调就扣分」，最优策略就是<tspan font-weight="700">凡事都调</tspan>。</text>
+  <text x="416" y="196" font-size="11.5" fill="#C92A2A">线上真实后果：过触发率飙到 40%+，延迟翻倍、成本翻倍，</text>
+  <text x="416" y="214" font-size="11.5" fill="#C92A2A">用户问「1+1 等于几」它也去搜一遍网页。<tspan font-weight="700">而评测集完全看不见。</tspan></text>
+
+  <rect x="400" y="244" width="530" height="128" rx="6" fill="#FFFAF2" stroke="#F59F00" stroke-width="2"/>
+  <text x="416" y="268" font-size="13" font-weight="700" fill="#B54708">情形 B · 评测集里只有「不该调用」的样本</text>
+  <text x="416" y="292" font-size="11.5" fill="#495057">评测集分数：<tspan font-weight="700" fill="#087F5B">99%</tspan>　同样一片绿。</text>
+  <text x="416" y="314" font-size="11.5" fill="#495057">优化方向：最优策略变成<tspan font-weight="700">什么都不调</tspan>，凭参数知识硬答。</text>
+  <text x="416" y="336" font-size="11.5" fill="#C92A2A">线上真实后果：欠触发率飙升，实时信息全靠编，幻觉率暴涨。</text>
+  <text x="416" y="354" font-size="11.5" fill="#C92A2A"><tspan font-weight="700">同样，评测集完全看不见。</tspan></text>
+
+  <!-- 底部规范 -->
+  <rect x="30" y="396" width="900" height="122" rx="6" fill="#F8F9FA" stroke="#DEE2E6"/>
+  <text x="46" y="420" font-size="13" font-weight="700" fill="#212529">规范</text>
+  <text x="46" y="444" font-size="12" fill="#343A40">1 · 双向能力的评测集必须<tspan font-weight="700">同时包含正例与反例</tspan>，反例最低占比见本册第 5.2 节的表（调用决策 30% / 拒答边界 50% / 主动澄清 40%）。</text>
+  <text x="46" y="466" font-size="12" fill="#343A40">2 · 报告<tspan font-weight="700">必须把过触发率与欠触发率分开报</tspan>。合成一个「准确率 95%」会掩盖「过触发 1% / 欠触发 9%」与「过触发 9% / 欠触发 1%」的</text>
+  <text x="60" y="484" font-size="12" fill="#343A40">天壤之别——这两种情况的改进方向完全相反。</text>
+  <text x="46" y="506" font-size="12" fill="#343A40">3 · 在欠触发与过触发之间找平衡很难，需要对提示词和评测都做多轮打磨。<tspan font-weight="700">做不到平衡时，宁可先容忍欠触发</tspan>——它至少是可见的。</text>
+</svg>

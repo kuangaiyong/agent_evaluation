@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 640" width="980" height="640" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="980" height="640" fill="#FFFFFF"/>
+  <defs>
+    <linearGradient id="spec" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#12B886"/>
+      <stop offset="50%" stop-color="#F59F00"/>
+      <stop offset="100%" stop-color="#4C6EF5"/>
+    </linearGradient>
+    <marker id="spArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#4C6EF5"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">开源选型与自研边界</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">判据只有一条：这个组件里装的是通用能力，还是你们的业务语义？装业务语义的，开源版本永远不合身。</text>
+
+  <!-- 光谱条 -->
+  <rect x="30" y="76" width="890" height="10" rx="5" fill="url(#spec)"/>
+  <line x1="30" y1="98" x2="915" y2="98" stroke="#4C6EF5" stroke-width="1.5" marker-end="url(#spArrow)"/>
+  <text x="40" y="114" font-size="12" font-weight="700" fill="#087F5B">通用能力</text>
+  <text x="475" y="114" text-anchor="middle" font-size="12" font-weight="700" fill="#B54708">半通用</text>
+  <text x="910" y="114" text-anchor="end" font-size="12" font-weight="700" fill="#1C3FAA">业务语义</text>
+
+  <!-- 列一：直接用 -->
+  <rect x="30" y="130" width="288" height="326" rx="8" fill="#E6FCF5" stroke="#12B886" stroke-width="2.5"/>
+  <text x="46" y="156" font-size="14" font-weight="700" fill="#087F5B">直接用，别自己写</text>
+  <text x="46" y="176" font-size="11" fill="#495057">这些解决的是所有人都一样的问题</text>
+
+  <g font-size="11.5">
+    <rect x="46" y="188" width="256" height="40" rx="4" fill="#FFFFFF" stroke="#96F2D7"/>
+    <text x="58" y="205" font-weight="700" fill="#087F5B">OpenTelemetry GenAI 语义约定</text>
+    <text x="58" y="221" fill="#495057">埋点字段标准 · 换平台不用重埋</text>
+
+    <rect x="46" y="234" width="256" height="40" rx="4" fill="#FFFFFF" stroke="#96F2D7"/>
+    <text x="58" y="251" font-weight="700" fill="#087F5B">Langfuse 或 Arize Phoenix</text>
+    <text x="58" y="267" fill="#495057">证据存储 · 轨迹查看器 · 数据集管理</text>
+
+    <rect x="46" y="280" width="256" height="40" rx="4" fill="#FFFFFF" stroke="#96F2D7"/>
+    <text x="58" y="297" font-weight="700" fill="#087F5B">DeepEval</text>
+    <text x="58" y="313" fill="#495057">RAG 类指标：有据性 · 幻觉 · 相关性</text>
+
+    <rect x="46" y="326" width="256" height="40" rx="4" fill="#FFFFFF" stroke="#96F2D7"/>
+    <text x="58" y="343" font-weight="700" fill="#087F5B">promptfoo</text>
+    <text x="58" y="359" fill="#495057">红队集与对抗样本 · YAML 可 diff</text>
+
+    <rect x="46" y="372" width="256" height="40" rx="4" fill="#FFFFFF" stroke="#96F2D7"/>
+    <text x="58" y="389" font-weight="700" fill="#087F5B">AgentEvals</text>
+    <text x="58" y="405" fill="#495057">轨迹匹配 · 改成节点/边 F1 再用</text>
+
+    <rect x="46" y="418" width="256" height="26" rx="4" fill="#FFFFFF" stroke="#96F2D7"/>
+    <text x="58" y="435" font-weight="700" fill="#087F5B">Giskard　<tspan font-weight="400" fill="#495057">对抗样本生成</tspan></text>
+  </g>
+
+  <!-- 列二：改造后用 -->
+  <rect x="332" y="130" width="288" height="326" rx="8" fill="#FFF4E6" stroke="#F59F00" stroke-width="2.5"/>
+  <text x="348" y="156" font-size="14" font-weight="700" fill="#B54708">用它的壳，换你的芯</text>
+  <text x="348" y="176" font-size="11" fill="#495057">框架能复用，默认口径必须改</text>
+
+  <g font-size="11.5">
+    <rect x="348" y="188" width="256" height="58" rx="4" fill="#FFFFFF" stroke="#FFE8CC"/>
+    <text x="360" y="205" font-weight="700" fill="#B54708">指标口径</text>
+    <text x="360" y="221" fill="#495057">开源指标的默认定义与 01 分册未必一致，</text>
+    <text x="360" y="237" fill="#495057">逐条对照校对后再采信</text>
+
+    <rect x="348" y="252" width="256" height="58" rx="4" fill="#FFFFFF" stroke="#FFE8CC"/>
+    <text x="360" y="269" font-weight="700" fill="#B54708">轨迹匹配算法</text>
+    <text x="360" y="285" fill="#495057">默认多为严格序列相等，</text>
+    <text x="360" y="301" fill="#495057">必须换成节点 F1 + 边 F1</text>
+
+    <rect x="348" y="316" width="256" height="58" rx="4" fill="#FFFFFF" stroke="#FFE8CC"/>
+    <text x="360" y="333" font-weight="700" fill="#B54708">Judge 提示词</text>
+    <text x="360" y="349" fill="#495057">开源模板不含 unknown 退路、</text>
+    <text x="360" y="365" fill="#495057">不要求证据引用，需按 03 分册重写</text>
+
+    <rect x="348" y="380" width="256" height="58" rx="4" fill="#FFFFFF" stroke="#FFE8CC"/>
+    <text x="360" y="397" font-weight="700" fill="#B54708">聚合逻辑</text>
+    <text x="360" y="413" fill="#495057">默认多为加权求和，</text>
+    <text x="360" y="429" fill="#495057">没有安全乘法门控，必须改</text>
+  </g>
+
+  <!-- 列三：必须自研 -->
+  <rect x="634" y="130" width="286" height="326" rx="8" fill="#E7F0FF" stroke="#4C6EF5" stroke-width="2.5"/>
+  <text x="650" y="156" font-size="14" font-weight="700" fill="#1C3FAA">必须自研</text>
+  <text x="650" y="176" font-size="11" fill="#495057">装的是你们的业务语义与基础设施</text>
+
+  <g font-size="11.5">
+    <rect x="650" y="188" width="254" height="38" rx="4" fill="#FFFFFF" stroke="#D0DEFF"/>
+    <text x="662" y="205" font-weight="700" fill="#1C3FAA">安全门控与评分管道装配</text>
+    <text x="662" y="220" fill="#495057">安全判据是业务语义，且须确定性</text>
+
+    <rect x="650" y="232" width="254" height="38" rx="4" fill="#FFFFFF" stroke="#D0DEFF"/>
+    <text x="662" y="249" font-weight="700" fill="#1C3FAA">Mock 服务与故障注入代理</text>
+    <text x="662" y="264" fill="#495057">Mock 的是你们自己产品的 API</text>
+
+    <rect x="650" y="276" width="254" height="38" rx="4" fill="#FFFFFF" stroke="#D0DEFF"/>
+    <text x="662" y="293" font-weight="700" fill="#1C3FAA">沙箱供给与环境重置</text>
+    <text x="662" y="308" fill="#495057">与镜像仓库、K8s、权限体系耦合</text>
+
+    <rect x="650" y="320" width="254" height="38" rx="4" fill="#FFFFFF" stroke="#D0DEFF"/>
+    <text x="662" y="337" font-weight="700" fill="#1C3FAA">调度与配额管理</text>
+    <text x="662" y="352" fill="#495057">要和内部 CI、API 配额、成本中心打通</text>
+
+    <rect x="650" y="364" width="254" height="38" rx="4" fill="#FFFFFF" stroke="#D0DEFF"/>
+    <text x="662" y="381" font-weight="700" fill="#1C3FAA">评测集治理</text>
+    <text x="662" y="396" fill="#495057">版本、状态机、健康度巡检，无开源方案</text>
+
+    <rect x="650" y="408" width="254" height="38" rx="4" fill="#FFFFFF" stroke="#D0DEFF"/>
+    <text x="662" y="425" font-weight="700" fill="#1C3FAA">与用例／缺陷平台对接</text>
+    <text x="662" y="440" fill="#495057">复用已有账号、流程与数据</text>
+  </g>
+
+  <!-- 底部：不建议用于门禁 -->
+  <rect x="30" y="472" width="890" height="88" rx="8" fill="#FFF5F5" stroke="#FA5252" stroke-width="2"/>
+  <text x="46" y="498" font-size="14" font-weight="700" fill="#C92A2A">可以看，但不要拿来当发布门禁</text>
+  <text x="46" y="522" font-size="12" fill="#343A40">HELM　·　SWE-bench　·　τ-bench　·　AgentBench　·　GAIA　·　WebArena　·　OSWorld</text>
+  <text x="46" y="546" font-size="12" fill="#343A40">这些公开基准回答的是<tspan font-weight="700">「换哪个基座模型更合适」</tspan>，不回答<tspan font-weight="700">「我们的产品能不能发布」</tspan>——分布与你们的产品不同，而且大概率已进入模型训练数据。</text>
+
+  <text x="30" y="590" font-size="12" fill="#343A40"><tspan font-weight="700">一条选型自查：</tspan>问「这个组件里写死的规则，换一家公司还成立吗？」成立 → 用开源；不成立 → 自研。</text>
+  <text x="30" y="612" font-size="12" fill="#343A40"><tspan font-weight="700">一条反模式：</tspan>Langfuse 和 Phoenix 二选一，别都上。两边都存证据、两边都有看板，最后没人知道该看哪个。</text>
+</svg>

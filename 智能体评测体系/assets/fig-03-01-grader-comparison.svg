@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 590" width="940" height="590" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="940" height="590" fill="#FFFFFF"/>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">三类评分器的能力边界</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">没有一类能单独撑起评测：确定性的短板正是 Judge 的长处，而两者都需要人工来校准。</text>
+
+  <!-- 图例 -->
+  <g font-size="12">
+    <rect x="30" y="68" width="16" height="12" fill="#12B886"/>
+    <text x="54" y="79" fill="#087F5B" font-weight="700">确定性评分器</text>
+    <rect x="170" y="68" width="16" height="12" fill="#4C6EF5"/>
+    <text x="194" y="79" fill="#1C3FAA" font-weight="700">LLM Judge</text>
+    <rect x="300" y="68" width="16" height="12" fill="#F59F00"/>
+    <text x="324" y="79" fill="#B54708" font-weight="700">人工评分</text>
+    <text x="430" y="79" fill="#868E96">条越长越好 · 满格 = 5</text>
+  </g>
+
+  <!-- ===== 维度 1：速度 ===== -->
+  <text x="30" y="118" font-size="13" font-weight="700" fill="#343A40">速度</text>
+  <text x="30" y="136" font-size="10.5" fill="#868E96">单项判定耗时</text>
+  <g>
+    <rect x="150" y="104" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="104" width="440" height="18" fill="#12B886"/>
+    <text x="600" y="118" font-size="11" fill="#087F5B">毫秒级</text>
+
+    <rect x="150" y="126" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="126" width="264" height="18" fill="#4C6EF5"/>
+    <text x="600" y="140" font-size="11" fill="#1C3FAA">秒级（可并行）</text>
+
+    <rect x="150" y="148" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="148" width="88" height="18" fill="#F59F00"/>
+    <text x="600" y="162" font-size="11" fill="#B54708">小时到天</text>
+  </g>
+
+  <!-- ===== 维度 2：成本 ===== -->
+  <text x="30" y="200" font-size="13" font-weight="700" fill="#343A40">成本效率</text>
+  <text x="30" y="218" font-size="10.5" fill="#868E96">条越长 = 越省钱</text>
+  <g>
+    <rect x="150" y="186" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="186" width="440" height="18" fill="#12B886"/>
+    <text x="600" y="200" font-size="11" fill="#087F5B">近乎为零</text>
+
+    <rect x="150" y="208" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="208" width="264" height="18" fill="#4C6EF5"/>
+    <text x="600" y="222" font-size="11" fill="#1C3FAA">与被测任务同量级</text>
+
+    <rect x="150" y="230" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="230" width="88" height="18" fill="#F59F00"/>
+    <text x="600" y="244" font-size="11" fill="#B54708">专家工时，最贵</text>
+  </g>
+
+  <!-- ===== 维度 3：客观性 ===== -->
+  <text x="30" y="282" font-size="13" font-weight="700" fill="#343A40">客观与可复现</text>
+  <text x="30" y="300" font-size="10.5" fill="#868E96">同输入同输出</text>
+  <g>
+    <rect x="150" y="268" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="268" width="440" height="18" fill="#12B886"/>
+    <text x="600" y="282" font-size="11" fill="#087F5B">完全确定</text>
+
+    <rect x="150" y="290" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="290" width="220" height="18" fill="#4C6EF5"/>
+    <text x="600" y="304" font-size="11" fill="#1C3FAA">非确定，须校准</text>
+
+    <rect x="150" y="312" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="312" width="352" height="18" fill="#F59F00"/>
+    <text x="600" y="326" font-size="11" fill="#B54708">黄金标准，但有评审者差异</text>
+  </g>
+
+  <!-- ===== 维度 4：灵活性 ===== -->
+  <text x="30" y="364" font-size="13" font-weight="700" fill="#343A40">处理开放式输出</text>
+  <text x="30" y="382" font-size="10.5" fill="#868E96">没有标准答案时</text>
+  <g>
+    <rect x="150" y="350" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="350" width="88" height="18" fill="#12B886"/>
+    <text x="600" y="364" font-size="11" fill="#087F5B">基本做不到</text>
+
+    <rect x="150" y="372" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="372" width="440" height="18" fill="#4C6EF5"/>
+    <text x="600" y="386" font-size="11" fill="#1C3FAA">强项所在</text>
+
+    <rect x="150" y="394" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="394" width="440" height="18" fill="#F59F00"/>
+    <text x="600" y="408" font-size="11" fill="#B54708">同样是强项</text>
+  </g>
+
+  <!-- ===== 维度 5：可扩展性 ===== -->
+  <text x="30" y="446" font-size="13" font-weight="700" fill="#343A40">可扩展性</text>
+  <text x="30" y="464" font-size="10.5" fill="#868E96">量涨十倍还跑得动吗</text>
+  <g>
+    <rect x="150" y="432" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="432" width="352" height="18" fill="#12B886"/>
+    <text x="600" y="446" font-size="11" fill="#087F5B">受限于编写成本</text>
+
+    <rect x="150" y="454" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="454" width="440" height="18" fill="#4C6EF5"/>
+    <text x="600" y="468" font-size="11" fill="#1C3FAA">加并发就行</text>
+
+    <rect x="150" y="476" width="440" height="18" fill="#F1F3F5"/>
+    <rect x="150" y="476" width="88" height="18" fill="#F59F00"/>
+    <text x="600" y="490" font-size="11" fill="#B54708">扩不动</text>
+  </g>
+
+  <!-- 结论 -->
+  <rect x="30" y="512" width="880" height="62" rx="5" fill="#F8F9FA" stroke="#DEE2E6"/>
+  <text x="46" y="534" font-size="12" fill="#343A40"><tspan font-weight="700">分工：</tspan>确定性评分器承担 60–75% 的 rubric 项（含<tspan font-weight="700" fill="#C92A2A">全部安全项</tspan>）· LLM Judge 承担 25–40% 的开放式判定 · 人工只做校准与抽查（≤ 5%）。</text>
+  <text x="46" y="556" font-size="12" fill="#343A40"><tspan font-weight="700">为什么安全项不能交给 Judge：</tspan>实测中朴素 LLM 裁判漏掉了 44% 的安全违规——不是它读不懂规则，是违规只在服务端日志和执行后产物里可见，不在对话里。</text>
+</svg>

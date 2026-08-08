@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 690" width="980" height="690" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="980" height="690" fill="#FFFFFF"/>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">RACI 职责矩阵：谁写任务、谁修评分器、谁签字放行</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">核心分工：平台与基础设施归测试开发，评测任务归最懂业务的人——把「定义什么是好」的权力交给业务方。</text>
+
+  <!-- 图例 -->
+  <g font-size="11.5">
+    <circle cx="38" cy="74" r="9" fill="#12B886"/><text x="38" y="78" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">R</text>
+    <text x="54" y="78" fill="#087F5B" font-weight="700">Responsible　动手干</text>
+    <circle cx="228" cy="74" r="9" fill="#FA5252"/><text x="228" y="78" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">A</text>
+    <text x="244" y="78" fill="#C92A2A" font-weight="700">Accountable　最终问责（每行唯一）</text>
+    <circle cx="524" cy="74" r="9" fill="#4C6EF5"/><text x="524" y="78" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">C</text>
+    <text x="540" y="78" fill="#1C3FAA" font-weight="700">Consulted　需被咨询</text>
+    <circle cx="700" cy="74" r="9" fill="#ADB5BD"/><text x="700" y="78" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">I</text>
+    <text x="716" y="78" fill="#868E96" font-weight="700">Informed　需被告知</text>
+  </g>
+
+  <!-- 列表头 -->
+  <rect x="30" y="96" width="270" height="56" fill="#F1F3F5" stroke="#ADB5BD"/>
+  <text x="44" y="128" font-size="12.5" font-weight="700" fill="#212529">活动</text>
+
+  <rect x="302" y="96" width="128" height="56" fill="#E6FCF5" stroke="#12B886" stroke-width="1.5"/>
+  <text x="366" y="120" text-anchor="middle" font-size="11.5" font-weight="700" fill="#087F5B">测试工程师</text>
+  <text x="366" y="138" text-anchor="middle" font-size="10" fill="#495057">写任务 · 跑评测</text>
+
+  <rect x="432" y="96" width="128" height="56" fill="#E7F0FF" stroke="#4C6EF5" stroke-width="1.5"/>
+  <text x="496" y="120" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1C3FAA">测试开发</text>
+  <text x="496" y="138" text-anchor="middle" font-size="10" fill="#495057">平台 · 评分器</text>
+
+  <rect x="562" y="96" width="128" height="56" fill="#F8F0FC" stroke="#AE3EC9" stroke-width="1.5"/>
+  <text x="626" y="120" text-anchor="middle" font-size="11.5" font-weight="700" fill="#862E9C">测试架构师</text>
+  <text x="626" y="138" text-anchor="middle" font-size="10" fill="#495057">定标准 · 定阈值</text>
+
+  <rect x="692" y="96" width="128" height="56" fill="#FFF4E6" stroke="#F59F00" stroke-width="1.5"/>
+  <text x="756" y="120" text-anchor="middle" font-size="11.5" font-weight="700" fill="#B54708">评测集 Owner</text>
+  <text x="756" y="138" text-anchor="middle" font-size="10" fill="#495057">产品测试负责人</text>
+
+  <rect x="822" y="96" width="128" height="56" fill="#FFF5F5" stroke="#FA5252" stroke-width="1.5"/>
+  <text x="886" y="120" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C92A2A">领域专家</text>
+  <text x="886" y="138" text-anchor="middle" font-size="10" fill="#495057">标注 · 裁决</text>
+
+  <!-- 行数据：辅助宏观定义 -->
+  <!-- 行 1 -->
+  <rect x="30" y="154" width="270" height="42" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="44" y="180" font-size="12" fill="#343A40">① 写评测任务与 rubric</text>
+  <rect x="302" y="154" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="366" cy="175" r="11" fill="#12B886"/><text x="366" y="180" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">R</text>
+  <rect x="432" y="154" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="496" cy="175" r="11" fill="#ADB5BD"/><text x="496" y="180" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">I</text>
+  <rect x="562" y="154" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="626" cy="175" r="11" fill="#4C6EF5"/><text x="626" y="180" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+  <rect x="692" y="154" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="756" cy="175" r="11" fill="#FA5252"/><text x="756" y="180" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">A</text>
+  <rect x="822" y="154" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="886" cy="175" r="11" fill="#4C6EF5"/><text x="886" y="180" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+
+  <!-- 行 2 -->
+  <rect x="30" y="198" width="270" height="42" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="44" y="224" font-size="12" fill="#343A40">② 维护评分器代码</text>
+  <rect x="302" y="198" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="366" cy="219" r="11" fill="#4C6EF5"/><text x="366" y="224" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+  <rect x="432" y="198" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="496" cy="219" r="11" fill="#12B886"/><text x="496" y="224" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">R</text>
+  <rect x="562" y="198" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="626" cy="219" r="11" fill="#FA5252"/><text x="626" y="224" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">A</text>
+  <rect x="692" y="198" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="756" cy="219" r="11" fill="#ADB5BD"/><text x="756" y="224" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">I</text>
+  <rect x="822" y="198" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/>
+
+  <!-- 行 3 -->
+  <rect x="30" y="242" width="270" height="42" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="44" y="268" font-size="12" fill="#343A40">③ 建设与运维评测平台</text>
+  <rect x="302" y="242" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="366" cy="263" r="11" fill="#ADB5BD"/><text x="366" y="268" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">I</text>
+  <rect x="432" y="242" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="496" cy="263" r="11" fill="#12B886"/><text x="496" y="268" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">R</text>
+  <rect x="562" y="242" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="626" cy="263" r="11" fill="#FA5252"/><text x="626" y="268" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">A</text>
+  <rect x="692" y="242" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="756" cy="263" r="11" fill="#4C6EF5"/><text x="756" y="268" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+  <rect x="822" y="242" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/>
+
+  <!-- 行 4 -->
+  <rect x="30" y="286" width="270" height="42" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="44" y="312" font-size="12" fill="#343A40">④ Judge 校准（双人盲法标注）</text>
+  <rect x="302" y="286" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="366" cy="307" r="11" fill="#12B886"/><text x="366" y="312" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">R</text>
+  <rect x="432" y="286" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="496" cy="307" r="11" fill="#4C6EF5"/><text x="496" y="312" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+  <rect x="562" y="286" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="626" cy="307" r="11" fill="#FA5252"/><text x="626" y="312" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">A</text>
+  <rect x="692" y="286" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="756" cy="307" r="11" fill="#ADB5BD"/><text x="756" y="312" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">I</text>
+  <rect x="822" y="286" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="886" cy="307" r="11" fill="#12B886"/><text x="886" y="312" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">R</text>
+
+  <!-- 行 5 -->
+  <rect x="30" y="330" width="270" height="42" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="44" y="356" font-size="12" fill="#343A40">⑤ 评测集健康度巡检（季度）</text>
+  <rect x="302" y="330" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="366" cy="351" r="11" fill="#12B886"/><text x="366" y="356" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">R</text>
+  <rect x="432" y="330" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="496" cy="351" r="11" fill="#4C6EF5"/><text x="496" y="356" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+  <rect x="562" y="330" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="626" cy="351" r="11" fill="#4C6EF5"/><text x="626" y="356" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+  <rect x="692" y="330" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="756" cy="351" r="11" fill="#FA5252"/><text x="756" y="356" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">A</text>
+  <rect x="822" y="330" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/>
+
+  <!-- 行 6 -->
+  <rect x="30" y="374" width="270" height="42" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="44" y="400" font-size="12" fill="#343A40">⑥ 转录本抽读（每周轮值）</text>
+  <rect x="302" y="374" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="366" cy="395" r="11" fill="#12B886"/><text x="366" y="400" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">R</text>
+  <rect x="432" y="374" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="496" cy="395" r="11" fill="#12B886"/><text x="496" y="400" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">R</text>
+  <rect x="562" y="374" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="626" cy="395" r="11" fill="#ADB5BD"/><text x="626" y="400" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">I</text>
+  <rect x="692" y="374" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="756" cy="395" r="11" fill="#FA5252"/><text x="756" y="400" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">A</text>
+  <rect x="822" y="374" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/>
+
+  <!-- 行 7 -->
+  <rect x="30" y="418" width="270" height="42" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="44" y="444" font-size="12" fill="#343A40">⑦ 定阈值与门禁策略</text>
+  <rect x="302" y="418" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="366" cy="439" r="11" fill="#4C6EF5"/><text x="366" y="444" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+  <rect x="432" y="418" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="496" cy="439" r="11" fill="#4C6EF5"/><text x="496" y="444" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+  <rect x="562" y="418" width="128" height="42" fill="#FFF0F6" stroke="#DEE2E6"/>
+  <circle cx="612" cy="439" r="11" fill="#12B886"/><text x="612" y="444" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">R</text>
+  <circle cx="640" cy="439" r="11" fill="#FA5252"/><text x="640" y="444" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">A</text>
+  <rect x="692" y="418" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="756" cy="439" r="11" fill="#4C6EF5"/><text x="756" y="444" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+  <rect x="822" y="418" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/>
+
+  <!-- 行 8 -->
+  <rect x="30" y="462" width="270" height="42" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="44" y="488" font-size="12" fill="#343A40">⑧ 发布准入审批</text>
+  <rect x="302" y="462" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="366" cy="483" r="11" fill="#4C6EF5"/><text x="366" y="488" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+  <rect x="432" y="462" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="496" cy="483" r="11" fill="#ADB5BD"/><text x="496" y="488" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">I</text>
+  <rect x="562" y="462" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="626" cy="483" r="11" fill="#FA5252"/><text x="626" y="488" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">A</text>
+  <rect x="692" y="462" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="756" cy="483" r="11" fill="#12B886"/><text x="756" y="488" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">R</text>
+  <rect x="822" y="462" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/>
+
+  <!-- 行 9 -->
+  <rect x="30" y="506" width="270" height="42" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="44" y="532" font-size="12" fill="#343A40">⑨ 生产反馈分拣（每周）</text>
+  <rect x="302" y="506" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="366" cy="527" r="11" fill="#12B886"/><text x="366" y="532" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">R</text>
+  <rect x="432" y="506" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="496" cy="527" r="11" fill="#4C6EF5"/><text x="496" y="532" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+  <rect x="562" y="506" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="626" cy="527" r="11" fill="#ADB5BD"/><text x="626" y="532" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">I</text>
+  <rect x="692" y="506" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="756" cy="527" r="11" fill="#FA5252"/><text x="756" y="532" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">A</text>
+  <rect x="822" y="506" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="886" cy="527" r="11" fill="#ADB5BD"/><text x="886" y="532" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">I</text>
+
+  <!-- 行 10 -->
+  <rect x="30" y="550" width="270" height="42" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="44" y="576" font-size="12" fill="#343A40">⑩ 定义指标体系与全部规范</text>
+  <rect x="302" y="550" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="366" cy="571" r="11" fill="#4C6EF5"/><text x="366" y="576" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+  <rect x="432" y="550" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="496" cy="571" r="11" fill="#4C6EF5"/><text x="496" y="576" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+  <rect x="562" y="550" width="128" height="42" fill="#FFF0F6" stroke="#DEE2E6"/>
+  <circle cx="612" cy="571" r="11" fill="#12B886"/><text x="612" y="576" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">R</text>
+  <circle cx="640" cy="571" r="11" fill="#FA5252"/><text x="640" y="576" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">A</text>
+  <rect x="692" y="550" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="756" cy="571" r="11" fill="#4C6EF5"/><text x="756" y="576" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+  <rect x="822" y="550" width="128" height="42" fill="#FFFFFF" stroke="#DEE2E6"/><circle cx="886" cy="571" r="11" fill="#4C6EF5"/><text x="886" y="576" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">C</text>
+
+  <!-- 底部要点 -->
+  <text x="30" y="622" font-size="12" fill="#343A40"><tspan font-weight="700">要点一：</tspan>写评测任务的 R 是<tspan font-weight="700">测试工程师</tspan>而非平台团队。平台团队不该也不可能替所有业务线定义成功标准，它要做的是把贡献门槛降到「提一个 PR」。</text>
+  <text x="30" y="644" font-size="12" fill="#343A40"><tspan font-weight="700">要点二：</tspan>每个评测集必须有明确的 Owner（A 列）。<tspan font-weight="700">没有归属的评测集会在三个月内腐烂</tspan>——任务失效没人下线，饱和了没人换血。</text>
+  <text x="30" y="666" font-size="12" fill="#343A40"><tspan font-weight="700">要点三：</tspan>Judge 校准的 R 有两个（测试工程师 + 领域专家），这是刻意的——校准协议要求<tspan font-weight="700">双人独立盲法标注</tspan>，一个人做不了。</text>
+</svg>

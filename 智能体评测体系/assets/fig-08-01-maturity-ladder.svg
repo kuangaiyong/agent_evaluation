@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" width="1000" height="640" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="1000" height="640" fill="#FFFFFF"/>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">L0–L4 成熟度阶梯</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">每一级解决一个具体问题。跨级跳跃必然返工——最常见的是从 L0 直接建 L3 的平台，建完发现没任务可跑。</text>
+
+  <!-- 地基线 -->
+  <line x1="30" y1="530" x2="970" y2="530" stroke="#ADB5BD" stroke-width="2"/>
+
+  <!-- L0 -->
+  <rect x="40" y="466" width="172" height="64" fill="#F1F3F5" stroke="#868E96" stroke-width="2"/>
+  <text x="126" y="492" text-anchor="middle" font-size="15" font-weight="700" fill="#495057">L0 无序</text>
+  <text x="126" y="514" text-anchor="middle" font-size="11" fill="#868E96">靠体感判断好坏</text>
+
+  <!-- L1 -->
+  <rect x="222" y="386" width="172" height="144" fill="#E7F5FF" stroke="#4DABF7" stroke-width="2"/>
+  <text x="308" y="412" text-anchor="middle" font-size="15" font-weight="700" fill="#0B4A82">L1 有基线</text>
+  <text x="308" y="434" text-anchor="middle" font-size="11.5" fill="#1864AB">15–25 个真实任务</text>
+  <line x1="238" y1="444" x2="378" y2="444" stroke="#A5D8FF"/>
+  <text x="308" y="464" text-anchor="middle" font-size="10.5" fill="#495057">参考解全部满分</text>
+  <text x="308" y="482" text-anchor="middle" font-size="10.5" fill="#495057">证据锚定率 100%</text>
+  <text x="308" y="500" text-anchor="middle" font-size="10.5" fill="#495057">σ 已知</text>
+  <text x="308" y="518" text-anchor="middle" font-size="10.5" fill="#868E96">脚本即可，不建平台</text>
+
+  <!-- L2 -->
+  <rect x="404" y="306" width="172" height="224" fill="#D0EBFF" stroke="#228BE6" stroke-width="2"/>
+  <text x="490" y="332" text-anchor="middle" font-size="15" font-weight="700" fill="#0B4A82">L2 成体系</text>
+  <text x="490" y="354" text-anchor="middle" font-size="11.5" fill="#1864AB">60–120 个任务</text>
+  <line x1="420" y1="364" x2="560" y2="364" stroke="#74C0FC"/>
+  <text x="490" y="384" text-anchor="middle" font-size="10.5" fill="#495057">能力集 / 回归集分离</text>
+  <text x="490" y="402" text-anchor="middle" font-size="10.5" fill="#495057">安全 rubric 100% 确定性</text>
+  <text x="490" y="420" text-anchor="middle" font-size="10.5" fill="#495057">三级门禁接通并能阻断</text>
+  <text x="490" y="438" text-anchor="middle" font-size="10.5" fill="#495057">关键子集跑 pass^3</text>
+  <text x="490" y="456" text-anchor="middle" font-size="10.5" fill="#495057">正反例配比达标</text>
+  <text x="490" y="474" text-anchor="middle" font-size="10.5" fill="#495057">区分度信噪比 ≥ 3</text>
+  <text x="490" y="500" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1864AB">回归门禁 ≤ 20 min</text>
+  <text x="490" y="518" text-anchor="middle" font-size="10.5" fill="#868E96">硬门禁 ≤ 8 个</text>
+
+  <!-- L3 -->
+  <rect x="586" y="226" width="172" height="304" fill="#74C0FC" stroke="#1C7ED6" stroke-width="2"/>
+  <text x="672" y="252" text-anchor="middle" font-size="15" font-weight="700" fill="#0B4A82">L3 平台化</text>
+  <text x="672" y="274" text-anchor="middle" font-size="11.5" fill="#0B4A82">150–300 个任务</text>
+  <line x1="602" y1="284" x2="742" y2="284" stroke="#1C7ED6"/>
+  <text x="672" y="304" text-anchor="middle" font-size="10.5" fill="#0B4A82">三通道证据完整</text>
+  <text x="672" y="322" text-anchor="middle" font-size="10.5" fill="#0B4A82">分数可溯源到证据原文</text>
+  <text x="672" y="340" text-anchor="middle" font-size="10.5" fill="#0B4A82">Judge 一致率 ≥ 90%</text>
+  <text x="672" y="358" text-anchor="middle" font-size="10.5" fill="#0B4A82">rubric 充分性三问 ≥ 90%</text>
+  <text x="672" y="376" text-anchor="middle" font-size="10.5" fill="#0B4A82">失败自动归因到层×柱</text>
+  <text x="672" y="394" text-anchor="middle" font-size="10.5" fill="#0B4A82">故障注入四档扫描</text>
+  <text x="672" y="412" text-anchor="middle" font-size="10.5" fill="#0B4A82">坏任务率 ≤ 3%</text>
+  <text x="672" y="430" text-anchor="middle" font-size="10.5" fill="#0B4A82">基础设施失败率 ≤ 2%</text>
+  <text x="672" y="448" text-anchor="middle" font-size="10.5" fill="#0B4A82">评测成本可见受控</text>
+  <text x="672" y="474" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0B4A82">转录本抽读连续 8 周</text>
+  <text x="672" y="500" text-anchor="middle" font-size="10.5" fill="#0B4A82">转录本查看器是这一级</text>
+  <text x="672" y="516" text-anchor="middle" font-size="10.5" fill="#0B4A82">投入产出比最高的东西</text>
+
+  <!-- L4 -->
+  <rect x="768" y="146" width="172" height="384" fill="#4DABF7" stroke="#1864AB" stroke-width="2.5"/>
+  <text x="854" y="172" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">L4 闭环进化</text>
+  <text x="854" y="194" text-anchor="middle" font-size="11.5" fill="#E7F5FF">300+ 且自动增长</text>
+  <line x1="784" y1="204" x2="924" y2="204" stroke="#A5D8FF"/>
+  <text x="854" y="224" text-anchor="middle" font-size="10.5" fill="#FFFFFF">生产失败自动回流</text>
+  <text x="854" y="242" text-anchor="middle" font-size="10.5" fill="#FFFFFF">转化率 ≥ 80% · ≤ 2 周</text>
+  <text x="854" y="262" text-anchor="middle" font-size="10.5" fill="#FFFFFF">健康度自动巡检告警</text>
+  <text x="854" y="282" text-anchor="middle" font-size="10.5" fill="#FFFFFF">毕业机制实际运转</text>
+  <text x="854" y="302" text-anchor="middle" font-size="10.5" fill="#FFFFFF">评测深度按风险自适应</text>
+  <text x="854" y="322" text-anchor="middle" font-size="10.5" fill="#FFFFFF">复用到 ≥ 3 个智能体</text>
+  <text x="854" y="342" text-anchor="middle" font-size="10.5" fill="#FFFFFF">ROI 有实测值可上报</text>
+  <text x="854" y="368" text-anchor="middle" font-size="10.5" font-weight="700" fill="#FFFFFF">能给出「逃逸问题中</text>
+  <text x="854" y="384" text-anchor="middle" font-size="10.5" font-weight="700" fill="#FFFFFF">评测覆盖漏洞占比」</text>
+  <text x="854" y="416" text-anchor="middle" font-size="10.5" fill="#D0EBFF">别过早追求这一级：</text>
+  <text x="854" y="432" text-anchor="middle" font-size="10.5" fill="#D0EBFF">L3 的抽读与校准</text>
+  <text x="854" y="448" text-anchor="middle" font-size="10.5" fill="#D0EBFF">跑满 8 周再谈自动化</text>
+
+  <!-- 底部：每级解决的问题 -->
+  <text x="126" y="556" text-anchor="middle" font-size="11" fill="#868E96">起点</text>
+  <text x="308" y="556" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1864AB">「改了之后是变好还是变坏？」</text>
+  <text x="490" y="556" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1864AB">「会不会踩坏别的地方？」</text>
+  <text x="672" y="556" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1864AB">「这个分数能信吗？」</text>
+  <text x="854" y="556" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1864AB">「怎么保证它持续有效？」</text>
+  <text x="500" y="578" text-anchor="middle" font-size="11" fill="#868E96">↑ 每一级新回答的问题</text>
+
+  <!-- 短板法则 -->
+  <rect x="30" y="596" width="940" height="34" rx="5" fill="#FFF5F5" stroke="#FA5252"/>
+  <text x="46" y="618" font-size="12" fill="#343A40"><tspan font-weight="700" fill="#C92A2A">短板法则：</tspan>五个能力维度（见图 8-3）里<tspan font-weight="700">最低的那个</tspan>决定你的等级。有一个漂亮的平台但 Judge 从未校准过，那不是 L3，是「L2 加一个平台」。</text>
+</svg>
