@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 560" width="1100" height="560" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="1100" height="560" fill="#FFFFFF"/>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">五个能力维度在各级的形态</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">成熟度不是一个数。定级看这五行里<tspan font-weight="700">最低的那一行</tspan>——短板决定实际等级，不是长板。</text>
+
+  <!-- 列表头 -->
+  <rect x="30" y="74" width="190" height="46" fill="#F1F3F5" stroke="#ADB5BD"/>
+  <text x="44" y="103" font-size="12.5" font-weight="700" fill="#212529">能力维度</text>
+
+  <rect x="222" y="74" width="170" height="46" fill="#F1F3F5" stroke="#868E96"/>
+  <text x="307" y="103" text-anchor="middle" font-size="13" font-weight="700" fill="#495057">L0 无序</text>
+
+  <rect x="394" y="74" width="170" height="46" fill="#E7F5FF" stroke="#4DABF7"/>
+  <text x="479" y="103" text-anchor="middle" font-size="13" font-weight="700" fill="#0B4A82">L1 有基线</text>
+
+  <rect x="566" y="74" width="170" height="46" fill="#D0EBFF" stroke="#228BE6"/>
+  <text x="651" y="103" text-anchor="middle" font-size="13" font-weight="700" fill="#0B4A82">L2 成体系</text>
+
+  <rect x="738" y="74" width="170" height="46" fill="#74C0FC" stroke="#1C7ED6"/>
+  <text x="823" y="103" text-anchor="middle" font-size="13" font-weight="700" fill="#0B4A82">L3 平台化</text>
+
+  <rect x="910" y="74" width="160" height="46" fill="#4DABF7" stroke="#1864AB"/>
+  <text x="990" y="103" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">L4 闭环进化</text>
+
+  <!-- 行 1：评测集内容 -->
+  <rect x="30" y="122" width="190" height="76" fill="#E6FCF5" stroke="#12B886" stroke-width="1.5"/>
+  <text x="44" y="152" font-size="12.5" font-weight="700" fill="#087F5B">① 评测集内容</text>
+  <text x="44" y="172" font-size="10.5" fill="#495057">任务与 rubric 的规模</text>
+  <text x="44" y="188" font-size="10.5" fill="#495057">与质量</text>
+
+  <rect x="222" y="122" width="170" height="76" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="236" y="152" font-size="11" fill="#868E96">无</text>
+  <text x="236" y="172" font-size="10.5" fill="#ADB5BD">手工冒烟清单在</text>
+  <text x="236" y="188" font-size="10.5" fill="#ADB5BD">各人脑子里</text>
+
+  <rect x="394" y="122" width="170" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="408" y="146" font-size="11" fill="#343A40">15–25 个真实任务</text>
+  <text x="408" y="164" font-size="10.5" fill="#495057">每条有参考解</text>
+  <text x="408" y="182" font-size="10.5" fill="#495057">rubric ≥ 3 项</text>
+
+  <rect x="566" y="122" width="170" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="580" y="146" font-size="11" fill="#343A40">60–120 个任务</text>
+  <text x="580" y="164" font-size="10.5" fill="#495057">难度三档梯度</text>
+  <text x="580" y="182" font-size="10.5" fill="#495057">能力/回归集分离</text>
+
+  <rect x="738" y="122" width="170" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="752" y="146" font-size="11" fill="#343A40">150–300 个任务</text>
+  <text x="752" y="164" font-size="10.5" fill="#495057">正反例配比达标</text>
+  <text x="752" y="182" font-size="10.5" fill="#495057">层×柱覆盖 ≥ 60%</text>
+
+  <rect x="910" y="122" width="160" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="924" y="146" font-size="11" font-weight="700" fill="#087F5B">300+ 且自动增长</text>
+  <text x="924" y="164" font-size="10.5" fill="#495057">生产失败自动回流</text>
+  <text x="924" y="182" font-size="10.5" fill="#495057">毕业机制运转中</text>
+
+  <!-- 行 2：证据与可追溯 -->
+  <rect x="30" y="200" width="190" height="76" fill="#FFF4E6" stroke="#F59F00" stroke-width="1.5"/>
+  <text x="44" y="230" font-size="12.5" font-weight="700" fill="#B54708">② 证据与可追溯</text>
+  <text x="44" y="250" font-size="10.5" fill="#495057">分数能不能溯源到</text>
+  <text x="44" y="266" font-size="10.5" fill="#495057">「实际做了什么」</text>
+
+  <rect x="222" y="200" width="170" height="76" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="236" y="230" font-size="11" fill="#868E96">无</text>
+  <text x="236" y="250" font-size="10.5" fill="#ADB5BD">看智能体最后</text>
+  <text x="236" y="266" font-size="10.5" fill="#ADB5BD">回复了什么</text>
+
+  <rect x="394" y="200" width="170" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="408" y="224" font-size="11" fill="#343A40">记录输出与轨迹</text>
+  <text x="408" y="242" font-size="10.5" fill="#495057">每个 rubric 项</text>
+  <text x="408" y="260" font-size="10.5" fill="#495057">声明证据通道</text>
+
+  <rect x="566" y="200" width="170" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="580" y="224" font-size="11" fill="#343A40">结果态 + 审计日志</text>
+  <text x="580" y="242" font-size="10.5" fill="#495057">安全判据锚定在</text>
+  <text x="580" y="260" font-size="10.5" fill="#495057">审计日志上</text>
+
+  <rect x="738" y="200" width="170" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="752" y="224" font-size="11" font-weight="700" fill="#B54708">三通道完整</text>
+  <text x="752" y="242" font-size="10.5" fill="#495057">每条判定存证据引用</text>
+  <text x="752" y="260" font-size="10.5" fill="#495057">可点开到原文</text>
+
+  <rect x="910" y="200" width="160" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="924" y="224" font-size="11" fill="#343A40">三通道 + 自动归因</text>
+  <text x="924" y="242" font-size="10.5" fill="#495057">失败自动落到</text>
+  <text x="924" y="260" font-size="10.5" fill="#495057">层×柱格子</text>
+
+  <!-- 行 3：自动化与门禁 -->
+  <rect x="30" y="278" width="190" height="76" fill="#E7F0FF" stroke="#4C6EF5" stroke-width="1.5"/>
+  <text x="44" y="308" font-size="12.5" font-weight="700" fill="#1C3FAA">③ 自动化与门禁</text>
+  <text x="44" y="328" font-size="10.5" fill="#495057">跑得起来吗</text>
+  <text x="44" y="344" font-size="10.5" fill="#495057">拦得住吗</text>
+
+  <rect x="222" y="278" width="170" height="76" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="236" y="308" font-size="11" fill="#868E96">手工试用</text>
+  <text x="236" y="328" font-size="10.5" fill="#ADB5BD">每次发版前</text>
+  <text x="236" y="344" font-size="10.5" fill="#ADB5BD">人肉点一遍</text>
+
+  <rect x="394" y="278" width="170" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="408" y="302" font-size="11" fill="#343A40">一条命令跑完</text>
+  <text x="408" y="320" font-size="10.5" fill="#495057">人看报告</text>
+  <text x="408" y="338" font-size="10.5" fill="#495057">脚本，非平台</text>
+
+  <rect x="566" y="278" width="170" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="580" y="302" font-size="11" font-weight="700" fill="#1C3FAA">三级门禁接 CI</text>
+  <text x="580" y="320" font-size="10.5" fill="#495057">能真的阻断</text>
+  <text x="580" y="338" font-size="10.5" fill="#495057">回归 ≤ 20 min</text>
+
+  <rect x="738" y="278" width="170" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="752" y="302" font-size="11" fill="#343A40">平台化</text>
+  <text x="752" y="320" font-size="10.5" fill="#495057">看板 + 转录本查看器</text>
+  <text x="752" y="338" font-size="10.5" fill="#495057">故障注入四档</text>
+
+  <rect x="910" y="278" width="160" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="924" y="302" font-size="11" fill="#343A40">自适应评测深度</text>
+  <text x="924" y="320" font-size="10.5" fill="#495057">按变更风险</text>
+  <text x="924" y="338" font-size="10.5" fill="#495057">自动选范围与试次</text>
+
+  <!-- 行 4：校准与可信度 -->
+  <rect x="30" y="356" width="190" height="76" fill="#FFF5F5" stroke="#FA5252" stroke-width="1.5"/>
+  <text x="44" y="386" font-size="12.5" font-weight="700" fill="#C92A2A">④ 校准与可信度</text>
+  <text x="44" y="406" font-size="10.5" fill="#495057">这把尺子准不准</text>
+  <text x="44" y="422" font-size="10.5" fill="#C92A2A">最容易被跳过的一行</text>
+
+  <rect x="222" y="356" width="170" height="76" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="236" y="386" font-size="11" fill="#868E96">无</text>
+  <text x="236" y="406" font-size="10.5" fill="#ADB5BD">好坏全凭</text>
+  <text x="236" y="422" font-size="10.5" fill="#ADB5BD">评审者当天心情</text>
+
+  <rect x="394" y="356" width="170" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="408" y="380" font-size="11" fill="#343A40">参考解满分校验</text>
+  <text x="408" y="398" font-size="10.5" fill="#495057">证明任务可解</text>
+  <text x="408" y="416" font-size="10.5" fill="#495057">评分器配对</text>
+
+  <rect x="566" y="356" width="170" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="580" y="380" font-size="11" fill="#343A40">安全项确定性实现</text>
+  <text x="580" y="398" font-size="10.5" fill="#495057">+ 负样本校验</text>
+  <text x="580" y="416" font-size="10.5" fill="#495057">+ 静态 lint</text>
+
+  <rect x="738" y="356" width="170" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="752" y="380" font-size="11" font-weight="700" fill="#C92A2A">Judge 一致率 ≥ 90%</text>
+  <text x="752" y="398" font-size="10.5" fill="#495057">rubric 抽审三问</text>
+  <text x="752" y="416" font-size="10.5" fill="#495057">抽读连续 8 周</text>
+
+  <rect x="910" y="356" width="160" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="924" y="380" font-size="11" fill="#343A40">校准自动化</text>
+  <text x="924" y="398" font-size="10.5" fill="#495057">失效自动降级</text>
+  <text x="924" y="416" font-size="10.5" fill="#495057">该 Judge 退出门禁</text>
+
+  <!-- 行 5：闭环与自维护 -->
+  <rect x="30" y="434" width="190" height="76" fill="#F8F0FC" stroke="#AE3EC9" stroke-width="1.5"/>
+  <text x="44" y="464" font-size="12.5" font-weight="700" fill="#862E9C">⑤ 闭环与自维护</text>
+  <text x="44" y="484" font-size="10.5" fill="#495057">评测集自己会不会</text>
+  <text x="44" y="500" font-size="10.5" fill="#495057">长、会不会烂</text>
+
+  <rect x="222" y="434" width="170" height="76" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="236" y="464" font-size="11" fill="#868E96">无</text>
+
+  <rect x="394" y="434" width="170" height="76" fill="#FAFBFC" stroke="#DEE2E6"/>
+  <text x="408" y="464" font-size="11" fill="#868E96">无</text>
+  <text x="408" y="484" font-size="10.5" fill="#ADB5BD">这一级不要求</text>
+
+  <rect x="566" y="434" width="170" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="580" y="458" font-size="11" fill="#343A40">手工毕业机制</text>
+  <text x="580" y="476" font-size="10.5" fill="#495057">能力集攻克后</text>
+  <text x="580" y="494" font-size="10.5" fill="#495057">人工转回归集</text>
+
+  <rect x="738" y="434" width="170" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="752" y="458" font-size="11" fill="#343A40">季度健康度巡检</text>
+  <text x="752" y="476" font-size="10.5" fill="#495057">饱和度 · 区分度</text>
+  <text x="752" y="494" font-size="10.5" fill="#495057">坏任务率（人工）</text>
+
+  <rect x="910" y="434" width="160" height="76" fill="#FFFFFF" stroke="#DEE2E6"/>
+  <text x="924" y="458" font-size="11" font-weight="700" fill="#862E9C">自动巡检 + 回流</text>
+  <text x="924" y="476" font-size="10.5" fill="#495057">生产逃逸转任务</text>
+  <text x="924" y="494" font-size="10.5" fill="#495057">ROI 可上报</text>
+
+  <!-- 底注 -->
+  <text x="30" y="540" font-size="12" fill="#343A40"><tspan font-weight="700" fill="#C92A2A">最常见的失衡：</tspan>③ 自动化冲到 L3（平台漂亮、看板齐全），④ 校准还停在 L1（Judge 从未与人工比对过）。这种组合下，一套精密的系统在用一把没校准的尺子做发布决策。</text>
+</svg>

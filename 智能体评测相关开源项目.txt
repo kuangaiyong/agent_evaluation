@@ -1,0 +1,68 @@
+帮我搜索一下github上有没有智能体评测相关的开源项目
+
+已为您搜集整理了GitHub上关于智能体评测的高质量开源项目。以下按综合框架、专用基准、可观测平台、多智能体评测、安全与可靠性五大类整理，所有项目均经过来源核实。
+一、综合评测框架与工具库
+表格
+项目	GitHub地址	核心能力	Stars/活跃度
+awesome-evals	benchflow-ai/awesome-evals	curated library，涵盖论文、工具、基准、最佳实践，维护活跃	⭐ 高
+awesome-auditable-ai	yzhao062/awesome-auditable-ai	由PyOD作者维护，聚焦可审计AI Agent的论文、工具、数据集、基准和标准	⭐ 高
+promptfoo	promptfoo/promptfoo	MIT协议，支持eval + red-teaming CLI，YAML配置可git diff，LLM-as-Judge友好	⭐⭐⭐ 极高
+DeepEval	confident-ai/deepeval	"pytest for LLMs"，40+评测指标（G-Eval、RAG、幻觉检测）+ 红队测试，日跑200万+评测	⭐⭐⭐ 极高
+OpenEvals	langchain-ai/openevals	LangChain官方出品，预置评测器 + create_llm_as_judge，支持多模态	⭐⭐ 高
+AgentEvals	langchain-ai/agentevals	LangChain官方Agent专用评测，支持轨迹匹配（trajectory match）	⭐⭐ 高
+pydantic-evals	pydantic/pydantic-ai	Pydantic AI团队出品，类型安全的Dataset/Case/Evaluator + OTel链路追踪	⭐⭐ 高
+HELM	stanford-crfm/helm	斯坦福CRFM出品， holistic evaluation，标准化数据集+超越准确率的指标+排行榜	⭐⭐⭐ 极高
+Giskard	Giskard-AI/giskard-oss	自动生成对抗性测试套件（注入攻击、幻觉、偏见），支持自然语言描述应用	⭐⭐ 高
+Deepchecks LLM	deepchecks/deepchecks	基于属性的评分（上下文 grounding、毒性、流畅性）+ 自定义LLM-Judge	⭐⭐ 高
+UpTrain	uptrain-ai/uptrain	20+预配置检查项 + 失败根因分析	⭐⭐ 高
+二、Agent专用评测基准（Benchmark）
+表格
+项目	GitHub地址	核心能力	适用场景
+WildClawBench	InternLM/WildClawBench	OpenClaw环境真实场景评测，60个手工任务，支持OpenClaw/Claude Code/Codex CLI/Hermes Agent四种Harness横向对比，Docker隔离可复现	通用Agent能力横向评测
+SWE-bench	princeton-nlp/SWE-bench	2,294个真实GitHub Issue，单元测试验证Patch，软件工程Agent标准基准	代码Agent
+tau-bench	sierra-research/tau-bench	零售/航空领域工具-用户交互评测，pass^k指标衡量重复执行一致性，ICLR 2025	客服/工具调用Agent
+AgentBench	THUDM/AgentBench	8个交互环境的多轮决策评测，记录完整交互轨迹，ICLR 2024	通用多轮决策Agent
+MLR-Bench	chchenhui/mlrbench	201个NeurIPS/ICLR/ICML研究任务，MLR-Judge自动评测，支持分阶段评估（idea→实验→论文）	科研Agent
+CodeScaleBench	Sourcegraph出品	370个任务跨40+大型代码库（K8s/Django/Linux/VSCode），测Agent在>40万行代码上的能力	大型代码库Agent
+Harvey Legal Agent Benchmark	Harvey AI出品	1,200+长程法律Agent任务，75,000+专家评分标准，全通过评分	法律Agent
+WorkBench	Olly Styles	职场Agent纵向评测（2023-2026），GPT-4完成率43%→Claude Opus 4.8完成率89%	办公自动化Agent
+三、可观测性 + 评测一体化平台
+表格
+项目	GitHub地址	核心能力
+Arize Phoenix	Arize-ai/phoenix	OTel链路追踪 + 响应/检索评测 + 数据集/实验管理，强烈推荐
+Langfuse	langfuse/langfuse	评测（LLM-Judge/反馈/人工标注）+ 数据集/实验 + Prompt管理，支持自托管
+Opik	comet-ml/opik	完全开源的评测+可观测性（评测器、数据集、CI可运行评测）
+W&B Weave	wandb/weave	weave.Evaluation评分器（精确匹配/正则/模型评分/Embedding）+ Guardrails + 对比看板
+Helicone	helicone/helicone	开源网关 + 可观测性，支持导入外部评测结果
+OpenLLMetry	traceloop/openllmetry	OTel标准埋点（Py/TS/Go/Ruby）+ 托管可靠性平台
+Langtrace	Scale3-Labs/langtrace	OTel标准追踪 + 手动评分 + 数据集管理
+LangKit	whylabs/langkit	高吞吐文本信号指标（毒性、PII、越狱检测），生产监控专用
+Portkey	portkey-ai/gateway	开源网关 + 60+ Guardrails + 可观测性，2026年3月完全开源
+四、多智能体协同评测
+表格
+项目	GitHub地址	核心能力
+MATEval	kse-ElEvEn/MATEval	多Agent讨论框架，自反思+CoT+反馈机制，已在支付宝故事文本评测中落地
+DITING	WHUNextGen/DITING	首个网络小说翻译多Agent评测框架，AgentEval模拟专家审议，6个维度18K+标注
+HiMATE	nlp2ct-shijie/HiMATE	层次化多Agent机器翻译评测，基于MQM错误类型学，F1提升89%
+AgentFAIR	MingCHEN-Github/AgentFAIR	多Agent协作的地理空间数据FAIR合规评测，0-3成熟度评分
+Aegis	相关仓库	多Agent系统错误注入与归因，9,533条标注轨迹
+五、安全、可靠性与故障诊断
+表格
+项目	GitHub地址	核心能力
+ToolFuzz	相关仓库	自动化Agent工具测试，发现文档缺陷导致Agent失败，修复后通过率提升10%
+ReliabilityBench	论文配套	生产级压力条件下Agent可靠性评测：重复执行一致性、语义等价扰动鲁棒性、工具/API故障容错
+AgentNoiseBench	论文配套	评测Agent在用户指令噪声和工具执行噪声下的鲁棒性
+TRAIL	论文配套	148条人工标注Agent执行轨迹，841个标注错误，用于定位Agent失败根因
+Who&When	论文配套	127个多Agent系统失败日志，标注责任Agent和关键错误步骤
+whatbroke	arthi-arumugam-git/whatbroke	CLI工具，diff两个Agent trace文件（模型/提示词变更前后），检测工具调用丢失、参数漂移、重排序、成本/延迟/结果差异，支持CI门禁
+六、推荐优先级（按落地价值排序）
+表格
+优先级	项目	推荐理由
+🥇 必看	awesome-evals	一站式资源导航，避免重复造轮子
+🥇 必看	Anthropic Agent Eval指南	方法论源头，"评结果不评路径"
+🥈 强推	DeepEval	最成熟的"pytest for LLMs"，指标丰富，社区活跃
+🥈 强推	promptfoo	红队测试+CI集成最友好，YAML配置
+🥈 强推	WildClawBench	国内OpenClaw生态真实场景基准，支持多Harness横向对比
+🥉 推荐	Arize Phoenix / Langfuse	评测+可观测一体化，适合生产环境
+🥉 推荐	SWE-bench / tau-bench	垂直领域标准基准，论文引用率高
+如需进一步了解某个项目的具体使用方法或与您现有技术栈的集成方案，可以继续深入探讨。

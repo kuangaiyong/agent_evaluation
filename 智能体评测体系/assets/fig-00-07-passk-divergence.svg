@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" width="880" height="560" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="880" height="560" fill="#FFFFFF"/>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">能力上限 vs 可靠性下限：pass@k 与 pass^k 的分化</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">被测智能体单次试次成功率 p = 75%。两条曲线随试次数 k 走向完全相反，讲的是两个不同的故事。</text>
+
+  <!-- 网格与坐标轴 -->
+  <g stroke="#E9ECEF" stroke-width="1">
+    <line x1="90" y1="70"  x2="800" y2="70"/>
+    <line x1="90" y1="142" x2="800" y2="142"/>
+    <line x1="90" y1="214" x2="800" y2="214"/>
+    <line x1="90" y1="286" x2="800" y2="286"/>
+    <line x1="90" y1="358" x2="800" y2="358"/>
+  </g>
+  <line x1="90" y1="430" x2="800" y2="430" stroke="#ADB5BD" stroke-width="1.5"/>
+  <line x1="90" y1="70"  x2="90"  y2="430" stroke="#ADB5BD" stroke-width="1.5"/>
+
+  <g font-size="11.5" fill="#868E96" text-anchor="end">
+    <text x="80" y="74">100%</text>
+    <text x="80" y="146">80%</text>
+    <text x="80" y="218">60%</text>
+    <text x="80" y="290">40%</text>
+    <text x="80" y="362">20%</text>
+    <text x="80" y="434">0%</text>
+  </g>
+
+  <g font-size="11.5" fill="#868E96" text-anchor="middle">
+    <text x="90"  y="452">1</text>
+    <text x="169" y="452">2</text>
+    <text x="248" y="452">3</text>
+    <text x="327" y="452">4</text>
+    <text x="406" y="452">5</text>
+    <text x="484" y="452">6</text>
+    <text x="563" y="452">7</text>
+    <text x="642" y="452">8</text>
+    <text x="721" y="452">9</text>
+    <text x="800" y="452">10</text>
+  </g>
+  <text x="445" y="474" font-size="12.5" font-weight="600" fill="#495057" text-anchor="middle">试次数 k</text>
+
+  <!-- 能力-可靠性鸿沟填充 -->
+  <path d="M 90,160 L 169,92.5 L 248,75.6 L 327,71.4 L 406,70.4 L 484,70.1 L 563,70 L 642,70 L 721,70 L 800,70
+           L 800,409.7 L 721,403 L 642,394 L 563,381.9 L 484,365.9 L 406,344.6 L 327,316.1 L 248,278.1 L 169,227.5 L 90,160 Z"
+        fill="#4C6EF5" fill-opacity="0.08"/>
+
+  <!-- pass@k 曲线 -->
+  <polyline points="90,160 169,92.5 248,75.6 327,71.4 406,70.4 484,70.1 563,70 642,70 721,70 800,70"
+            fill="none" stroke="#12B886" stroke-width="3"/>
+  <g fill="#12B886">
+    <circle cx="90" cy="160" r="4"/><circle cx="169" cy="92.5" r="4"/><circle cx="248" cy="75.6" r="4"/>
+    <circle cx="327" cy="71.4" r="4"/><circle cx="406" cy="70.4" r="4"/><circle cx="484" cy="70.1" r="4"/>
+    <circle cx="563" cy="70" r="4"/><circle cx="642" cy="70" r="4"/><circle cx="721" cy="70" r="4"/><circle cx="800" cy="70" r="4"/>
+  </g>
+
+  <!-- pass^k 曲线 -->
+  <polyline points="90,160 169,227.5 248,278.1 327,316.1 406,344.6 484,365.9 563,381.9 642,394 721,403 800,409.7"
+            fill="none" stroke="#FA5252" stroke-width="3"/>
+  <g fill="#FA5252">
+    <circle cx="90" cy="160" r="4"/><circle cx="169" cy="227.5" r="4"/><circle cx="248" cy="278.1" r="4"/>
+    <circle cx="327" cy="316.1" r="4"/><circle cx="406" cy="344.6" r="4"/><circle cx="484" cy="365.9" r="4"/>
+    <circle cx="563" cy="381.9" r="4"/><circle cx="642" cy="394" r="4"/><circle cx="721" cy="403" r="4"/><circle cx="800" cy="409.7" r="4"/>
+  </g>
+
+  <!-- k=3 标注线 -->
+  <line x1="248" y1="70" x2="248" y2="430" stroke="#495057" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <rect x="262" y="150" width="196" height="72" rx="4" fill="#FFFFFF" stroke="#495057" stroke-width="1.2"/>
+  <text x="272" y="170" font-size="12" font-weight="700" fill="#212529">k = 3（推荐的默认试次数）</text>
+  <text x="272" y="190" font-size="11.5" fill="#087F5B">pass@3 = 98.4%　「它会做」</text>
+  <text x="272" y="209" font-size="11.5" fill="#C92A2A">pass^3 = 42.2%　「但靠不住」</text>
+
+  <!-- 鸿沟标注 -->
+  <line x1="600" y1="70" x2="600" y2="386" stroke="#4C6EF5" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="612" y="215" font-size="12.5" font-weight="700" fill="#3B5BDB">能力-可靠性鸿沟</text>
+  <text x="612" y="234" font-size="11.5" fill="#4C6EF5">这段距离越大，</text>
+  <text x="612" y="251" font-size="11.5" fill="#4C6EF5">智能体越是「时灵时不灵」</text>
+
+  <!-- 曲线端点标签 -->
+  <text x="700" y="60" font-size="13" font-weight="700" fill="#087F5B">pass@k　→ 趋近 100%</text>
+  <text x="640" y="428" font-size="13" font-weight="700" fill="#C92A2A">pass^k　→ 趋近 0%</text>
+
+  <!-- 图例与结论 -->
+  <rect x="30" y="492" width="820" height="52" rx="5" fill="#F8F9FA" stroke="#DEE2E6"/>
+  <line x1="46" y1="509" x2="76" y2="509" stroke="#12B886" stroke-width="3"/>
+  <text x="84" y="513" font-size="12" fill="#343A40"><tspan font-weight="700">pass@k</tspan> = 1 −（1−p）^k　k 次中至少成功一次 · 衡量能力上限 · 适合「一次成功就有价值」的场景（用例生成、方案建议）</text>
+  <line x1="46" y1="532" x2="76" y2="532" stroke="#FA5252" stroke-width="3"/>
+  <text x="84" y="536" font-size="12" fill="#343A40"><tspan font-weight="700">pass^k</tspan> = p^k　　　　　k 次全部成功 · 衡量可靠性下限 · 适合「每次都必须对」的场景（客服、自动化执行、生产变更）</text>
+</svg>

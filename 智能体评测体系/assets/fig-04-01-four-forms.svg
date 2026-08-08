@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" width="900" height="640" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="900" height="640" fill="#FFFFFF"/>
+  <defs>
+    <marker id="axArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#495057"/>
+    </marker>
+    <linearGradient id="riskGrad" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#12B886" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#FA5252" stop-opacity="0.14"/>
+    </linearGradient>
+  </defs>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">按自主性与交互深度给产品智能体定形态</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">形态决定评测重点。定错形态，力气会花在不重要的地方——越靠右上，出事的代价越大。</text>
+
+  <!-- 风险底色 -->
+  <rect x="120" y="88" width="700" height="440" fill="url(#riskGrad)"/>
+
+  <!-- 象限分隔 -->
+  <line x1="470" y1="88" x2="470" y2="528" stroke="#DEE2E6" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <line x1="120" y1="308" x2="820" y2="308" stroke="#DEE2E6" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- 坐标轴 -->
+  <line x1="120" y1="528" x2="835" y2="528" stroke="#495057" stroke-width="2" marker-end="url(#axArrow)"/>
+  <line x1="120" y1="528" x2="120" y2="80"  stroke="#495057" stroke-width="2" marker-end="url(#axArrow)"/>
+  <text x="480" y="556" font-size="13.5" font-weight="700" fill="#495057">交互深度　完成一次目标需要几轮</text>
+  <text x="150" y="546" font-size="11.5" fill="#868E96">浅 · 单轮出结果</text>
+  <text x="700" y="546" font-size="11.5" fill="#868E96">深 · 多轮澄清推进</text>
+  <g transform="translate(104,310) rotate(-90)">
+    <text x="0" y="0" text-anchor="middle" font-size="13.5" font-weight="700" fill="#495057">自主性　能不能改变外部状态</text>
+  </g>
+  <text x="98" y="500" text-anchor="end" font-size="11.5" fill="#868E96">低</text>
+  <text x="98" y="110" text-anchor="end" font-size="11.5" fill="#868E96">高</text>
+
+  <!-- 左上：形态四 多模态/GUI -->
+  <rect x="145" y="110" width="300" height="172" rx="8" fill="#F8F0FC" stroke="#AE3EC9" stroke-width="2.5"/>
+  <text x="163" y="138" font-size="15" font-weight="700" fill="#862E9C">形态四 · 多模态与 GUI 操作</text>
+  <text x="163" y="162" font-size="11.5" fill="#495057">截图诊断 · UI 录制回放 · 视频理解</text>
+  <text x="163" y="180" font-size="11.5" fill="#495057">设计稿转代码</text>
+  <line x1="163" y1="192" x2="427" y2="192" stroke="#E0C3F0"/>
+  <text x="163" y="212" font-size="11.5" font-weight="700" fill="#862E9C">评测重心</text>
+  <text x="163" y="232" font-size="11" fill="#495057">· 渲染后再评，绝不评生成源码</text>
+  <text x="163" y="250" font-size="11" fill="#495057">· 用 IoU / 召回率给部分得分</text>
+  <text x="163" y="268" font-size="11" fill="#495057">· 按领域分解（视频/文档图像/代码）</text>
+
+  <!-- 右上：形态二 工作流编排 -->
+  <rect x="495" y="110" width="300" height="172" rx="8" fill="#FFF5F5" stroke="#FA5252" stroke-width="3"/>
+  <text x="513" y="138" font-size="15" font-weight="700" fill="#C92A2A">形态二 · 工作流与工具编排</text>
+  <text x="513" y="162" font-size="11.5" fill="#495057">故障处置智能体 · 跨系统审批</text>
+  <text x="513" y="180" font-size="11.5" fill="#495057">自动化变更助手</text>
+  <line x1="513" y1="192" x2="777" y2="192" stroke="#FFC9C9"/>
+  <text x="513" y="212" font-size="11.5" font-weight="700" fill="#C92A2A">评测重心　⚠ 风险最高</text>
+  <text x="513" y="232" font-size="11" fill="#495057">· 结果态是唯一真相，不信自述</text>
+  <text x="513" y="250" font-size="11" fill="#495057">· 安全约束嵌入正常任务，不单列</text>
+  <text x="513" y="268" font-size="11" fill="#495057">· 必测故障注入恢复 + pass^3</text>
+
+  <!-- 左下：形态三 嵌入式 -->
+  <rect x="145" y="334" width="300" height="172" rx="8" fill="#FFF4E6" stroke="#F59F00" stroke-width="2.5"/>
+  <text x="163" y="362" font-size="15" font-weight="700" fill="#B54708">形态三 · 嵌入式 AI 能力</text>
+  <text x="163" y="386" font-size="11.5" fill="#495057">智能日志摘要 · 自然语言查询</text>
+  <text x="163" y="404" font-size="11.5" fill="#495057">智能填充 · 语义补全</text>
+  <line x1="163" y1="416" x2="427" y2="416" stroke="#FFE8CC"/>
+  <text x="163" y="436" font-size="11.5" font-weight="700" fill="#B54708">评测重心</text>
+  <text x="163" y="456" font-size="11" fill="#495057">· 触发时机的双向准确率（重于质量）</text>
+  <text x="163" y="474" font-size="11" fill="#495057">· 对宿主功能零影响 + 降级路径</text>
+  <text x="163" y="492" font-size="11" fill="#495057">· TTFT P95 ≤ 1.5s 是硬约束</text>
+
+  <!-- 右下：形态一 对话/RAG -->
+  <rect x="495" y="334" width="300" height="172" rx="8" fill="#E7F0FF" stroke="#4C6EF5" stroke-width="2.5"/>
+  <text x="513" y="362" font-size="15" font-weight="700" fill="#1C3FAA">形态一 · 对话与 RAG 问答</text>
+  <text x="513" y="386" font-size="11.5" fill="#495057">帮助中心问答 · 专家知识助手</text>
+  <text x="513" y="404" font-size="11.5" fill="#495057">客户支持机器人</text>
+  <line x1="513" y1="416" x2="777" y2="416" stroke="#D0DEFF"/>
+  <text x="513" y="436" font-size="11.5" font-weight="700" fill="#1C3FAA">评测重心</text>
+  <text x="513" y="456" font-size="11" fill="#495057">· 有据性与幻觉率（任务成功率没用）</text>
+  <text x="513" y="474" font-size="11" fill="#495057">· 拒答边界双向取样</text>
+  <text x="513" y="492" font-size="11" fill="#495057">· 文档里藏指令的提示注入</text>
+
+  <!-- 风险箭头标注 -->
+  <text x="830" y="106" font-size="11.5" font-weight="700" fill="#C92A2A" text-anchor="end">出事代价 ↗</text>
+
+  <!-- 底部判据 -->
+  <rect x="30" y="576" width="840" height="52" rx="5" fill="#F8F9FA" stroke="#DEE2E6"/>
+  <text x="46" y="597" font-size="12" fill="#343A40"><tspan font-weight="700">三个快速判据：</tspan>① 它会写数据、调有副作用的接口吗？→ 是，形态二　② 它是产品的一个功能点而非主入口吗？→ 是，形态三</text>
+  <text x="46" y="617" font-size="12" fill="#343A40">③ 输入或输出里有图像、视频、界面吗？→ 是，形态四　都不是 → 形态一。<tspan font-weight="700">横跨多形态的产品按能力拆评测集，不按产品拆。</tspan></text>
+</svg>

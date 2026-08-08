@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" width="960" height="640" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="960" height="640" fill="#FFFFFF"/>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">「用例覆盖率 78%」这句话没有信息量</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">覆盖率至少有四个正交维度。合成一个数，恰好会把最该看的短板抹平。</text>
+
+  <!-- 左：合成数字 -->
+  <rect x="30" y="76" width="230" height="180" rx="8" fill="#FFF4E6" stroke="#F59F00" stroke-width="2"/>
+  <text x="145" y="106" text-anchor="middle" font-size="13" font-weight="700" fill="#B54708">汇报里常见的写法</text>
+  <text x="145" y="176" text-anchor="middle" font-size="52" font-weight="700" fill="#B54708">78%</text>
+  <text x="145" y="204" text-anchor="middle" font-size="13" fill="#495057">用例覆盖率</text>
+  <line x1="50" y1="218" x2="240" y2="218" stroke="#FFE8CC"/>
+  <text x="145" y="240" text-anchor="middle" font-size="12" fill="#868E96">「看起来还行」</text>
+
+  <!-- 箭头 -->
+  <text x="288" y="172" font-size="26" fill="#ADB5BD">→</text>
+
+  <!-- 右：拆开看 -->
+  <text x="330" y="96" font-size="14" font-weight="700" fill="#212529">拆开看是这样</text>
+
+  <!-- 条形定义：x 起点 470，满格 400px -->
+  <g font-size="12">
+    <!-- 需求点覆盖 -->
+    <text x="330" y="130" fill="#343A40">需求点覆盖</text>
+    <rect x="470" y="118" width="400" height="16" fill="#F1F3F5"/>
+    <rect x="470" y="118" width="381" height="16" fill="#12B886"/>
+    <text x="880" y="131" font-size="11.5" font-weight="700" fill="#087F5B">95.2%</text>
+
+    <!-- 等价类覆盖 -->
+    <text x="330" y="162" fill="#343A40">等价类覆盖</text>
+    <rect x="470" y="150" width="400" height="16" fill="#F1F3F5"/>
+    <rect x="470" y="150" width="286" height="16" fill="#F59F00"/>
+    <text x="880" y="163" font-size="11.5" font-weight="700" fill="#B54708">71.4%</text>
+
+    <!-- 边界值覆盖 -->
+    <text x="330" y="194" fill="#343A40">边界值覆盖</text>
+    <rect x="470" y="182" width="400" height="16" fill="#F1F3F5"/>
+    <rect x="470" y="182" width="172" height="16" fill="#FA5252"/>
+    <text x="880" y="195" font-size="11.5" font-weight="700" fill="#C92A2A">42.9%</text>
+    <text x="660" y="195" font-size="11" font-weight="700" fill="#C92A2A">← 短板</text>
+  </g>
+
+  <!-- 场景类型覆盖（四小项） -->
+  <text x="330" y="230" font-size="12" font-weight="700" fill="#343A40">场景类型覆盖</text>
+  <line x1="336" y1="238" x2="336" y2="352" stroke="#ADB5BD" stroke-width="1.5"/>
+  <g font-size="11.5">
+    <line x1="336" y1="252" x2="352" y2="252" stroke="#ADB5BD" stroke-width="1.5"/>
+    <text x="358" y="256" fill="#495057">正常路径</text>
+    <rect x="470" y="244" width="400" height="16" fill="#F1F3F5"/>
+    <rect x="470" y="244" width="390" height="16" fill="#12B886"/>
+    <text x="880" y="257" font-weight="700" fill="#087F5B">97.6%</text>
+
+    <line x1="336" y1="284" x2="352" y2="284" stroke="#ADB5BD" stroke-width="1.5"/>
+    <text x="358" y="288" fill="#495057">异常路径</text>
+    <rect x="470" y="276" width="400" height="16" fill="#F1F3F5"/>
+    <rect x="470" y="276" width="100" height="16" fill="#FA5252"/>
+    <text x="880" y="289" font-weight="700" fill="#C92A2A">25.0%</text>
+    <text x="588" y="289" font-weight="700" fill="#C92A2A">← 短板</text>
+
+    <line x1="336" y1="316" x2="352" y2="316" stroke="#ADB5BD" stroke-width="1.5"/>
+    <text x="358" y="320" fill="#495057">边界条件</text>
+    <rect x="470" y="308" width="400" height="16" fill="#F1F3F5"/>
+    <rect x="470" y="308" width="167" height="16" fill="#FA5252"/>
+    <text x="880" y="321" font-weight="700" fill="#C92A2A">41.7%</text>
+
+    <line x1="336" y1="348" x2="352" y2="348" stroke="#ADB5BD" stroke-width="1.5"/>
+    <text x="358" y="352" fill="#495057">并发 / 时序</text>
+    <rect x="470" y="340" width="400" height="16" fill="#F1F3F5"/>
+    <text x="880" y="353" font-weight="700" fill="#C92A2A">0.0%</text>
+    <text x="478" y="353" font-weight="700" fill="#C92A2A">← 一条都没生成</text>
+  </g>
+
+  <!-- 诊断结论 -->
+  <rect x="30" y="382" width="900" height="112" rx="6" fill="#FFF5F5" stroke="#FA5252" stroke-width="2"/>
+  <text x="46" y="408" font-size="14" font-weight="700" fill="#C92A2A">拆开之后才看得见的真相</text>
+  <text x="46" y="434" font-size="12.5" fill="#343A40">这套用例集覆盖的<tspan font-weight="700">全是「正常流程走一遍」的路径</tspan>——需求点几乎全覆盖、正常路径接近满分，看起来很勤奋。</text>
+  <text x="46" y="458" font-size="12.5" fill="#343A40">但<tspan font-weight="700">缺陷绝大多数藏在边界、异常和并发里</tspan>，而这三块恰好是它的空白区。这套用例集执行下来会一路绿灯，然后缺陷照样逃逸到线上。</text>
+  <text x="46" y="482" font-size="12.5" fill="#343A40">合成的 78% 之所以危险，不是因为它算错了，而是<tspan font-weight="700">它把「95% 的显然」和「25% 的关键」平均成了一个让人放心的数字</tspan>。</text>
+
+  <!-- 规范 -->
+  <rect x="30" y="512" width="900" height="104" rx="6" fill="#F8F9FA" stroke="#DEE2E6"/>
+  <text x="46" y="538" font-size="13" font-weight="700" fill="#212529">规范</text>
+  <text x="46" y="562" font-size="12" fill="#343A40">1 · 覆盖率<tspan font-weight="700">一律分维度报告</tspan>，报告模板见 09 分册。禁止在任何看板或汇报材料里出现单一的「用例覆盖率」数字。</text>
+  <text x="46" y="584" font-size="12" fill="#343A40">2 · 门禁阈值<tspan font-weight="700">按维度分设</tspan>：需求点 ≥ 95%、等价类 ≥ 80%、边界值 ≥ 75%、异常路径 ≥ 60%。用一个总阈值卡不出短板。</text>
+  <text x="46" y="606" font-size="12" fill="#343A40">3 · 形式覆盖率再高也<tspan font-weight="700">不能替代 TC-07 历史缺陷复现能力</tspan>——那才是「这些用例真的有用吗」的唯一答案。</text>
+</svg>

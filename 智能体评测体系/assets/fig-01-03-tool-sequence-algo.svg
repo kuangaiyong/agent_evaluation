@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 560" width="940" height="560" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="940" height="560" fill="#FFFFFF"/>
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#495057"/>
+    </marker>
+    <marker id="arRed" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#FA5252"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">B-07 工具序列正确率：三种算法，同一条轨迹，三个结论</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">场景：智能体多插了一次无关的 list_tags 调用，其余工具与顺序都对。这算不算错？算多大的错？</text>
+
+  <!-- 参考序列 -->
+  <text x="30" y="92" font-size="13.5" font-weight="700" fill="#087F5B">参考序列（金标准）</text>
+  <g font-size="12">
+    <rect x="30"  y="104" width="140" height="42" rx="5" fill="#E6FCF5" stroke="#12B886" stroke-width="1.8"/>
+    <text x="100" y="130" text-anchor="middle" fill="#087F5B">list_instances</text>
+    <line x1="172" y1="125" x2="196" y2="125" stroke="#495057" stroke-width="1.6" marker-end="url(#ar)"/>
+
+    <rect x="200" y="104" width="140" height="42" rx="5" fill="#E6FCF5" stroke="#12B886" stroke-width="1.8"/>
+    <text x="270" y="130" text-anchor="middle" fill="#087F5B">get_metrics</text>
+    <line x1="342" y1="125" x2="366" y2="125" stroke="#495057" stroke-width="1.6" marker-end="url(#ar)"/>
+
+    <rect x="370" y="104" width="140" height="42" rx="5" fill="#E6FCF5" stroke="#12B886" stroke-width="1.8"/>
+    <text x="440" y="130" text-anchor="middle" fill="#087F5B">check_policy</text>
+    <line x1="512" y1="125" x2="536" y2="125" stroke="#495057" stroke-width="1.6" marker-end="url(#ar)"/>
+
+    <rect x="540" y="104" width="140" height="42" rx="5" fill="#E6FCF5" stroke="#12B886" stroke-width="1.8"/>
+    <text x="610" y="130" text-anchor="middle" fill="#087F5B">terminate</text>
+  </g>
+  <text x="700" y="130" font-size="12" fill="#868E96">4 个节点 · 3 条依赖边</text>
+
+  <!-- 实际序列 -->
+  <text x="30" y="188" font-size="13.5" font-weight="700" fill="#1C3FAA">实际序列（智能体轨迹）</text>
+  <g font-size="12">
+    <rect x="30"  y="200" width="132" height="42" rx="5" fill="#E7F0FF" stroke="#4C6EF5" stroke-width="1.8"/>
+    <text x="96" y="226" text-anchor="middle" fill="#1C3FAA">list_instances</text>
+    <line x1="164" y1="221" x2="184" y2="221" stroke="#495057" stroke-width="1.6" marker-end="url(#ar)"/>
+
+    <rect x="188" y="200" width="132" height="42" rx="5" fill="#E7F0FF" stroke="#4C6EF5" stroke-width="1.8"/>
+    <text x="254" y="226" text-anchor="middle" fill="#1C3FAA">get_metrics</text>
+    <line x1="322" y1="221" x2="342" y2="221" stroke="#FA5252" stroke-width="1.6" marker-end="url(#arRed)"/>
+
+    <rect x="346" y="200" width="132" height="42" rx="5" fill="#FFF5F5" stroke="#FA5252" stroke-width="2.2" stroke-dasharray="5,3"/>
+    <text x="412" y="220" text-anchor="middle" fill="#C92A2A" font-weight="700">list_tags</text>
+    <text x="412" y="236" text-anchor="middle" fill="#C92A2A" font-size="10.5">多余调用</text>
+    <line x1="480" y1="221" x2="500" y2="221" stroke="#FA5252" stroke-width="1.6" marker-end="url(#arRed)"/>
+
+    <rect x="504" y="200" width="132" height="42" rx="5" fill="#E7F0FF" stroke="#4C6EF5" stroke-width="1.8"/>
+    <text x="570" y="226" text-anchor="middle" fill="#1C3FAA">check_policy</text>
+    <line x1="638" y1="221" x2="658" y2="221" stroke="#495057" stroke-width="1.6" marker-end="url(#ar)"/>
+
+    <rect x="662" y="200" width="132" height="42" rx="5" fill="#E7F0FF" stroke="#4C6EF5" stroke-width="1.8"/>
+    <text x="728" y="226" text-anchor="middle" fill="#1C3FAA">terminate</text>
+  </g>
+  <text x="810" y="226" font-size="12" fill="#868E96">5 节点 · 4 边</text>
+
+  <!-- 三种算法结果 -->
+  <text x="30" y="290" font-size="13.5" font-weight="700" fill="#212529">同一条轨迹，三种算法给出的分数</text>
+
+  <!-- 卡片 1 -->
+  <rect x="30" y="304" width="286" height="180" rx="6" fill="#FFF5F5" stroke="#FA5252" stroke-width="2"/>
+  <text x="46" y="328" font-size="14" font-weight="700" fill="#C92A2A">① 严格相等</text>
+  <text x="46" y="352" font-size="13" fill="#495057">序列完全一致才得分</text>
+  <text x="46" y="386" font-size="30" font-weight="700" fill="#C92A2A">0.00</text>
+  <line x1="46" y1="400" x2="300" y2="400" stroke="#FFC9C9"/>
+  <text x="46" y="422" font-size="11.5" fill="#495057">判定为「完全失败」，但智能体其实</text>
+  <text x="46" y="440" font-size="11.5" fill="#495057">把任务做对了，只是多看了一眼标签。</text>
+  <text x="46" y="466" font-size="11.5" font-weight="700" fill="#C92A2A">→ 把评测写脆的头号原因，禁用</text>
+
+  <!-- 卡片 2 -->
+  <rect x="327" y="304" width="286" height="180" rx="6" fill="#E6FCF5" stroke="#12B886" stroke-width="2.5"/>
+  <text x="343" y="328" font-size="14" font-weight="700" fill="#087F5B">② 节点 F1 + 边 F1（推荐）</text>
+  <text x="343" y="352" font-size="13" fill="#495057">节点 = 调了哪些 · 边 = 顺序对不对</text>
+  <text x="343" y="386" font-size="22" font-weight="700" fill="#087F5B">节点 0.89</text>
+  <text x="470" y="386" font-size="22" font-weight="700" fill="#F59F00">边 0.57</text>
+  <line x1="343" y1="400" x2="597" y2="400" stroke="#96F2D7"/>
+  <text x="343" y="422" font-size="11.5" fill="#495057">节点高 = 工具全选对了；</text>
+  <text x="343" y="440" font-size="11.5" fill="#495057">边偏低 = 插入调用打断了依赖链。</text>
+  <text x="343" y="466" font-size="11.5" font-weight="700" fill="#087F5B">→ 唯一能定位错因的算法，默认用它</text>
+
+  <!-- 卡片 3 -->
+  <rect x="624" y="304" width="286" height="180" rx="6" fill="#FFF4E6" stroke="#F59F00" stroke-width="2"/>
+  <text x="640" y="328" font-size="14" font-weight="700" fill="#B54708">③ 归一化编辑距离</text>
+  <text x="640" y="352" font-size="13" fill="#495057">1 − 编辑距离 / max(序列长度)</text>
+  <text x="640" y="386" font-size="30" font-weight="700" fill="#B54708">0.80</text>
+  <line x1="640" y1="400" x2="894" y2="400" stroke="#FFE8CC"/>
+  <text x="640" y="422" font-size="11.5" fill="#495057">分数合理，但只有一个数：</text>
+  <text x="640" y="440" font-size="11.5" fill="#495057">分不清是选错了工具还是排错了序。</text>
+  <text x="640" y="466" font-size="11.5" font-weight="700" fill="#B54708">→ 只关心整体相似度时用</text>
+
+  <!-- 底部结论 -->
+  <rect x="30" y="500" width="880" height="42" rx="5" fill="#F8F9FA" stroke="#DEE2E6"/>
+  <text x="46" y="518" font-size="12" fill="#343A40"><tspan font-weight="700">默认选 ②。</tspan>节点 F1 掉了去查 B-02 工具选择准确率，边 F1 掉了去查 D-01 规划质量——一个指标拆成两个数，诊断路径就分岔了。</text>
+  <text x="46" y="536" font-size="12" fill="#343A40">对必须强制的时序（如「先诊断后行动」），另挂一条独立的确定性 rubric 项，<tspan font-weight="700">不要混进 F1</tspan>——强约束和软相似度混在一起，两边都测不准。</text>
+</svg>

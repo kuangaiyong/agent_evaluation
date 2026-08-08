@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 580" width="940" height="580" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="940" height="580" fill="#FFFFFF"/>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">投入与收益：两个拐点决定要不要往下走</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">纵轴为累计量的相对比例，不是绝对值。曲线形状比数值重要。</text>
+
+  <!-- 坐标轴 -->
+  <line x1="80" y1="100" x2="80" y2="440" stroke="#ADB5BD" stroke-width="1.5"/>
+  <line x1="80" y1="440" x2="880" y2="440" stroke="#ADB5BD" stroke-width="1.5"/>
+  <g stroke="#F1F3F5" stroke-width="1">
+    <line x1="80" y1="100" x2="880" y2="100"/>
+    <line x1="80" y1="185" x2="880" y2="185"/>
+    <line x1="80" y1="270" x2="880" y2="270"/>
+    <line x1="80" y1="355" x2="880" y2="355"/>
+  </g>
+  <text x="72" y="105" text-anchor="end" font-size="11" fill="#868E96">高</text>
+  <text x="72" y="444" text-anchor="end" font-size="11" fill="#868E96">0</text>
+  <g transform="translate(46,270) rotate(-90)">
+    <text x="0" y="0" text-anchor="middle" font-size="12.5" font-weight="700" fill="#495057">累计量</text>
+  </g>
+
+  <!-- 等级刻度 -->
+  <g font-size="12.5" font-weight="700" text-anchor="middle">
+    <line x1="110" y1="440" x2="110" y2="446" stroke="#ADB5BD"/>
+    <text x="110" y="466" fill="#495057">L0</text>
+    <line x1="290" y1="440" x2="290" y2="446" stroke="#ADB5BD"/>
+    <text x="290" y="466" fill="#1864AB">L1</text>
+    <line x1="470" y1="440" x2="470" y2="446" stroke="#ADB5BD"/>
+    <text x="470" y="466" fill="#1864AB">L2</text>
+    <line x1="650" y1="440" x2="650" y2="446" stroke="#ADB5BD"/>
+    <text x="650" y="466" fill="#1864AB">L3</text>
+    <line x1="830" y1="440" x2="830" y2="446" stroke="#ADB5BD"/>
+    <text x="830" y="466" fill="#1864AB">L4</text>
+  </g>
+
+  <!-- 拐点区域底色 -->
+  <rect x="290" y="100" width="180" height="340" fill="#12B886" fill-opacity="0.06"/>
+  <rect x="470" y="100" width="180" height="340" fill="#F59F00" fill-opacity="0.06"/>
+
+  <!-- 收益曲线 -->
+  <polyline points="110,440 290,399 470,229 650,168 830,100"
+            fill="none" stroke="#12B886" stroke-width="3.5"/>
+  <g fill="#12B886">
+    <circle cx="110" cy="440" r="5"/><circle cx="290" cy="399" r="5"/><circle cx="470" cy="229" r="5"/>
+    <circle cx="650" cy="168" r="5"/><circle cx="830" cy="100" r="5"/>
+  </g>
+
+  <!-- 投入曲线 -->
+  <polyline points="110,440 290,413 470,345 650,219 830,100"
+            fill="none" stroke="#FA5252" stroke-width="3.5" stroke-dasharray="8,5"/>
+  <g fill="#FA5252">
+    <circle cx="110" cy="440" r="5"/><circle cx="290" cy="413" r="5"/><circle cx="470" cy="345" r="5"/>
+    <circle cx="650" cy="219" r="5"/><circle cx="830" cy="100" r="5"/>
+  </g>
+
+  <!-- 曲线标签 -->
+  <text x="500" y="212" font-size="13.5" font-weight="700" fill="#087F5B">累计收益</text>
+  <text x="500" y="368" font-size="13.5" font-weight="700" fill="#C92A2A">累计投入</text>
+
+  <!-- 拐点标注 1 -->
+  <line x1="380" y1="120" x2="380" y2="410" stroke="#12B886" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="200" y="118" width="270" height="66" rx="5" fill="#E6FCF5" stroke="#12B886" stroke-width="2"/>
+  <text x="214" y="140" font-size="12.5" font-weight="700" fill="#087F5B">价值拐点　L1 → L2</text>
+  <text x="214" y="160" font-size="11.5" fill="#343A40">评测第一次开始<tspan font-weight="700">替人干活</tspan>而不只是</text>
+  <text x="214" y="176" font-size="11.5" fill="#343A40">提供信息。绝大部分收益在这一段兑现。</text>
+
+  <!-- 拐点标注 2 -->
+  <line x1="560" y1="248" x2="560" y2="430" stroke="#F59F00" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="530" y="246" width="290" height="82" rx="5" fill="#FFF4E6" stroke="#F59F00" stroke-width="2"/>
+  <text x="544" y="268" font-size="12.5" font-weight="700" fill="#B54708">信任拐点　L2 → L3</text>
+  <text x="544" y="288" font-size="11.5" fill="#343A40">投入陡增、收益曲线变平，<tspan font-weight="700">最容易被砍</tspan>。</text>
+  <text x="544" y="304" font-size="11.5" fill="#343A40">但跳过它的后果是：某天发现门禁一直在用</text>
+  <text x="544" y="320" font-size="11.5" fill="#343A40">一把不准的尺子，之前所有决策都要重审。</text>
+
+  <!-- 底部说明 -->
+  <rect x="30" y="486" width="880" height="82" rx="6" fill="#F8F9FA" stroke="#DEE2E6"/>
+  <text x="46" y="510" font-size="12" fill="#343A40"><tspan font-weight="700">读法一：</tspan>L1 之前投入几乎为零、收益也几乎为零——这段没什么好犹豫的，两周就能走完，直接做。</text>
+  <text x="46" y="532" font-size="12" fill="#343A40"><tspan font-weight="700">读法二：</tspan>L2 是性价比最高的停靠点。资源紧张时，<tspan font-weight="700">停在 L2 并把它做扎实</tspan>，好过冲到 L3 但校准维度停在 L1。</text>
+  <text x="46" y="554" font-size="12" fill="#343A40"><tspan font-weight="700">读法三：</tspan>到 L2 时，评测集<tspan font-weight="700">内容</tspan>的投入通常是<tspan font-weight="700">平台工程</tspan>投入的 2–3 倍。反过来（平台远大于内容）基本可以断定方向跑偏了。</text>
+</svg>

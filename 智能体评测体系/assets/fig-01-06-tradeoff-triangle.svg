@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 580" width="880" height="580" font-family="Microsoft YaHei, PingFang SC, Hiragino Sans GB, Source Han Sans SC, sans-serif">
+  <rect x="0" y="0" width="880" height="580" fill="#FFFFFF"/>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#212529">质量 · 成本 · 延迟：先定位置，再定阈值</text>
+  <text x="30" y="53" font-size="12.5" fill="#868E96">三者不可能同时最优。向一个顶点靠近，就意味着离另外两个更远。定位不同，同一个指标的阈值可以差一个量级。</text>
+
+  <!-- 三角形 -->
+  <polygon points="440,100 190,420 690,420" fill="#F8F9FA" stroke="#ADB5BD" stroke-width="2"/>
+
+  <!-- 内部辅助线 -->
+  <g stroke="#DEE2E6" stroke-width="1" stroke-dasharray="4,4">
+    <line x1="440" y1="100" x2="440" y2="420"/>
+    <line x1="190" y1="420" x2="565" y2="260"/>
+    <line x1="690" y1="420" x2="315" y2="260"/>
+  </g>
+
+  <!-- 顶点标签 -->
+  <g text-anchor="middle">
+    <circle cx="440" cy="100" r="9" fill="#4C6EF5"/>
+    <text x="440" y="80" font-size="15" font-weight="700" fill="#1C3FAA">质量最高</text>
+    <text x="440" y="62" font-size="11.5" fill="#4C6EF5">多试次 · 深度审计 · 大模型</text>
+
+    <circle cx="190" cy="420" r="9" fill="#12B886"/>
+    <text x="190" y="450" font-size="15" font-weight="700" fill="#087F5B">成本最低</text>
+    <text x="190" y="468" font-size="11.5" fill="#12B886">单试次 · 小模型 · 短上下文</text>
+
+    <circle cx="690" cy="420" r="9" fill="#F59F00"/>
+    <text x="690" y="450" font-size="15" font-weight="700" fill="#B54708">延迟最低</text>
+    <text x="690" y="468" font-size="11.5" fill="#F59F00">少轮数 · 并行工具 · 流式输出</text>
+  </g>
+
+  <!-- 三个定位点 -->
+  <g>
+    <circle cx="440" cy="180" r="13" fill="#4C6EF5" stroke="#FFFFFF" stroke-width="3"/>
+    <rect x="486" y="152" width="240" height="58" rx="5" fill="#E7F0FF" stroke="#4C6EF5" stroke-width="1.5"/>
+    <text x="498" y="172" font-size="12.5" font-weight="700" fill="#1C3FAA">质量优先</text>
+    <text x="498" y="190" font-size="11.5" fill="#343A40">生产变更 · 合规审核 · 对客服务</text>
+    <text x="498" y="205" font-size="11" fill="#4C6EF5">pass^3 ≥ 90% · 安全 100% · 延迟放宽到分钟</text>
+    <line x1="453" y1="180" x2="484" y2="180" stroke="#4C6EF5" stroke-width="1.5"/>
+  </g>
+
+  <g>
+    <circle cx="290" cy="360" r="13" fill="#12B886" stroke="#FFFFFF" stroke-width="3"/>
+    <rect x="30" y="300" width="240" height="58" rx="5" fill="#E6FCF5" stroke="#12B886" stroke-width="1.5"/>
+    <text x="42" y="320" font-size="12.5" font-weight="700" fill="#087F5B">成本优先</text>
+    <text x="42" y="338" font-size="11.5" fill="#343A40">批量离线处理 · 内部工具</text>
+    <text x="42" y="353" font-size="11" fill="#12B886">pass@3 ≥ 80% · 单任务成本设硬上限</text>
+    <line x1="277" y1="352" x2="262" y2="340" stroke="#12B886" stroke-width="1.5"/>
+  </g>
+
+  <g>
+    <circle cx="590" cy="360" r="13" fill="#F59F00" stroke="#FFFFFF" stroke-width="3"/>
+    <rect x="610" y="300" width="248" height="58" rx="5" fill="#FFF4E6" stroke="#F59F00" stroke-width="1.5"/>
+    <text x="622" y="320" font-size="12.5" font-weight="700" fill="#B54708">响应优先</text>
+    <text x="622" y="338" font-size="11.5" fill="#343A40">嵌入式 AI 能力 · 实时辅助</text>
+    <text x="622" y="353" font-size="11" fill="#F59F00">pass@1 ≥ 85% · TTFT P95 ≤ 1.5s 硬约束</text>
+    <line x1="603" y1="352" x2="618" y2="340" stroke="#F59F00" stroke-width="1.5"/>
+  </g>
+
+  <!-- 中心提示 -->
+  <text x="440" y="290" text-anchor="middle" font-size="12.5" font-weight="700" fill="#868E96">三个都想要 = 三个都拿不到</text>
+
+  <!-- 底部说明 -->
+  <rect x="30" y="492" width="828" height="66" rx="5" fill="#F8F9FA" stroke="#DEE2E6"/>
+  <text x="46" y="513" font-size="12" fill="#343A40"><tspan font-weight="700">怎么用：</tspan>定阈值之前，先让产品负责人在这张图上指一个点。指不出来，说明产品定位本身没想清楚——这时定的任何阈值都会在下个季度被推翻。</text>
+  <text x="46" y="533" font-size="12" fill="#343A40"><tspan font-weight="700">会变：</tspan>定位会随产品阶段迁移。灰度期常在「成本优先」，规模化后向「质量优先」移。位置一变，全套阈值必须重设并重跑基线。</text>
+  <text x="46" y="551" font-size="12" fill="#343A40"><tspan font-weight="700">别自欺：</tspan>「我们三个都要」的实际结果是三个阈值都设得很松，等于没设。</text>
+</svg>
