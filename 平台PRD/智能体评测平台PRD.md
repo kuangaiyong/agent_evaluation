@@ -263,7 +263,7 @@ flowchart TB
 | 任务队列 | **Celery**（或 FastAPI BackgroundTasks + Redis） | 试次执行是长任务，必须异步 |
 | 前端 | **Vue 3 + Vite + Pinia + Vue Router + Element Plus** | 全家桶按部门要求 |
 | 图表 | **ECharts** | 趋势图、雷达图、层×柱矩阵热力图 |
-| 大模型 | **DeepSeek**（OpenAI 兼容） | 默认 `deepseek-v4-flash`，**可按 rubric 项覆盖**（见 11.4） |
+| 大模型 | **DeepSeek**（OpenAI 兼容），双档 | 快档 `deepseek-v4-flash` / 强档 `deepseek-v4-pro`，**按 rubric 项择一**（见 11.4） |
 | 证据与观测 | **Langfuse oss 自托管** | 不改源码 |
 
 ### 5.2 部署拓扑
@@ -341,6 +341,13 @@ flowchart LR
 
 DeepSeek 提供 OpenAI 兼容端点，两侧都按 OpenAI 适配器接入。
 
+**配置两个模型档位，共用同一把 key、同一个端点**：
+
+| 档位 | 模型名 | 用在哪 |
+|---|---|---|
+| **快档** | `deepseek-v4-flash` | 常规 rubric 项的批量判定。量大、判据明确、成本敏感 |
+| **强档** | `deepseek-v4-pro` | 多轮对话质量、复杂推理评判、模拟用户。量小、要求高 |
+
 **中枢侧**（Python，直接用 `openai` SDK）：
 
 ```python
@@ -349,6 +356,10 @@ client = OpenAI(
     api_key=os.environ["DEEPSEEK_API_KEY"],
     base_url=os.environ.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
 )
+
+# 两个档位由 judge_template.model 决定用哪个，不在代码里写死
+MODEL_FAST = os.environ.get("DEEPSEEK_MODEL_FAST", "deepseek-v4-flash")
+MODEL_PRO  = os.environ.get("DEEPSEEK_MODEL_PRO",  "deepseek-v4-pro")
 ```
 
 **Langfuse 侧**（在 UI 的 LLM Connections 里配一次）：
@@ -357,16 +368,18 @@ client = OpenAI(
 |---|---|
 | adapter | `openai` |
 | baseURL | `https://api.deepseek.com` |
-| customModels | `["deepseek-v4-flash"]`（按需追加更强型号） |
+| customModels | `["deepseek-v4-flash", "deepseek-v4-pro"]` |
 | withDefaultModels | `false`（关掉 OpenAI 官方模型列表，避免误选） |
 
 > 已核实 Langfuse `LlmApiKeys` 模型含 `baseURL`、`customModels`、`withDefaultModels`、`extraHeaders` 字段，`LLMAdapter` 枚举含 `openai`。来源见 [16.1 能力核实清单](#161-langfuse-能力核实清单)。
+
+⚠️ **两个档位共用一把 key，意味着配额与限流是共享的。** 强档单次调用更贵、更慢，若它把配额吃满，快档的批量判定会一起排队。因此 11.2 的令牌桶要**按模型分别限流**，而不是只设一个全局 QPS。
 
 ### 5.5 密钥管理（硬约束）
 
 | 规则 | 说明 |
 |---|---|
-| **代码与文档中只出现环境变量名** | `DEEPSEEK_API_KEY` / `DEEPSEEK_BASE_URL` / `DEEPSEEK_MODEL`、`LANGFUSE_PUBLIC_KEY` / `LANGFUSE_SECRET_KEY` / `LANGFUSE_HOST` |
+| **代码与文档中只出现环境变量名** | `DEEPSEEK_API_KEY` / `DEEPSEEK_BASE_URL` / `DEEPSEEK_MODEL_FAST` / `DEEPSEEK_MODEL_PRO`、`LANGFUSE_PUBLIC_KEY` / `LANGFUSE_SECRET_KEY` / `LANGFUSE_HOST` |
 | **禁止提交任何真实密钥** | CI 加 secret 扫描（如 gitleaks），命中即阻断 |
 | **密钥存放** | 内网密钥管理服务或 K8s Secret；开发机用 `.env` 且 `.env` 必须在 `.gitignore` 里 |
 | **轮换** | 至少每季度一次；密钥一旦出现在聊天、工单、文档中，**立即轮换** |
@@ -644,7 +657,7 @@ erDiagram
         varchar code UK
         int version
         text prompt
-        varchar model "默认 deepseek-v4-flash 可覆盖"
+        varchar model "deepseek-v4-flash 快档 | deepseek-v4-pro 强档"
         json model_params "temperature 等"
         json output_schema "结构化输出定义"
         int repeat_j "判官重复评分次数 默认 3"
@@ -764,7 +777,7 @@ sequenceDiagram
             WK->>WK: "s_safety=0，短路，不调判官"
         else "安全项通过"
             WK->>LF: "② 派发 LLM Judge 作业（j 次）"
-            LF->>DS: "调用 deepseek-v4-flash"
+            LF->>DS: "按 judge_template.model 调 flash 或 pro"
             DS-->>LF: "结构化判定"
             LF-->>WK: "拉取 scores"
         end
@@ -917,7 +930,8 @@ Vue 3（Composition API + `<script setup>`）+ Vite + Pinia + Vue Router + Eleme
 | 项 | 要求 |
 |---|---|
 | 全局并发试次数 | 可配置，默认 20，受 worker 副本数与 LLM 配额双重限制 |
-| DeepSeek QPS 限流 | 令牌桶，超限排队而非报错 |
+| DeepSeek QPS 限流 | 令牌桶，超限排队而非报错。**必须按模型分桶**——flash 与 pro 共用一把 key，配额是共享的，不分桶的话强档会把快档的批量判定一起拖住 |
+| 强档调用占比上限 | 可配置（建议 ≤ 20%）；超限时告警，防止有人把所有 rubric 项都改成 pro |
 | 单次运行成本上限 | 可配置；超限中止并告警（对应 `01` J-08） |
 | 单任务重试上限 | 3 次，超过标记 `infra_error` |
 
@@ -927,23 +941,39 @@ Vue 3（Composition API + `<script setup>`）+ Vite + Pinia + Vue Router + Eleme
 
 k=3、j=3、每任务 5 个 LLM 项、25 个任务 = **1125 次调用**，跑一次回归集。这就是为什么 [`03` 分册](../智能体评测体系/03-评分器设计与LLM-Judge校准规范.md)要求 Judge 项占比控制在 25–40%，其余用确定性检查。
 
+**双档模型让这笔账多了一维。** 同样 1125 次调用，全用快档和"20% 走强档"是两个数量级不同的账单。所以成本预估要**按档位分别算再汇总**：
+
+```
+总成本 = Σ(快档项数 × k × j × 快档单价) + Σ(强档项数 × k × j × 强档单价)
+```
+
 平台要做的：
 
-- 运行前**预估调用次数与成本**并展示，超阈值需二次确认
-- 安全项前置短路（F5-04）本身就是省钱手段
-- 相同产物 + 相同判官模板 + 相同提示词 hash 的结果**可缓存复用**（Redis），重跑时不重复计费
+- 运行前**按档位分别预估调用次数与成本**并展示，超阈值需二次确认
+- 安全项前置短路（F5-04）本身就是省钱手段，且安全项是确定性检查、根本不调判官
+- 相同产物 + 相同判官模板 + 相同提示词 hash + **相同模型** 的结果可缓存复用（Redis），重跑时不重复计费。**缓存 key 必须包含模型名**，否则换档后会命中旧模型的结果
+- 报告里分档展示实际调用量与成本，让"谁把项改成了 pro"这件事是可见的
 
 ### 11.4 判官模型可按 rubric 项覆盖
 
-默认 `deepseek-v4-flash`，但 [`03` §4.4](../智能体评测体系/03-评分器设计与LLM-Judge校准规范.md#44-judge-选型) 要求分场景选型：
+[`03` §4.4](../智能体评测体系/03-评分器设计与LLM-Judge校准规范.md#44-judge-选型) 要求分场景选型，已配两个档位对应：
 
-| 场景 | 建议配置 |
-|---|---|
-| 常规 rubric 项（有据性、覆盖度、格式） | `deepseek-v4-flash`，`temperature=0` |
-| 多轮对话质量、复杂推理评判 | 更强型号（配置项预留，按实际可用型号填） |
-| 模拟用户 | 更强型号，`temperature≈0.7` |
+| 场景 | 模型 | 参数 | 理由 |
+|---|---|---|---|
+| 常规 rubric 项（有据性、覆盖度、格式合规） | **`deepseek-v4-flash`** | `temperature=0` | 判据明确不需要强推理；量大，成本敏感 |
+| 多轮对话质量、复杂推理评判 | **`deepseek-v4-pro`** | `temperature=0` | 需要理解长上下文与交互动态 |
+| 模拟用户 | **`deepseek-v4-pro`** | `temperature≈0.7` | 需要演绎出自然的人设行为、恰当的反对与追问 |
+| 判官校准的争议样本复核 | **`deepseek-v4-pro`** | `temperature=0`，`j=5` | 与人工标注比对时，不能让判官抖动被误判成判官不准 |
 
-**`judge_template.model` 字段必须可覆盖，不能把模型名写死在代码里。** 换判官模型等于换测量仪器，换了必须重新校准（F6-05）。
+**`judge_template.model` 字段必须可覆盖，不能把模型名写死在代码里。** 环境变量只提供两个档位的默认值（`DEEPSEEK_MODEL_FAST` / `DEEPSEEK_MODEL_PRO`），具体某个 rubric 项用哪档由模板决定。
+
+**三条使用纪律：**
+
+1. **换判官模型 = 换测量仪器。** 从 flash 换到 pro（或反之）必须重新校准（F6-05），并重跑基线，否则历史数据不可比。
+2. **强档不是默认档。** 默认走 flash；只有在校准数据证明 flash 在该项上一致率不达标（L-01 < 90%）时，才升级到 pro。**不要因为"pro 更强所以更保险"就全用 pro**——那会让判官成本涨一个量级（见 11.3），而且对判据明确的项没有收益。
+3. **同一个 rubric 项在同一条基线内不得中途换档。** 换档要走版本变更流程，报告里标明。
+
+> **一个容易踩的坑**：两档模型对同一份产物可能给出系统性偏移的分数（比如 pro 普遍严 0.1 分）。所以"混着用"的评测集，其总分不能直接与"全用 flash"时期的历史分数比较。基线要按判官配置分别建立。
 
 ### 11.5 安全与权限
 
@@ -1089,7 +1119,8 @@ k=3、j=3、每任务 5 个 LLM 项、25 个任务 = **1125 次调用**，跑一
 | **oss 版无项目级 RBAC** | 权限粒度不足 | 权限在中枢侧实现；Langfuse 仅作只读展示，账号数量少、可控 |
 | **三套库运维负担** | 运维反对、故障面变大 | 5.3 已量化容量与资源；Langfuse 五件套用官方 docker-compose 原样部署，不做定制，故障时可整体重建 |
 | **判官成本失控** | 预算超支 | 配额 + 预估 + 前置短路 + 结果缓存（11.3）；Judge 项占比控制在 25–40% |
-| **单一模型供应商依赖** | DeepSeek 不可用则评测停摆 | `judge_template.model` 可配置；预留第二供应商配置位；确定性评分器不受影响，可降级为"只跑确定性项" |
+| **单一模型供应商依赖** | DeepSeek 不可用则判官全线停摆 | ⚠️ **配了 flash + pro 两个档位并不构成冗余**——同一供应商、同一端点、同一把 key，任一环节出问题两档一起挂。对策：`judge_template.model` 可配置且预留第二供应商配置位；确定性评分器不受影响，故障时可降级为"只跑确定性项 + 安全门控"，报告标注判官项缺失 |
+| **一把 key 服务两档，配额相互挤占** | 强档吃满配额，快档批量判定排队，冒烟超 5 min 预算 | 令牌桶按模型分桶（11.2）；设强档调用占比上限；成本与调用量按档位分别监控 |
 | **判官模型静默升级** | 分数漂移且无人察觉 | 记录每次判定的模型标识；模型标识变化时自动触发校准失效告警 |
 | **前端工作量被低估** | 首期延期 | 前端 2.5 人月是含全部页面的粗估；若紧张，**报告页与 rubric 编辑器优先**，ROI 与元评测看板可推后 |
 | **评测集质量不够，分数是噪声** | 平台建好了但结论不可信 | 平台不解决这个问题，`02` 分册解决。首期验收要求参考解满分校验与坏任务扫描必须启用 |
@@ -1148,7 +1179,7 @@ k=3、j=3、每任务 5 个 LLM 项、25 个任务 = **1125 次调用**，跑一
 | # | 问题 | 建议 |
 |---|---|---|
 | 1 | 是否采购 Langfuse EE 以获得项目级 RBAC 与操作审计 | **建议不采购**。权限在中枢侧实现，成本更低且更贴合部门角色划分 |
-| 2 | 判官除 `deepseek-v4-flash` 外是否配置更强型号 | **建议配置**。多轮质量与模拟用户场景快模型不够用（`03` §4.4） |
+| 2 | ~~判官除 `deepseek-v4-flash` 外是否配置更强型号~~ | ✅ **已定**：配 `deepseek-v4-pro` 作强档，两档共用同一 key 与端点。分工与使用纪律见 [11.4](#114-判官模型可按-rubric-项覆盖) |
 | 3 | 对象存储用 Langfuse 自带 MinIO 还是部门已有 S3 | 若已有 S3 兼容存储，建议复用，少运维一个组件 |
 | 4 | 前端若人手紧张，砍哪些页面 | 建议保留报告页与 rubric 编辑器，砍 ROI 看板与元评测看板到二期 |
 | 5 | 缺陷平台加 `是否与 AI 产出相关` 字段的推进人 | 需在评审会上定责任人与时间 |
