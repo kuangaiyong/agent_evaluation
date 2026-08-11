@@ -7,17 +7,17 @@
    配色沿用仓库既有设计令牌，明暗双主题
    ============================================================ */
 :root {
-  --ground:#F4F6F9; --surface:#FFFFFF; --surface-2:#EDF0F5; --surface-3:#E4E9F0;
-  --ink:#141821; --ink-2:#3A4353; --ink-3:#616B7C;
-  --rule:#DDE2EA; --rule-2:#C3CAD7; --grid:#E6EAF1;
-  --accent:#3B5BDB; --accent-soft:#E9EDFC; --accent-ink:#2B45AB;
-  --tool:#0CA678; --tool-soft:#E0F7F0; --tool-ink:#0A7A57;
-  --mem:#D9820A; --mem-soft:#FCF0DD; --mem-ink:#8F5409;
-  --env:#9C36B5; --env-soft:#F6EBFA; --env-ink:#7A2A8E;
-  --danger:#E03131; --danger-soft:#FDECEC; --danger-ink:#BC1F1F;
+  --ground:#EDF1F5; --surface:#FFFFFF; --surface-2:#E7EDF3; --surface-3:#DCE5ED;
+  --ink:#0C2233; --ink-2:#2E4A61; --ink-3:#4A6478;
+  --rule:#D3DFE9; --rule-2:#B2C4D3; --grid:#DEE7EF;
+  --accent:#0B6BA8; --accent-soft:#DDEBF7; --accent-ink:#075184;
+  --tool:#0E7C66; --tool-soft:#DAF2EC; --tool-ink:#0A5F4E;
+  --mem:#A15F00; --mem-soft:#FAEDD8; --mem-ink:#804B00;
+  --env:#7C3AA8; --env-soft:#F0E7F8; --env-ink:#612C85;
+  --danger:#CC2936; --danger-soft:#FBE6E8; --danger-ink:#A81F2A;
 
-  --shadow-sm:0 1px 2px rgba(20,24,33,.05);
-  --shadow:0 1px 2px rgba(20,24,33,.05), 0 10px 26px -14px rgba(20,24,33,.16);
+  --shadow-sm:0 1px 2px rgba(12,34,51,.06);
+  --shadow:0 1px 2px rgba(12,34,51,.06), 0 10px 26px -14px rgba(12,34,51,.20);
 
   --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Noto Sans CJK SC",sans-serif;
   --font-mono:ui-monospace,"SF Mono","Cascadia Mono","JetBrains Mono","Roboto Mono",Consolas,"Courier New",monospace;
@@ -31,41 +31,41 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --ground:#0E1117; --surface:#151921; --surface-2:#1C212B; --surface-3:#232935;
-    --ink:#E8EBF1; --ink-2:#B7BECC; --ink-3:#8A93A3;
-    --rule:#252B37; --rule-2:#39414F; --grid:#1B212B;
-    --accent:#8CA0F8; --accent-soft:#1A2140; --accent-ink:#AFBDFB;
-    --tool:#38D9A9; --tool-soft:#0F2E28; --tool-ink:#4FE3B8;
-    --mem:#FFB84D; --mem-soft:#31240E; --mem-ink:#FFC773;
-    --env:#D48CE8; --env-soft:#291632; --env-ink:#DFA4EF;
-    --danger:#FF8787; --danger-soft:#38191A; --danger-ink:#FF9F9F;
-    --shadow-sm:0 1px 2px rgba(0,0,0,.35);
-    --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 30px -16px rgba(0,0,0,.75);
+    --ground:#08192A; --surface:#0D2337; --surface-2:#142E45; --surface-3:#16334B;
+    --ink:#DCE9F5; --ink-2:#AFC6DA; --ink-3:#86A0B6;
+    --rule:#1E3B54; --rule-2:#31597A; --grid:#0F273B;
+    --accent:#5AB4F0; --accent-soft:#0E3352; --accent-ink:#8DCDF7;
+    --tool:#35D6A8; --tool-soft:#0A3A31; --tool-ink:#5FE3BE;
+    --mem:#F5B544; --mem-soft:#3A2A0C; --mem-ink:#FFC96B;
+    --env:#C98CE8; --env-soft:#2C1B3D; --env-ink:#D8A8F0;
+    --danger:#FF7B7B; --danger-soft:#3D1A1E; --danger-ink:#FF9A9A;
+    --shadow-sm:0 1px 2px rgba(2,10,18,.45);
+    --shadow:0 1px 2px rgba(2,10,18,.5), 0 12px 30px -16px rgba(2,10,18,.8);
   }
 }
 :root[data-theme="dark"] {
-  --ground:#0E1117; --surface:#151921; --surface-2:#1C212B; --surface-3:#232935;
-  --ink:#E8EBF1; --ink-2:#B7BECC; --ink-3:#8A93A3;
-  --rule:#252B37; --rule-2:#39414F; --grid:#1B212B;
-  --accent:#8CA0F8; --accent-soft:#1A2140; --accent-ink:#AFBDFB;
-  --tool:#38D9A9; --tool-soft:#0F2E28; --tool-ink:#4FE3B8;
-  --mem:#FFB84D; --mem-soft:#31240E; --mem-ink:#FFC773;
-  --env:#D48CE8; --env-soft:#291632; --env-ink:#DFA4EF;
-  --danger:#FF8787; --danger-soft:#38191A; --danger-ink:#FF9F9F;
-  --shadow-sm:0 1px 2px rgba(0,0,0,.35);
-  --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 30px -16px rgba(0,0,0,.75);
+  --ground:#08192A; --surface:#0D2337; --surface-2:#142E45; --surface-3:#16334B;
+  --ink:#DCE9F5; --ink-2:#AFC6DA; --ink-3:#86A0B6;
+  --rule:#1E3B54; --rule-2:#31597A; --grid:#0F273B;
+  --accent:#5AB4F0; --accent-soft:#0E3352; --accent-ink:#8DCDF7;
+  --tool:#35D6A8; --tool-soft:#0A3A31; --tool-ink:#5FE3BE;
+  --mem:#F5B544; --mem-soft:#3A2A0C; --mem-ink:#FFC96B;
+  --env:#C98CE8; --env-soft:#2C1B3D; --env-ink:#D8A8F0;
+  --danger:#FF7B7B; --danger-soft:#3D1A1E; --danger-ink:#FF9A9A;
+  --shadow-sm:0 1px 2px rgba(2,10,18,.45);
+  --shadow:0 1px 2px rgba(2,10,18,.5), 0 12px 30px -16px rgba(2,10,18,.8);
 }
 :root[data-theme="light"] {
-  --ground:#F4F6F9; --surface:#FFFFFF; --surface-2:#EDF0F5; --surface-3:#E4E9F0;
-  --ink:#141821; --ink-2:#3A4353; --ink-3:#616B7C;
-  --rule:#DDE2EA; --rule-2:#C3CAD7; --grid:#E6EAF1;
-  --accent:#3B5BDB; --accent-soft:#E9EDFC; --accent-ink:#2B45AB;
-  --tool:#0CA678; --tool-soft:#E0F7F0; --tool-ink:#0A7A57;
-  --mem:#D9820A; --mem-soft:#FCF0DD; --mem-ink:#8F5409;
-  --env:#9C36B5; --env-soft:#F6EBFA; --env-ink:#7A2A8E;
-  --danger:#E03131; --danger-soft:#FDECEC; --danger-ink:#BC1F1F;
-  --shadow-sm:0 1px 2px rgba(20,24,33,.05);
-  --shadow:0 1px 2px rgba(20,24,33,.05), 0 10px 26px -14px rgba(20,24,33,.16);
+  --ground:#EDF1F5; --surface:#FFFFFF; --surface-2:#E7EDF3; --surface-3:#DCE5ED;
+  --ink:#0C2233; --ink-2:#2E4A61; --ink-3:#4A6478;
+  --rule:#D3DFE9; --rule-2:#B2C4D3; --grid:#DEE7EF;
+  --accent:#0B6BA8; --accent-soft:#DDEBF7; --accent-ink:#075184;
+  --tool:#0E7C66; --tool-soft:#DAF2EC; --tool-ink:#0A5F4E;
+  --mem:#A15F00; --mem-soft:#FAEDD8; --mem-ink:#804B00;
+  --env:#7C3AA8; --env-soft:#F0E7F8; --env-ink:#612C85;
+  --danger:#CC2936; --danger-soft:#FBE6E8; --danger-ink:#A81F2A;
+  --shadow-sm:0 1px 2px rgba(12,34,51,.06);
+  --shadow:0 1px 2px rgba(12,34,51,.06), 0 10px 26px -14px rgba(12,34,51,.20);
 }
 
 * { box-sizing:border-box; }
