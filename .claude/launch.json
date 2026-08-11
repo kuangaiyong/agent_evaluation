@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "portal",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "http-server", "智能体评测体系/portal", "-p", "4173", "-c-1"],
+      "port": 4173
+    },
+    {
+      "name": "arch",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "http-server", "架构设计", "-p", "4174", "-c-1"],
+      "port": 4174
+    }
+  ]
+}

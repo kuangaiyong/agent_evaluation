@@ -1,0 +1,2077 @@
+<title>智能体评测平台 · 架构设计说明书</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  --ground:#F6F7F9; --surface:#FFFFFF; --surface-2:#EEF1F5;
+  --ink:#171A21; --ink-2:#3D4552; --ink-3:#646C7B;
+  --rule:#DFE3EA; --rule-2:#C6CCD8;
+  --accent:#3B5BDB; --accent-soft:#E9EDFC; --accent-ink:#2B45AB;
+  --tool:#0CA678; --tool-soft:#E0F7F0; --tool-ink:#0A7A57;
+  --mem:#D9820A; --mem-soft:#FCF0DD; --mem-ink:#96590A;
+  --env:#9C36B5; --env-soft:#F6EBFA; --env-ink:#7A2A8E;
+  --danger:#E03131; --danger-soft:#FDECEC; --danger-ink:#C42121;
+  --shadow:0 1px 2px rgba(23,26,33,.05), 0 8px 24px -12px rgba(23,26,33,.14);
+  --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Noto Sans CJK SC",sans-serif;
+  --font-mono:ui-monospace,"SF Mono","Cascadia Mono","JetBrains Mono","Roboto Mono",Consolas,"Courier New",monospace;
+  --step:1.5rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground:#0F1218; --surface:#161A22; --surface-2:#1D222C;
+    --ink:#E6E9EF; --ink-2:#B4BBC9; --ink-3:#7C8697;
+    --rule:#262C38; --rule-2:#38404F;
+    --accent:#8299F7; --accent-soft:#1A2140; --accent-ink:#A8B8FA;
+    --tool:#38D9A9; --tool-soft:#0F2E28; --tool-ink:#38D9A9;
+    --mem:#FFB84D; --mem-soft:#31240E; --mem-ink:#FFB84D;
+    --env:#D48CE8; --env-soft:#291632; --env-ink:#D48CE8;
+    --danger:#FF8787; --danger-soft:#381A1A; --danger-ink:#FF8787;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"] {
+  --ground:#0F1218; --surface:#161A22; --surface-2:#1D222C;
+  --ink:#E6E9EF; --ink-2:#B4BBC9; --ink-3:#7C8697;
+  --rule:#262C38; --rule-2:#38404F;
+  --accent:#8299F7; --accent-soft:#1A2140; --accent-ink:#A8B8FA;
+  --tool:#38D9A9; --tool-soft:#0F2E28; --tool-ink:#38D9A9;
+  --mem:#FFB84D; --mem-soft:#31240E; --mem-ink:#FFB84D;
+  --env:#D48CE8; --env-soft:#291632; --env-ink:#D48CE8;
+  --danger:#FF8787; --danger-soft:#381A1A; --danger-ink:#FF8787;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+:root[data-theme="light"] {
+  --ground:#F6F7F9; --surface:#FFFFFF; --surface-2:#EEF1F5;
+  --ink:#171A21; --ink-2:#3D4552; --ink-3:#646C7B;
+  --rule:#DFE3EA; --rule-2:#C6CCD8;
+  --accent:#3B5BDB; --accent-soft:#E9EDFC; --accent-ink:#2B45AB;
+  --tool:#0CA678; --tool-soft:#E0F7F0; --tool-ink:#0A7A57;
+  --mem:#D9820A; --mem-soft:#FCF0DD; --mem-ink:#96590A;
+  --env:#9C36B5; --env-soft:#F6EBFA; --env-ink:#7A2A8E;
+  --danger:#E03131; --danger-soft:#FDECEC; --danger-ink:#C42121;
+  --shadow:0 1px 2px rgba(23,26,33,.05), 0 8px 24px -12px rgba(23,26,33,.14);
+}
+
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:5rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+body {
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--font-sans); font-size:15px; line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+code, .mono, kbd { font-family:var(--font-mono); font-size:.88em; }
+code {
+  background:var(--surface-2); border:1px solid var(--rule);
+  border-radius:4px; padding:.1em .38em; color:var(--ink-2);
+  word-break:break-word;
+}
+a { color:var(--accent); text-decoration:none; }
+a:hover { text-decoration:underline; }
+a:focus-visible, button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:3px; }
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  position:sticky; top:0; z-index:50;
+  background:color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+}
+.topbar-in {
+  max-width:1440px; margin:0 auto; padding:.7rem 1.5rem;
+  display:flex; align-items:center; gap:1rem;
+}
+.brand { font-weight:700; font-size:.95rem; letter-spacing:-.01em; }
+.brand span { color:var(--ink-3); font-weight:500; margin-left:.5rem; font-size:.85rem; }
+.spacer { flex:1; }
+.tbtn {
+  font:inherit; font-size:.8rem; cursor:pointer;
+  background:var(--surface); color:var(--ink-2);
+  border:1px solid var(--rule-2); border-radius:6px;
+  padding:.3rem .7rem;
+}
+.tbtn:hover { border-color:var(--accent); color:var(--accent); }
+
+/* ---------- 布局 ---------- */
+.shell { max-width:1440px; margin:0 auto; padding:0 1.5rem 6rem; display:grid; grid-template-columns:216px minmax(0,1fr); gap:2.5rem; }
+@media (max-width:1100px) { .shell { grid-template-columns:1fr; gap:0; } .rail { display:none; } }
+
+.rail { position:sticky; top:4.2rem; align-self:start; max-height:calc(100vh - 5.5rem); overflow-y:auto; padding:1.5rem 0; }
+.rail-h { font-size:.68rem; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-3); font-weight:700; margin:0 0 .6rem; }
+.rail a { display:block; padding:.28rem .55rem; font-size:.82rem; color:var(--ink-2); border-left:2px solid transparent; line-height:1.45; }
+.rail a:hover { color:var(--accent); background:var(--surface-2); text-decoration:none; }
+.rail a.on { color:var(--accent); border-left-color:var(--accent); background:var(--accent-soft); font-weight:600; }
+.rail .grp { margin-top:1rem; }
+
+main { min-width:0; padding:2rem 0 0; }
+
+/* ---------- 排版 ---------- */
+.hero { padding:1.5rem 0 2.5rem; border-bottom:1px solid var(--rule); margin-bottom:2.5rem; }
+.eyebrow { font-size:.72rem; text-transform:uppercase; letter-spacing:.14em; color:var(--accent); font-weight:700; }
+h1 { font-size:clamp(1.7rem,3.4vw,2.4rem); line-height:1.2; margin:.6rem 0 .8rem; letter-spacing:-.02em; text-wrap:balance; }
+.lede { font-size:1.02rem; color:var(--ink-2); max-width:66ch; margin:0; }
+.meta { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.3rem; }
+.chip {
+  font-family:var(--font-mono); font-size:.74rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:999px; padding:.22rem .7rem; color:var(--ink-2);
+}
+.chip b { color:var(--ink); font-weight:600; }
+
+section { margin-bottom:3.5rem; scroll-margin-top:5rem; }
+h2 {
+  font-size:1.3rem; letter-spacing:-.015em; margin:0 0 1rem;
+  padding-bottom:.5rem; border-bottom:2px solid var(--rule); text-wrap:balance;
+}
+h2 .num { font-family:var(--font-mono); color:var(--ink-3); font-weight:500; margin-right:.55rem; font-size:.9em; }
+h3 { font-size:1.02rem; margin:2rem 0 .6rem; letter-spacing:-.01em; text-wrap:balance; }
+h4 { font-size:.9rem; margin:1.4rem 0 .4rem; color:var(--ink-2); }
+p { margin:.75rem 0; max-width:74ch; }
+ul, ol { margin:.7rem 0; padding-left:1.3rem; max-width:74ch; }
+li { margin:.32rem 0; }
+strong { color:var(--ink); font-weight:650; }
+
+/* ---------- 卡片与提示 ---------- */
+.card { background:var(--surface); border:1px solid var(--rule); border-radius:10px; padding:1.1rem 1.25rem; box-shadow:var(--shadow); }
+.note { border-left:3px solid var(--accent); background:var(--accent-soft); padding:.85rem 1.1rem; border-radius:0 8px 8px 0; margin:1.2rem 0; }
+.note.warn { border-left-color:var(--mem); background:var(--mem-soft); }
+.note.crit { border-left-color:var(--danger); background:var(--danger-soft); }
+.note p:first-child { margin-top:0; } .note p:last-child { margin-bottom:0; }
+.note-t { font-weight:700; display:block; margin-bottom:.25rem; }
+
+.grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; margin:1.2rem 0; }
+
+/* ---------- 表格 ---------- */
+.tw { overflow-x:auto; margin:1.2rem 0; border:1px solid var(--rule); border-radius:10px; background:var(--surface); }
+table { border-collapse:collapse; width:100%; font-size:.86rem; min-width:520px; }
+th, td { text-align:left; padding:.6rem .8rem; border-bottom:1px solid var(--rule); vertical-align:top; }
+thead th { background:var(--surface-2); font-size:.74rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-2); font-weight:700; white-space:nowrap; }
+tbody tr:last-child td { border-bottom:none; }
+tbody tr:hover { background:var(--surface-2); }
+td.num, th.num { font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap; }
+
+/* ---------- 图 ---------- */
+figure { margin:1.6rem 0; }
+.fig-frame { background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:1.1rem; overflow-x:auto; box-shadow:var(--shadow); }
+.fig-frame svg { display:block; min-width:640px; width:100%; height:auto; }
+figcaption { font-size:.8rem; color:var(--ink-3); margin-top:.6rem; padding-left:.15rem; }
+figcaption b { color:var(--ink-2); font-weight:650; }
+
+/* SVG 通用类 */
+.s-box { fill:var(--surface); stroke:var(--rule-2); stroke-width:1.5; }
+.s-self { fill:var(--accent-soft); stroke:var(--accent); stroke-width:1.5; }
+.s-data { fill:var(--tool-soft); stroke:var(--tool); stroke-width:1.5; }
+.s-store { fill:var(--mem-soft); stroke:var(--mem); stroke-width:1.5; }
+.s-ext { fill:var(--surface-2); stroke:var(--rule-2); stroke-width:1.5; stroke-dasharray:3 3; }
+.s-untrust { fill:var(--danger-soft); stroke:var(--danger); stroke-width:2; stroke-dasharray:7 4; }
+.s-zone { fill:none; stroke:var(--rule-2); stroke-width:1.2; stroke-dasharray:4 4; }
+.t { font-family:var(--font-sans); font-size:12px; fill:var(--ink); }
+.t-b { font-family:var(--font-sans); font-size:12.5px; font-weight:700; fill:var(--ink); }
+.t-s { font-family:var(--font-sans); font-size:10.5px; fill:var(--ink-3); }
+.t-m { font-family:var(--font-mono); font-size:10.5px; fill:var(--ink-2); }
+.t-lbl { font-family:var(--font-sans); font-size:10px; font-weight:700; fill:var(--ink-3); letter-spacing:.08em; }
+.ln { stroke:var(--ink-3); stroke-width:1.5; fill:none; }
+.ln-d { stroke:var(--ink-3); stroke-width:1.5; fill:none; stroke-dasharray:5 4; }
+.ln-hot { stroke:var(--accent); stroke-width:2.5; fill:none; }
+.ln-danger { stroke:var(--danger); stroke-width:2; fill:none; }
+
+/* 图例 */
+.legend { display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; margin:.7rem 0 0; font-size:.76rem; color:var(--ink-3); }
+.legend i { display:inline-block; width:13px; height:13px; border-radius:3px; margin-right:.35rem; vertical-align:-2px; }
+.lg-self { background:var(--accent-soft); border:1.5px solid var(--accent); }
+.lg-store { background:var(--mem-soft); border:1.5px solid var(--mem); }
+.lg-ext { background:var(--surface-2); border:1.5px dashed var(--rule-2); }
+.lg-un { background:var(--danger-soft); border:2px dashed var(--danger); }
+
+/* 信任边界横幅 */
+.trust-key {
+  display:flex; flex-wrap:wrap; gap:.9rem; align-items:center;
+  background:var(--surface); border:1px solid var(--rule); border-radius:10px;
+  padding:.7rem 1rem; margin:1.2rem 0; font-size:.8rem;
+}
+.trust-key .k { display:flex; align-items:center; gap:.4rem; color:var(--ink-2); }
+
+/* 标签 */
+.tag { display:inline-block; font-family:var(--font-mono); font-size:.7rem; padding:.1rem .45rem; border-radius:4px; border:1px solid; vertical-align:1px; }
+.tag.p0 { color:var(--danger-ink); border-color:var(--danger); background:var(--danger-soft); }
+.tag.p1 { color:var(--mem-ink); border-color:var(--mem); background:var(--mem-soft); }
+.tag.p2 { color:var(--ink-3); border-color:var(--rule-2); background:var(--surface-2); }
+.tag.new { color:var(--tool-ink); border-color:var(--tool); background:var(--tool-soft); }
+
+/* 决策块 */
+.dec { border:1px solid var(--rule); border-radius:10px; overflow:hidden; margin:1.2rem 0; background:var(--surface); }
+.dec-h { background:var(--surface-2); padding:.6rem 1rem; font-weight:700; font-size:.9rem; border-bottom:1px solid var(--rule); }
+.dec-b { padding:.9rem 1rem; }
+.dec-b dl { margin:0; display:grid; grid-template-columns:auto 1fr; gap:.4rem .9rem; }
+.dec-b dt { font-size:.74rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-3); font-weight:700; padding-top:.15rem; white-space:nowrap; }
+.dec-b dd { margin:0; font-size:.88rem; }
+@media (max-width:560px) { .dec-b dl { grid-template-columns:1fr; gap:.15rem; } .dec-b dt { margin-top:.5rem; } }
+
+hr.sep { border:none; border-top:1px solid var(--rule); margin:2.5rem 0; }
+.footer { border-top:1px solid var(--rule); margin-top:3rem; padding-top:1.5rem; color:var(--ink-3); font-size:.82rem; }
+</style>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand">智能体评测平台 <span>架构设计说明书 v0.1</span></div>
+    <div class="spacer"></div>
+    <button class="tbtn" id="themeBtn" type="button">切换主题</button>
+  </div>
+</div>
+
+<div class="shell">
+  <nav class="rail" aria-label="章节导航">
+    <p class="rail-h">章节</p>
+    <a href="#s0">0 · 与 PRD 的差异</a>
+    <a href="#s1">1 · 目标与约束</a>
+    <div class="grp"><p class="rail-h">架构视图</p></div>
+    <a href="#s2">2 · 整体架构</a>
+    <a href="#s3">3 · 业务架构</a>
+    <a href="#s4">4 · 应用架构</a>
+    <a href="#s5">5 · 数据架构</a>
+    <a href="#s6">6 · 技术架构</a>
+    <div class="grp"><p class="rail-h">核心机制</p></div>
+    <a href="#s7">7 · 接入与执行</a>
+    <a href="#s8">8 · LLM 网关</a>
+    <a href="#s9">9 · 轨迹采集与存储</a>
+    <div class="grp"><p class="rail-h">工程落地</p></div>
+    <a href="#s10">10 · 部署架构</a>
+    <a href="#s11">11 · 安全架构</a>
+    <a href="#s12">12 · 关键流程</a>
+    <a href="#s13">13 · 非功能设计</a>
+    <a href="#s14">14 · 演进路线</a>
+    <a href="#s15">15 · 风险与取舍</a>
+    <a href="#s16">16 · 附录</a>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <p class="eyebrow">Architecture Design · 质量测试部</p>
+      <h1>智能体评测平台架构设计</h1>
+      <p class="lede">
+        一个要执行别人代码的评测系统。全自研，容器化执行，四类智能体形态统一接入，
+        轨迹靠 LLM 网关兜底而不依赖被测方自觉埋点。
+      </p>
+      <div class="meta">
+        <span class="chip"><b>方案</b> 全自研 · 容器化执行</span>
+        <span class="chip"><b>后端</b> Python · FastAPI · MySQL · Redis</span>
+        <span class="chip"><b>前端</b> Vue3 · Element Plus</span>
+        <span class="chip"><b>判官</b> DeepSeek flash / pro</span>
+        <span class="chip"><b>首期粗估</b> ~15 人月 ±30%</span>
+      </div>
+    </header>
+
+    <!-- ============ 0 ============ -->
+    <section id="s0">
+      <h2><span class="num">0</span>与 PRD 的差异说明</h2>
+
+      <p>先说清楚变了什么，否则这份文档会和 PRD 打架。<strong>两个变更动了架构根基。</strong></p>
+
+      <h3>变更一：不部署 Langfuse，只参考其实现</h3>
+
+      <p>PRD 的方案 B 是「自研评测中枢 + Langfuse 作证据与 Judge 底座」。现在明确：<strong>Langfuse 只作设计参考，不进部署清单。</strong> 三件 PRD 里判定「自研性价比最低」的东西，因此必须自研。</p>
+
+      <div class="tw"><table>
+        <thead><tr><th>PRD 里靠 Langfuse</th><th>现在</th><th>影响</th></tr></thead>
+        <tbody>
+          <tr><td>OTel 轨迹接收与 ClickHouse 存储</td><td><strong>自研</strong> OTLP 端点 + 分层存储</td><td>见 <a href="#s9">§9</a></td></tr>
+          <tr><td>转录本查看器</td><td><strong>自研</strong>（前端最大的一块）</td><td>见 <a href="#s4">§4</a>、<a href="#s9">§9.4</a></td></tr>
+          <tr><td>人工标注队列</td><td><strong>自研</strong>标注工作台</td><td>见 <a href="#s3">§3</a></td></tr>
+          <tr><td>LLM Judge 执行器</td><td>影响小</td><td>PRD 首期本就选了「中枢直调 DeepSeek」</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="grid2">
+        <div class="card">
+          <h4 style="margin-top:0;color:var(--tool-ink)">省掉了</h4>
+          <ul style="margin-bottom:0">
+            <li>三套库并存（PostgreSQL + ClickHouse 不再需要）</li>
+            <li>上游升级风险与 fork 漂移</li>
+            <li>MIT / EE 许可证边界约束</li>
+            <li>中枢 ↔ Langfuse 的同步与一致性处理</li>
+            <li>双 UI 分工与深链接规则</li>
+            <li><strong>部署组件 9 个 → 5 个</strong></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4 style="margin-top:0;color:var(--mem-ink)">新增了</h4>
+          <ul style="margin-bottom:0">
+            <li>OTLP 摄入端点与轨迹分层存储</li>
+            <li>转录本查看器（span 树、时间轴、diff）</li>
+            <li>人工标注工作台</li>
+            <li>LLM 网关（原部分依赖 Langfuse）</li>
+            <li><strong>容器化执行引擎</strong>（原二期）</li>
+            <li><strong>智能体制品管理</strong>（原不在范围）</li>
+          </ul>
+        </div>
+      </div>
+
+      <p><strong>Langfuse 从「底座」降为「设计参考」。</strong> 这些实现思路值得抄，代码不引入：业务实体与轨迹分库存储、OTel GenAI 语义约定的落地方式、评分器分 LLM 与 CODE 两类、数据集条目用 <code>validFrom</code>/<code>validTo</code> 做版本、用 <code>sourceTraceId</code> 把生产轨迹直接转成评测任务。</p>
+
+      <h3>变更二：智能体从「外部调用」变成「上传托管」</h3>
+
+      <p>PRD 的接入层假设被测智能体在<strong>平台外部</strong>运行，平台只是调用方。现在平台要<strong>执行别人的代码</strong>——这是整个架构里最难、安全风险最高的部分，也是选容器化执行的直接原因。</p>
+
+      <div class="note crit">
+        <span class="note-t">这条改变了首要风险</span>
+        <p>PRD 的风险表里首要风险是「许可证边界」与「上游升级」。现在这两条消失了，取而代之的是<strong>「平台执行任意代码与 shell」</strong>。尤其是 AI 编程工具型智能体（opencode / claude code / codex），它们的本质就是「在你的机器上执行命令」。安全设计见 <a href="#s11">§11</a>，不粉饰残余风险。</p>
+      </div>
+
+      <h3>工作量重估</h3>
+
+      <p>PRD 原估首期 9.6 人月，前提是「外部智能体 + Langfuse 底座」。两项变更叠加后重估，<strong>依据逐条列出，不含糊</strong>：</p>
+
+      <div class="tw"><table>
+        <thead><tr><th>变化项</th><th class="num">人月增减</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>去掉 Langfuse 集成与同步</td><td class="num" style="color:var(--tool-ink)">−0.5</td><td>省掉双向同步、幂等重试、冲突处理</td></tr>
+          <tr><td>自研 OTLP 接收与轨迹存储</td><td class="num">+1.0</td><td>protobuf/json 双格式解析 + 分层落库</td></tr>
+          <tr><td>自研转录本查看器</td><td class="num">+1.5</td><td>span 树、时间轴、筛选、搜索、diff 视图</td></tr>
+          <tr><td>自研标注工作台</td><td class="num">+0.5</td><td>抽样、双人独立标注、裁决</td></tr>
+          <tr><td>LLM 网关</td><td class="num">+0.8</td><td>反向代理、per-trial 凭证、成本归集、限流</td></tr>
+          <tr><td>容器化执行引擎</td><td class="num">+1.5</td><td>原二期能力，现首期刚需</td></tr>
+          <tr><td>智能体制品管理与沙箱供给</td><td class="num">+1.0</td><td>原不在 PRD 范围</td></tr>
+          <tr style="font-weight:700"><td>合计</td><td class="num">+5.8</td><td>首期 <strong>9.6 → 约 15 人月</strong>，不确定度 ±30%</td></tr>
+        </tbody>
+      </table></div>
+
+      <p>PRD 已按本文档同步修订，两份文档在组件清单、部署拓扑、工作量、风险四处口径一致。</p>
+    </section>
+
+    <!-- ============ 1 ============ -->
+    <section id="s1">
+      <h2><span class="num">1</span>架构目标与约束</h2>
+
+      <h3>1.1 架构要达成的四件事</h3>
+      <p>直接对应 PRD 第 2.2 节的目标，但落到架构语言：</p>
+
+      <div class="tw"><table>
+        <thead><tr><th>目标</th><th>架构上怎么保证</th></tr></thead>
+        <tbody>
+          <tr><td>判据绕不过去</td><td>rubric 硬约束落到 MySQL 的 <code>NOT NULL</code> 与 <code>CHECK</code>；打分公式在服务端唯一实现，无旁路写入口</td></tr>
+          <tr><td>轨迹完整可审计</td><td><strong>LLM 网关强制代理</strong>——不依赖被测方埋点；三通道证据各有独立采集链路</td></tr>
+          <tr><td>执行环境可信且可复现</td><td>每试次一个容器，跑完销毁；夹具与工作区快照版本绑定</td></tr>
+          <tr><td>门禁能真的阻断</td><td>门禁判定是同步 API + 稳定 exit code，CI 直接消费</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>1.2 硬约束</h3>
+      <div class="tw"><table>
+        <thead><tr><th>约束</th><th>内容</th><th>来源</th></tr></thead>
+        <tbody>
+          <tr><td>技术栈</td><td>后端 Python + FastAPI + MySQL + Redis；前端 Vue3 全家桶 + Element Plus</td><td>部门指定</td></tr>
+          <tr><td>大模型</td><td>DeepSeek 双档：<code>deepseek-v4-flash</code> / <code>deepseek-v4-pro</code>，共用一把 key</td><td>部门指定</td></tr>
+          <tr><td>不引入</td><td>Langfuse 不部署；ClickHouse 不引入（理由见 <a href="#s6">§6.3</a>）</td><td>本轮确认</td></tr>
+          <tr><td>部署</td><td>内网，中间件无限制；<strong>容器编排能力待确认</strong>（§10 给 K8s 与纯 Docker 两种拓扑）</td><td>本轮确认</td></tr>
+          <tr><td>首期范围</td><td>测试支撑智能体优先；产品智能体二期</td><td>PRD §13</td></tr>
+          <tr><td>密钥</td><td>公开仓库，任何产物只出现环境变量名</td><td>PRD §5.5</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>1.3 四类智能体形态</h3>
+      <p>这是架构必须同时承接的四种东西，隔离难度差一个量级。<strong>第 ③ 类是架构的压力测试点。</strong></p>
+
+      <div class="tw"><table>
+        <thead><tr><th>形态</th><th>怎么跑</th><th>轨迹从哪来</th><th>隔离难度</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>① 配置式</strong><br><span class="t-s">提示词 + 模型 + 工具</span></td>
+            <td>平台内置运行时按配置编排</td>
+            <td>平台自己产生，最完整</td>
+            <td><span class="tag p2">低</span> 无任意代码执行</td>
+          </tr>
+          <tr>
+            <td><strong>② Python 代码包</strong><br><span class="t-s">zip / wheel / Git</span></td>
+            <td>容器内装依赖，按契约调入口函数</td>
+            <td>LLM 网关兜底 + 可选 SDK 埋点</td>
+            <td><span class="tag p1">中</span> 可执行任意 Python</td>
+          </tr>
+          <tr>
+            <td><strong>③ AI 编程工具 CLI</strong><br><span class="t-s">opencode / claude code / codex</span></td>
+            <td>容器内给工作区，它读写文件、跑 shell、执行测试</td>
+            <td><strong>LLM 网关为主</strong> + CLI 会话日志适配器 + shell 审计</td>
+            <td><span class="tag p0">高</span> 可执行任意 shell</td>
+          </tr>
+          <tr>
+            <td><strong>④ 远程服务</strong><br><span class="t-s">只注册地址</span></td>
+            <td>只发 HTTP 请求</td>
+            <td>靠对方埋点，平台不可控</td>
+            <td>不适用（不在平台内执行）</td>
+          </tr>
+        </tbody>
+      </table></div>
+
+      <div class="note">
+        <span class="note-t">形态 ④ 的诚实说明</span>
+        <p>远程服务模式下，平台<strong>无法保证「每试次全新环境」</strong>，也拿不到完整轨迹。它是兼容性选项，不是推荐路径。用它跑出来的鲁棒性与一致性指标要在报告里标注「环境不可控」。</p>
+      </div>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section id="s2">
+      <h2><span class="num">2</span>整体架构</h2>
+
+      <p>七层结构沿用 <code>06</code> 分册，但每一层落到具体组件。<strong>看这张图先看颜色</strong>：蓝色是自研服务，橙色是存储，<span style="color:var(--danger-ink);font-weight:650">红色虚线框是不可信执行区</span>——那里跑的是别人的代码。</p>
+
+      <div class="trust-key">
+        <span class="k"><i class="lg-self"></i>自研服务</span>
+        <span class="k"><i class="lg-store"></i>存储</span>
+        <span class="k"><i class="lg-ext"></i>外部系统</span>
+        <span class="k"><i class="lg-un"></i><strong>不可信执行区</strong></span>
+        <span class="k" style="margin-left:auto">—— 数据流　- - - 控制流</span>
+      </div>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 1000 620" role="img" aria-label="整体架构分层图">
+            <!-- 使用者 -->
+            <rect x="20" y="14" width="960" height="46" rx="8" class="s-box"/>
+            <text x="34" y="33" class="t-lbl">USERS</text>
+            <text x="120" y="43" class="t">测试工程师（写任务）　·　测试开发工程师（写评分器 / 传智能体）　·　架构师与管理者（看结论）</text>
+
+            <!-- ① 应用层 -->
+            <rect x="20" y="74" width="960" height="76" rx="8" class="s-self"/>
+            <text x="34" y="93" class="t-lbl">① 应用层</text>
+            <rect x="120" y="86" width="150" height="52" rx="6" class="s-box"/><text x="195" y="107" text-anchor="middle" class="t-b">评测控制台</text><text x="195" y="124" text-anchor="middle" class="t-s">Vue3 + Element Plus</text>
+            <rect x="284" y="86" width="150" height="52" rx="6" class="s-box"/><text x="359" y="107" text-anchor="middle" class="t-b">转录本查看器</text><text x="359" y="124" text-anchor="middle" class="t-s">span 树 · 时间轴 · diff</text>
+            <rect x="448" y="86" width="150" height="52" rx="6" class="s-box"/><text x="523" y="107" text-anchor="middle" class="t-b">标注工作台</text><text x="523" y="124" text-anchor="middle" class="t-s">判官校准</text>
+            <rect x="612" y="86" width="150" height="52" rx="6" class="s-box"/><text x="687" y="107" text-anchor="middle" class="t-b">报告与看板</text><text x="687" y="124" text-anchor="middle" class="t-s">ECharts</text>
+            <rect x="776" y="86" width="190" height="52" rx="6" class="s-box"/><text x="871" y="107" text-anchor="middle" class="t-b">CLI / OpenAPI</text><text x="871" y="124" text-anchor="middle" class="t-s">CI 集成</text>
+
+            <!-- ② 评分层 -->
+            <rect x="20" y="164" width="470" height="88" rx="8" class="s-self"/>
+            <text x="34" y="183" class="t-lbl">② 评分层</text>
+            <rect x="34" y="192" width="132" height="48" rx="6" class="s-box"/><text x="100" y="211" text-anchor="middle" class="t-b">rubric 引擎</text><text x="100" y="227" text-anchor="middle" class="t-s">权重校验 · 门控短路</text>
+            <rect x="176" y="192" width="132" height="48" rx="6" class="s-box"/><text x="242" y="211" text-anchor="middle" class="t-b">评分器编排</text><text x="242" y="227" text-anchor="middle" class="t-s">确定性 / Judge / 人工</text>
+            <rect x="318" y="192" width="158" height="48" rx="6" class="s-box"/><text x="397" y="211" text-anchor="middle" class="t-b">聚合与统计</text><text x="397" y="227" text-anchor="middle" class="t-s">pass@k · pass^k · CI 检验</text>
+
+            <!-- ③ 门禁 -->
+            <rect x="506" y="164" width="474" height="88" rx="8" class="s-self"/>
+            <text x="520" y="183" class="t-lbl">③ 门禁与治理</text>
+            <rect x="520" y="192" width="140" height="48" rx="6" class="s-box"/><text x="590" y="211" text-anchor="middle" class="t-b">门禁服务</text><text x="590" y="227" text-anchor="middle" class="t-s">三级 · 基线比对</text>
+            <rect x="670" y="192" width="140" height="48" rx="6" class="s-box"/><text x="740" y="211" text-anchor="middle" class="t-b">评测集治理</text><text x="740" y="227" text-anchor="middle" class="t-s">状态机 · 毕业 · 巡检</text>
+            <rect x="820" y="192" width="146" height="48" rx="6" class="s-box"/><text x="893" y="211" text-anchor="middle" class="t-b">校准治理</text><text x="893" y="227" text-anchor="middle" class="t-s">有效期 · 自动降级</text>
+
+            <!-- ④ 执行编排 -->
+            <rect x="20" y="266" width="470" height="88" rx="8" class="s-self"/>
+            <text x="34" y="285" class="t-lbl">④ 执行编排层</text>
+            <rect x="34" y="294" width="140" height="48" rx="6" class="s-box"/><text x="104" y="313" text-anchor="middle" class="t-b">试次调度器</text><text x="104" y="329" text-anchor="middle" class="t-s">k 次并发 · 配额</text>
+            <rect x="184" y="294" width="140" height="48" rx="6" class="s-box"/><text x="254" y="313" text-anchor="middle" class="t-b">容器编排器</text><text x="254" y="329" text-anchor="middle" class="t-s">起 / 销毁 · 预热池</text>
+            <rect x="334" y="294" width="142" height="48" rx="6" class="s-box"/><text x="405" y="313" text-anchor="middle" class="t-b">制品与夹具供给</text><text x="405" y="329" text-anchor="middle" class="t-s">挂载 · 工作区解包</text>
+
+            <!-- ⑤ 网关 -->
+            <rect x="506" y="266" width="474" height="88" rx="8" class="s-self"/>
+            <text x="520" y="285" class="t-lbl">⑤ LLM 网关（架构枢纽）</text>
+            <rect x="520" y="294" width="140" height="48" rx="6" class="s-box"/><text x="590" y="313" text-anchor="middle" class="t-b">OpenAI 兼容代理</text><text x="590" y="329" text-anchor="middle" class="t-s">密钥不下发</text>
+            <rect x="670" y="294" width="140" height="48" rx="6" class="s-box"/><text x="740" y="313" text-anchor="middle" class="t-b">试次凭证签发</text><text x="740" y="329" text-anchor="middle" class="t-s">调用归属到 trial</text>
+            <rect x="820" y="294" width="146" height="48" rx="6" class="s-box"/><text x="893" y="313" text-anchor="middle" class="t-b">计量与限流</text><text x="893" y="329" text-anchor="middle" class="t-s">按模型分桶</text>
+
+            <!-- ⑥ 不可信执行区 -->
+            <rect x="20" y="368" width="580" height="106" rx="10" class="s-untrust"/>
+            <text x="36" y="389" class="t-lbl" style="fill:var(--danger-ink)">⑥ 不可信执行区 · 每试次一个容器</text>
+            <rect x="36" y="398" width="130" height="60" rx="6" class="s-box"/><text x="101" y="419" text-anchor="middle" class="t-b">配置式运行时</text><text x="101" y="435" text-anchor="middle" class="t-s">平台内置</text><text x="101" y="450" text-anchor="middle" class="t-m">form ①</text>
+            <rect x="176" y="398" width="130" height="60" rx="6" class="s-box"/><text x="241" y="419" text-anchor="middle" class="t-b">Python 运行时</text><text x="241" y="435" text-anchor="middle" class="t-s">装依赖 · 调入口</text><text x="241" y="450" text-anchor="middle" class="t-m">form ②</text>
+            <rect x="316" y="398" width="140" height="60" rx="6" class="s-box"/><text x="386" y="419" text-anchor="middle" class="t-b">CLI 工具运行时</text><text x="386" y="435" text-anchor="middle" class="t-s">工作区 + shell</text><text x="386" y="450" text-anchor="middle" class="t-m">form ③</text>
+            <rect x="466" y="398" width="120" height="60" rx="6" class="s-ext"/><text x="526" y="419" text-anchor="middle" class="t-b">远程服务</text><text x="526" y="435" text-anchor="middle" class="t-s">不在区内</text><text x="526" y="450" text-anchor="middle" class="t-m">form ④</text>
+
+            <!-- ⑦ 证据层 -->
+            <rect x="616" y="368" width="364" height="106" rx="8" class="s-self"/>
+            <text x="630" y="389" class="t-lbl">⑦ 证据采集层</text>
+            <rect x="630" y="398" width="108" height="60" rx="6" class="s-box"/><text x="684" y="419" text-anchor="middle" class="t-b">OTLP 端点</text><text x="684" y="435" text-anchor="middle" class="t-s">通道一</text><text x="684" y="450" text-anchor="middle" class="t-m">轨迹</text>
+            <rect x="748" y="398" width="108" height="60" rx="6" class="s-box"/><text x="802" y="419" text-anchor="middle" class="t-b">审计采集</text><text x="802" y="435" text-anchor="middle" class="t-s">通道二</text><text x="802" y="450" text-anchor="middle" class="t-m">网关 + shell</text>
+            <rect x="866" y="398" width="100" height="60" rx="6" class="s-box"/><text x="916" y="419" text-anchor="middle" class="t-b">快照采集</text><text x="916" y="435" text-anchor="middle" class="t-s">通道三</text><text x="916" y="450" text-anchor="middle" class="t-m">产物 diff</text>
+
+            <!-- ⑧ 数据层 -->
+            <rect x="20" y="488" width="960" height="82" rx="8" class="s-store"/>
+            <text x="34" y="507" class="t-lbl">⑧ 数据层</text>
+            <rect x="120" y="514" width="170" height="46" rx="6" class="s-box"/><text x="205" y="533" text-anchor="middle" class="t-b">MySQL 8.0</text><text x="205" y="549" text-anchor="middle" class="t-s">业务实体 + 轨迹索引</text>
+            <rect x="304" y="514" width="170" height="46" rx="6" class="s-box"/><text x="389" y="533" text-anchor="middle" class="t-b">对象存储</text><text x="389" y="549" text-anchor="middle" class="t-s">大载荷 · 制品 · 快照</text>
+            <rect x="488" y="514" width="170" height="46" rx="6" class="s-box"/><text x="573" y="533" text-anchor="middle" class="t-b">Redis 7</text><text x="573" y="549" text-anchor="middle" class="t-s">队列 · 缓存 · 限流桶</text>
+            <rect x="672" y="514" width="294" height="46" rx="6" class="s-ext"/><text x="819" y="533" text-anchor="middle" class="t-b">部门已有平台</text><text x="819" y="549" text-anchor="middle" class="t-s">用例 · 缺陷 · CI/CD · 统一认证</text>
+
+            <!-- 连线 -->
+            <path d="M500 150 L500 164" class="ln" marker-end="url(#ah)"/>
+            <path d="M255 252 L255 266" class="ln" marker-end="url(#ah)"/>
+            <path d="M743 252 L743 266" class="ln" marker-end="url(#ah)"/>
+            <path d="M255 354 L255 368" class="ln" marker-end="url(#ah)"/>
+            <path d="M600 320 L620 320 L620 300" class="ln-hot" marker-end="url(#ah-hot)"/>
+            <path d="M386 474 L386 488" class="ln" marker-end="url(#ah)"/>
+            <path d="M798 474 L798 488" class="ln" marker-end="url(#ah)"/>
+            <path d="M600 428 L616 428" class="ln-danger" marker-end="url(#ah-dg)"/>
+            <text x="608" y="345" class="t-s" text-anchor="middle" style="font-weight:700">模型调用</text>
+            <text x="608" y="421" class="t-s" text-anchor="middle" style="fill:var(--danger-ink)">证据</text>
+
+            <defs>
+              <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink-3)"/></marker>
+              <marker id="ah-hot" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/></marker>
+              <marker id="ah-dg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--danger)"/></marker>
+            </defs>
+          </svg>
+        </div>
+        <figcaption><b>图 1</b> 整体架构：八个横切层。被测智能体全部关在红色虚线的不可信执行区里，它唯一能出去的路是 LLM 网关——这一条决定了轨迹的完整性。</figcaption>
+      </figure>
+
+      <h3>2.1 三条贯穿全架构的设计主线</h3>
+
+      <div class="dec">
+        <div class="dec-h">主线一 · 不可信执行区只有一个出口</div>
+        <div class="dec-b"><dl>
+          <dt>做法</dt><dd>容器默认拒绝出网，只放行 LLM 网关与平台回调两个地址。</dd>
+          <dt>为什么</dt><dd>被测智能体不能直接触达外网、不能访问其他试次的数据、不能连数据库。把出口收敛到一个点，采集与管控才有着力点。</dd>
+          <dt>顺带收益</dt><dd>所有模型调用必经网关 → 轨迹完整性不依赖被测方自觉；成本能算到每个试次；二期故障注入有现成拦截点。</dd>
+        </dl></div>
+      </div>
+
+      <div class="dec">
+        <div class="dec-h">主线二 · 业务语义只在服务端实现一次</div>
+        <div class="dec-b"><dl>
+          <dt>做法</dt><dd>打分公式、安全门控、权重校验只在评分层实现，无旁路写入口；前端只做提示，不做判定。</dd>
+          <dt>为什么</dt><dd>平台存在的意义是把「靠自觉」变成「绕不过去」（PRD §2.2）。判定逻辑一旦有第二个实现，两边就会漂移。</dd>
+          <dt>否决了什么</dt><dd>否决了「前端算分、后端存分」的省事写法。</dd>
+        </dl></div>
+      </div>
+
+      <div class="dec">
+        <div class="dec-h">主线三 · 热数据进 MySQL，大载荷进对象存储</div>
+        <div class="dec-b"><dl>
+          <dt>做法</dt><dd>轨迹的结构化索引（span 树、耗时、token、成本）进 MySQL；prompt/completion 全文、shell 输出、文件 diff 进对象存储，MySQL 只存 key。</dd>
+          <dt>为什么</dt><dd>技术栈限定 MySQL，而轨迹是高写入、含大文本的数据。不分层，MySQL 会被大 BLOB 拖垮。</dd>
+          <dt>否决了什么</dt><dd>否决了引入 ClickHouse（理由见 <a href="#s6">§6.3</a>），也否决了「全塞 MySQL」。</dd>
+        </dl></div>
+      </div>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section id="s3">
+      <h2><span class="num">3</span>业务架构</h2>
+
+      <p>七个能力域。<strong>依赖方向是单向的</strong>：左边是「准备什么」，中间是「跑与判」，右边是「看与治」。任何一个域反向依赖右边的域，都是设计错误。</p>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 1000 470" role="img" aria-label="业务能力域架构图">
+            <text x="20" y="24" class="t-lbl">准备域</text>
+            <text x="392" y="24" class="t-lbl">执行与判定域</text>
+            <text x="770" y="24" class="t-lbl">洞察与治理域</text>
+
+            <!-- 准备域 -->
+            <rect x="20" y="34" width="330" height="196" rx="10" class="s-zone"/>
+            <rect x="34" y="50" width="146" height="80" rx="8" class="s-self"/>
+            <text x="107" y="74" text-anchor="middle" class="t-b">智能体管理</text>
+            <text x="107" y="92" text-anchor="middle" class="t-s">上传 · 版本 · 契约</text>
+            <text x="107" y="107" text-anchor="middle" class="t-s">静态检查 · 冒烟自检</text>
+            <text x="107" y="122" text-anchor="middle" class="t-m">新增能力域</text>
+
+            <rect x="192" y="50" width="146" height="80" rx="8" class="s-self"/>
+            <text x="265" y="74" text-anchor="middle" class="t-b">评测集治理</text>
+            <text x="265" y="92" text-anchor="middle" class="t-s">任务七要素 · rubric</text>
+            <text x="265" y="107" text-anchor="middle" class="t-s">状态机 · 版本绑定</text>
+            <text x="265" y="122" text-anchor="middle" class="t-m">能力集 / 回归集</text>
+
+            <rect x="34" y="142" width="304" height="72" rx="8" class="s-self"/>
+            <text x="186" y="166" text-anchor="middle" class="t-b">夹具与工作区管理</text>
+            <text x="186" y="184" text-anchor="middle" class="t-s">输入文档 · 金标准（延迟投放）· 代码仓库快照</text>
+            <text x="186" y="201" text-anchor="middle" class="t-s">与任务版本三件套绑定</text>
+
+            <!-- 执行判定域 -->
+            <rect x="380" y="34" width="330" height="196" rx="10" class="s-zone"/>
+            <rect x="394" y="50" width="146" height="80" rx="8" class="s-self"/>
+            <text x="467" y="74" text-anchor="middle" class="t-b">执行编排</text>
+            <text x="467" y="92" text-anchor="middle" class="t-s">k 次试次 · 容器调度</text>
+            <text x="467" y="107" text-anchor="middle" class="t-s">配额 · 超时 · 重试</text>
+            <text x="467" y="122" text-anchor="middle" class="t-m">infra_error 区分</text>
+
+            <rect x="552" y="50" width="146" height="80" rx="8" class="s-self"/>
+            <text x="625" y="74" text-anchor="middle" class="t-b">证据采集</text>
+            <text x="625" y="92" text-anchor="middle" class="t-s">轨迹 · 审计 · 快照</text>
+            <text x="625" y="107" text-anchor="middle" class="t-s">三通道各自独立</text>
+            <text x="625" y="122" text-anchor="middle" class="t-m">采集在沙箱外</text>
+
+            <rect x="394" y="142" width="304" height="72" rx="8" class="s-self"/>
+            <text x="546" y="166" text-anchor="middle" class="t-b">评分判定</text>
+            <text x="546" y="184" text-anchor="middle" class="t-s">安全门控前置 · 加权聚合 · pass@k / pass^k</text>
+            <text x="546" y="201" text-anchor="middle" class="t-s">确定性 / LLM Judge / 人工 三类评分器编排</text>
+
+            <!-- 洞察治理域 -->
+            <rect x="740" y="34" width="240" height="196" rx="10" class="s-zone"/>
+            <rect x="754" y="50" width="212" height="80" rx="8" class="s-self"/>
+            <text x="860" y="74" text-anchor="middle" class="t-b">门禁与发布准入</text>
+            <text x="860" y="92" text-anchor="middle" class="t-s">三级门禁 · 基线比对</text>
+            <text x="860" y="107" text-anchor="middle" class="t-s">统计判定（CI 不重叠才算回归）</text>
+            <text x="860" y="122" text-anchor="middle" class="t-m">CI 回写</text>
+
+            <rect x="754" y="142" width="212" height="72" rx="8" class="s-self"/>
+            <text x="860" y="166" text-anchor="middle" class="t-b">报告与洞察</text>
+            <text x="860" y="184" text-anchor="middle" class="t-s">三指标 · 三种分解</text>
+            <text x="860" y="201" text-anchor="middle" class="t-s">层×柱归因 · ROI · 元评测</text>
+
+            <!-- 横切域 -->
+            <rect x="20" y="252" width="960" height="70" rx="10" class="s-data"/>
+            <text x="34" y="272" class="t-lbl">横切 · 校准治理</text>
+            <rect x="180" y="262" width="180" height="50" rx="6" class="s-box"/><text x="270" y="282" text-anchor="middle" class="t-b">判官模板管理</text><text x="270" y="298" text-anchor="middle" class="t-s">分档模型 · 提示词版本</text>
+            <rect x="374" y="262" width="180" height="50" rx="6" class="s-box"/><text x="464" y="282" text-anchor="middle" class="t-b">标注工作台</text><text x="464" y="298" text-anchor="middle" class="t-s">抽样 · 双人独立 · 裁决</text>
+            <rect x="568" y="262" width="180" height="50" rx="6" class="s-box"/><text x="658" y="282" text-anchor="middle" class="t-b">一致性计算</text><text x="658" y="298" text-anchor="middle" class="t-s">L-01 · L-02 · 有效期</text>
+            <rect x="762" y="262" width="204" height="50" rx="6" class="s-box"/><text x="864" y="282" text-anchor="middle" class="t-b">失效自动降级</text><text x="864" y="298" text-anchor="middle" class="t-s">过期判官不进门禁</text>
+
+            <rect x="20" y="336" width="960" height="60" rx="10" class="s-data"/>
+            <text x="34" y="356" class="t-lbl">横切 · 平台基座</text>
+            <rect x="180" y="346" width="150" height="42" rx="6" class="s-box"/><text x="255" y="372" text-anchor="middle" class="t-b">认证与授权</text>
+            <rect x="344" y="346" width="150" height="42" rx="6" class="s-box"/><text x="419" y="372" text-anchor="middle" class="t-b">操作审计</text>
+            <rect x="508" y="346" width="150" height="42" rx="6" class="s-box"/><text x="583" y="372" text-anchor="middle" class="t-b">配额与成本</text>
+            <rect x="672" y="346" width="294" height="42" rx="6" class="s-box"/><text x="819" y="372" text-anchor="middle" class="t-b">通知与集成（CI · 缺陷平台 · 用例平台）</text>
+
+            <!-- 依赖箭头 -->
+            <path d="M350 132 L380 132" class="ln-hot" marker-end="url(#ah2)"/>
+            <path d="M710 132 L740 132" class="ln-hot" marker-end="url(#ah2)"/>
+            <text x="365" y="122" text-anchor="middle" class="t-s">供给</text>
+            <text x="725" y="122" text-anchor="middle" class="t-s">产出</text>
+
+            <text x="500" y="424" text-anchor="middle" class="t-s" style="font-weight:700">依赖方向单向向右。洞察与治理域不得被执行域依赖——否则报告口径会反向污染判定逻辑。</text>
+            <text x="500" y="446" text-anchor="middle" class="t-s">「智能体管理」是本轮新增的能力域，PRD 原本没有（原假设智能体在平台外部）。</text>
+
+            <defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/></marker></defs>
+          </svg>
+        </div>
+        <figcaption><b>图 2</b> 业务能力域：七个域 + 两个横切域。「智能体管理」是本轮新增的域，它的加入把平台从「评测调度器」变成了「智能体托管与评测平台」。</figcaption>
+      </figure>
+
+      <h3>3.1 智能体管理域（新增，本轮重点）</h3>
+
+      <p>PRD 里没有这个域，因为原假设是智能体在平台外部跑。现在它成了入口。</p>
+
+      <div class="tw"><table>
+        <thead><tr><th>能力</th><th>说明</th><th>优先级</th></tr></thead>
+        <tbody>
+          <tr><td>制品上传与存储</td><td>zip / wheel / Git URL 三种来源；落对象存储，记 SHA256</td><td><span class="tag p0">P0</span></td></tr>
+          <tr><td>版本管理</td><td>同一智能体多版本并存，可指定版本参与评测，支持多版本 A/B 并排跑</td><td><span class="tag p0">P0</span></td></tr>
+          <tr><td>规格契约声明</td><td>形态、入口约定、输入输出 schema、环境变量、资源需求、超时</td><td><span class="tag p0">P0</span></td></tr>
+          <tr><td>静态检查</td><td>依赖漏洞扫描、体积上限、禁用 API 检测（如直接 <code>socket</code> 外连）</td><td><span class="tag p1">P1</span></td></tr>
+          <tr><td>冒烟自检</td><td>上传后自动跑一个 hello-world 任务；<strong>不通过不允许进评测</strong></td><td><span class="tag p0">P0</span></td></tr>
+          <tr><td>生命周期状态机</td><td><code>草稿 → 检查中 → 已验证 → 已发布 → 已下线</code></td><td><span class="tag p0">P0</span></td></tr>
+          <tr><td>运行日志留存</td><td>stdout / stderr / CLI 会话日志，按试次归档</td><td><span class="tag p1">P1</span></td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="note warn">
+        <span class="note-t">冒烟自检不是可选项</span>
+        <p>没有它，一个装不上依赖的智能体会在正式评测里产生几十条 <code>infra_error</code>，浪费算力还污染统计。<strong>上传即验证，是把失败成本前移。</strong></p>
+      </div>
+    </section>
+
+    <!-- ============ 4 ============ -->
+    <section id="s4">
+      <h2><span class="num">4</span>应用架构</h2>
+
+      <p><strong>模块化单体，不是微服务。</strong> 三人团队、首期 15 人月，拆微服务会把大部分预算花在treating分布式事务和服务治理上。做法是：单进程部署，但包边界严格，为将来拆分留缝。</p>
+
+      <div class="dec">
+        <div class="dec-h">决策 · 模块化单体 vs 微服务</div>
+        <div class="dec-b"><dl>
+          <dt>选择</dt><dd>模块化单体（<code>eval-hub-api</code>）+ 独立的异步执行进程（<code>eval-hub-worker</code>）+ 独立的 LLM 网关（<code>eval-hub-gateway</code>）</dd>
+          <dt>为什么拆出 worker</dt><dd>试次执行是长任务（分钟级到小时级），跟 Web 请求生命周期不匹配，必须异步；且要按并发独立扩容。</dd>
+          <dt>为什么拆出网关</dt><dd>它是<strong>唯一持有真实密钥</strong>的组件，且被不可信容器直接访问。安全上必须独立进程、独立网络策略，不能和主 API 同进程。</dd>
+          <dt>为什么其余不拆</dt><dd>评分、门禁、报告之间共享大量领域模型，拆开会产生分布式事务。包边界清晰即可，真到瓶颈再拆。</dd>
+        </dl></div>
+      </div>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 1000 520" role="img" aria-label="应用架构模块图">
+            <!-- API 进程 -->
+            <rect x="20" y="20" width="600" height="290" rx="10" class="s-self"/>
+            <text x="36" y="42" class="t-lbl">进程 A · eval-hub-api（FastAPI）</text>
+
+            <rect x="36" y="54" width="568" height="40" rx="6" class="s-box"/>
+            <text x="320" y="72" text-anchor="middle" class="t-b">接口层　api/v1/*　·　依赖注入　·　鉴权中间件　·　请求校验（Pydantic）</text>
+            <text x="320" y="87" text-anchor="middle" class="t-s">薄，只做协议转换与校验，不写业务逻辑</text>
+
+            <text x="36" y="118" class="t-lbl">领域模块（严格包边界，禁止跨模块直接引用内部实现）</text>
+            <rect x="36" y="126" width="134" height="66" rx="6" class="s-box"/><text x="103" y="148" text-anchor="middle" class="t-b">agents</text><text x="103" y="164" text-anchor="middle" class="t-s">制品 · 版本</text><text x="103" y="179" text-anchor="middle" class="t-s">契约 · 检查</text>
+            <rect x="180" y="126" width="134" height="66" rx="6" class="s-box"/><text x="247" y="148" text-anchor="middle" class="t-b">suites</text><text x="247" y="164" text-anchor="middle" class="t-s">评测集 · 任务</text><text x="247" y="179" text-anchor="middle" class="t-s">rubric · 夹具</text>
+            <rect x="324" y="126" width="134" height="66" rx="6" class="s-box"/><text x="391" y="148" text-anchor="middle" class="t-b">runs</text><text x="391" y="164" text-anchor="middle" class="t-s">运行 · 试次</text><text x="391" y="179" text-anchor="middle" class="t-s">快照锁定</text>
+            <rect x="468" y="126" width="136" height="66" rx="6" class="s-box"/><text x="536" y="148" text-anchor="middle" class="t-b">scoring</text><text x="536" y="164" text-anchor="middle" class="t-s">门控 · 加权</text><text x="536" y="179" text-anchor="middle" class="t-s">聚合 · 统计</text>
+
+            <rect x="36" y="200" width="134" height="66" rx="6" class="s-box"/><text x="103" y="222" text-anchor="middle" class="t-b">gating</text><text x="103" y="238" text-anchor="middle" class="t-s">门禁 · 基线</text><text x="103" y="253" text-anchor="middle" class="t-s">CI 回写</text>
+            <rect x="180" y="200" width="134" height="66" rx="6" class="s-box"/><text x="247" y="222" text-anchor="middle" class="t-b">evidence</text><text x="247" y="238" text-anchor="middle" class="t-s">OTLP 摄入</text><text x="247" y="253" text-anchor="middle" class="t-s">轨迹查询</text>
+            <rect x="324" y="200" width="134" height="66" rx="6" class="s-box"/><text x="391" y="222" text-anchor="middle" class="t-b">calibration</text><text x="391" y="238" text-anchor="middle" class="t-s">判官 · 标注</text><text x="391" y="253" text-anchor="middle" class="t-s">一致性 · 有效期</text>
+            <rect x="468" y="200" width="136" height="66" rx="6" class="s-box"/><text x="536" y="222" text-anchor="middle" class="t-b">reporting</text><text x="536" y="238" text-anchor="middle" class="t-s">报告 · 归因</text><text x="536" y="253" text-anchor="middle" class="t-s">看板数据</text>
+
+            <rect x="36" y="274" width="568" height="26" rx="6" class="s-data"/>
+            <text x="320" y="291" text-anchor="middle" class="t-b">共享内核　domain 模型 · 仓储抽象 · 事件总线 · 审计 · 配额</text>
+
+            <!-- worker -->
+            <rect x="640" y="20" width="340" height="150" rx="10" class="s-self"/>
+            <text x="656" y="42" class="t-lbl">进程 B · eval-hub-worker（Celery）</text>
+            <rect x="656" y="54" width="150" height="46" rx="6" class="s-box"/><text x="731" y="74" text-anchor="middle" class="t-b">试次执行器</text><text x="731" y="90" text-anchor="middle" class="t-s">起容器 · 收产物</text>
+            <rect x="816" y="54" width="148" height="46" rx="6" class="s-box"/><text x="890" y="74" text-anchor="middle" class="t-b">评分执行器</text><text x="890" y="90" text-anchor="middle" class="t-s">判官调用 · j 次</text>
+            <rect x="656" y="110" width="150" height="46" rx="6" class="s-box"/><text x="731" y="130" text-anchor="middle" class="t-b">定时任务</text><text x="731" y="146" text-anchor="middle" class="t-s">巡检 · 归档 · 清理</text>
+            <rect x="816" y="110" width="148" height="46" rx="6" class="s-box"/><text x="890" y="130" text-anchor="middle" class="t-b">集成任务</text><text x="890" y="146" text-anchor="middle" class="t-s">缺陷同步 · 通知</text>
+
+            <!-- gateway -->
+            <rect x="640" y="184" width="340" height="126" rx="10" class="s-self" style="stroke:var(--danger);stroke-width:2"/>
+            <text x="656" y="206" class="t-lbl" style="fill:var(--danger-ink)">进程 C · eval-hub-gateway（唯一持密钥）</text>
+            <rect x="656" y="218" width="150" height="40" rx="6" class="s-box"/><text x="731" y="235" text-anchor="middle" class="t-b">兼容代理</text><text x="731" y="250" text-anchor="middle" class="t-s">/v1/chat/completions</text>
+            <rect x="816" y="218" width="148" height="40" rx="6" class="s-box"/><text x="890" y="235" text-anchor="middle" class="t-b">凭证校验</text><text x="890" y="250" text-anchor="middle" class="t-s">per-trial token</text>
+            <rect x="656" y="266" width="308" height="34" rx="6" class="s-box"/><text x="810" y="288" text-anchor="middle" class="t-b">计量 · 限流 · 调用落库 · 二期故障注入点</text>
+
+            <!-- 前端 -->
+            <rect x="20" y="330" width="960" height="96" rx="10" class="s-data"/>
+            <text x="36" y="352" class="t-lbl">前端 · eval-hub-web（Vue3 + Element Plus + Pinia + ECharts）</text>
+            <rect x="36" y="362" width="146" height="52" rx="6" class="s-box"/><text x="109" y="382" text-anchor="middle" class="t-b">智能体管理</text><text x="109" y="398" text-anchor="middle" class="t-s">上传 · 版本 · 自检</text>
+            <rect x="192" y="362" width="146" height="52" rx="6" class="s-box"/><text x="265" y="382" text-anchor="middle" class="t-b">任务与 rubric</text><text x="265" y="398" text-anchor="middle" class="t-s">编辑器 · 权重校验</text>
+            <rect x="348" y="362" width="146" height="52" rx="6" class="s-box"/><text x="421" y="382" text-anchor="middle" class="t-b">运行监控</text><text x="421" y="398" text-anchor="middle" class="t-s">试次级进度</text>
+            <rect x="504" y="362" width="146" height="52" rx="6" class="s-box" style="stroke:var(--accent);stroke-width:2"/><text x="577" y="382" text-anchor="middle" class="t-b">转录本查看器</text><text x="577" y="398" text-anchor="middle" class="t-s">自研大件</text>
+            <rect x="660" y="362" width="146" height="52" rx="6" class="s-box" style="stroke:var(--accent);stroke-width:2"/><text x="733" y="382" text-anchor="middle" class="t-b">标注工作台</text><text x="733" y="398" text-anchor="middle" class="t-s">自研大件</text>
+            <rect x="816" y="362" width="148" height="52" rx="6" class="s-box"/><text x="890" y="382" text-anchor="middle" class="t-b">报告与看板</text><text x="890" y="398" text-anchor="middle" class="t-s">ECharts</text>
+
+            <path d="M620 100 L640 100" class="ln" marker-end="url(#ah3)"/>
+            <text x="630" y="92" text-anchor="middle" class="t-s">派发</text>
+            <path d="M500 330 L500 310" class="ln" marker-end="url(#ah3)"/>
+
+            <text x="500" y="452" text-anchor="middle" class="t-s" style="font-weight:700">蓝色粗边的两块是本轮因「不部署 Langfuse」而新增的前端大件，也是前端工作量上修的主因。</text>
+            <text x="500" y="474" text-anchor="middle" class="t-s">进程 C 单独部署的唯一理由是安全：它持有真实密钥，且直接暴露给不可信容器。</text>
+
+            <defs><marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink-3)"/></marker></defs>
+          </svg>
+        </div>
+        <figcaption><b>图 3</b> 应用架构：三个后端进程 + 一套前端。API 内部按领域分八个包，包间只能通过公开接口与事件总线通信。</figcaption>
+      </figure>
+
+      <h3>4.1 包边界规则</h3>
+      <ul>
+        <li><strong>接口层薄。</strong> <code>api/v1/*</code> 只做协议转换、鉴权、Pydantic 校验，业务逻辑一行不写。</li>
+        <li><strong>模块间不直接 import 内部实现</strong>，只调对方的 <code>service.py</code> 公开函数，或通过事件总线解耦。</li>
+        <li><strong>只有 <code>scoring</code> 能写评分结果</strong>，其他模块只读。这是「业务语义只实现一次」的落地。</li>
+        <li><strong>仓储抽象隔离 ORM</strong>，领域逻辑不依赖 SQLAlchemy，便于单测。</li>
+      </ul>
+    </section>
+
+    <!-- ============ 5 ============ -->
+    <section id="s5">
+      <h2><span class="num">5</span>数据架构</h2>
+
+      <p>三处存储，各有明确分工。<strong>判断一份数据放哪，只看两个问题</strong>：要不要按它查询与聚合？它有多大？</p>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 1000 470" role="img" aria-label="数据架构与流向图">
+            <!-- MySQL -->
+            <rect x="20" y="30" width="300" height="270" rx="10" class="s-store"/>
+            <text x="36" y="52" class="t-lbl">MySQL 8.0 · 结构化与索引</text>
+            <rect x="36" y="62" width="268" height="52" rx="6" class="s-box"/>
+            <text x="48" y="80" class="t-b">业务实体</text>
+            <text x="48" y="96" class="t-m">agent · agent_version · eval_suite · task</text>
+            <text x="48" y="109" class="t-m">rubric_item · fixture · run · trial</text>
+
+            <rect x="36" y="122" width="268" height="52" rx="6" class="s-box"/>
+            <text x="48" y="140" class="t-b">评分与治理</text>
+            <text x="48" y="156" class="t-m">rubric_result · baseline · judge_template</text>
+            <text x="48" y="169" class="t-m">judge_calibration · annotation · audit_log</text>
+
+            <rect x="36" y="182" width="268" height="52" rx="6" class="s-box" style="stroke:var(--accent);stroke-width:2"/>
+            <text x="48" y="200" class="t-b">轨迹索引（新增）</text>
+            <text x="48" y="216" class="t-m">trace（汇总：耗时 token 成本 span 数）</text>
+            <text x="48" y="229" class="t-m">span（树：parent_id name kind 起止 摘要）</text>
+
+            <rect x="36" y="242" width="268" height="46" rx="6" class="s-box"/>
+            <text x="48" y="260" class="t-b">LLM 调用流水</text>
+            <text x="48" y="276" class="t-m">llm_call（归属 trial · 模型 · token · 成本）</text>
+
+            <!-- 对象存储 -->
+            <rect x="350" y="30" width="300" height="270" rx="10" class="s-store"/>
+            <text x="366" y="52" class="t-lbl">对象存储 · 大载荷</text>
+            <rect x="366" y="62" width="268" height="46" rx="6" class="s-box"/>
+            <text x="378" y="80" class="t-b">智能体制品</text>
+            <text x="378" y="97" class="t-m">artifacts/{agent}/{version}/pkg.zip</text>
+
+            <rect x="366" y="116" width="268" height="46" rx="6" class="s-box"/>
+            <text x="378" y="134" class="t-b">夹具与工作区快照</text>
+            <text x="378" y="151" class="t-m">fixtures/{suite}/{ver}/workspace.tar.zst</text>
+
+            <rect x="366" y="170" width="268" height="60" rx="6" class="s-box" style="stroke:var(--accent);stroke-width:2"/>
+            <text x="378" y="188" class="t-b">轨迹大载荷（新增）</text>
+            <text x="378" y="205" class="t-m">traces/{trace_id}/{span_id}/prompt.txt</text>
+            <text x="378" y="218" class="t-m">…/completion.txt · shell_out.log · diff.patch</text>
+
+            <rect x="366" y="238" width="268" height="50" rx="6" class="s-box"/>
+            <text x="378" y="256" class="t-b">试次产物与报告</text>
+            <text x="378" y="273" class="t-m">trials/{trial_id}/output/ · reports/{run}.md</text>
+
+            <!-- Redis -->
+            <rect x="680" y="30" width="300" height="270" rx="10" class="s-store"/>
+            <text x="696" y="52" class="t-lbl">Redis 7 · 易失态</text>
+            <rect x="696" y="62" width="268" height="46" rx="6" class="s-box"/>
+            <text x="708" y="80" class="t-b">任务队列</text>
+            <text x="708" y="97" class="t-m">celery: trial_exec · scoring · integration</text>
+
+            <rect x="696" y="116" width="268" height="46" rx="6" class="s-box"/>
+            <text x="708" y="134" class="t-b">限流令牌桶</text>
+            <text x="708" y="151" class="t-m">rate:llm:{model} —— 按模型分桶</text>
+
+            <rect x="696" y="170" width="268" height="60" rx="6" class="s-box"/>
+            <text x="708" y="188" class="t-b">判官结果缓存</text>
+            <text x="708" y="205" class="t-m">judge:{产物hash}:{模板hash}:{model}</text>
+            <text x="708" y="220" class="t-s">key 必须含模型名，否则换档命中旧结果</text>
+
+            <rect x="696" y="238" width="268" height="50" rx="6" class="s-box"/>
+            <text x="708" y="256" class="t-b">试次临时凭证</text>
+            <text x="708" y="273" class="t-m">trial_token:{jti} → trial_id（短 TTL）</text>
+
+            <!-- 数据流 -->
+            <rect x="20" y="322" width="960" height="76" rx="10" class="s-self"/>
+            <text x="36" y="344" class="t-lbl">主数据流 · 一次试次产生的数据去了哪</text>
+            <text x="36" y="366" class="t">
+              容器执行 → ① OTLP span 推到 evidence 模块 → 结构进 <tspan class="t-m">MySQL.span</tspan>，大文本进对象存储，MySQL 存 key
+            </text>
+            <text x="36" y="384" class="t">
+              → ② 网关记 <tspan class="t-m">llm_call</tspan> 并归属 trial → ③ 评分写 <tspan class="t-m">rubric_result</tspan>（带 evidence_ref）→ ④ 聚合更新 <tspan class="t-m">trial</tspan> 与 <tspan class="t-m">run</tspan>
+            </text>
+
+            <text x="500" y="428" text-anchor="middle" class="t-s" style="font-weight:700">蓝色粗边的两块是「不部署 Langfuse」后新增的存储职责——原本这两份数据在 ClickHouse 里。</text>
+            <text x="500" y="450" text-anchor="middle" class="t-s">分层原则：能被查询与聚合的进 MySQL，只被整体读取的大文本进对象存储。</text>
+          </svg>
+        </div>
+        <figcaption><b>图 4</b> 数据架构：MySQL 存能查的，对象存储存大的，Redis 存不怕丢的。轨迹索引与轨迹载荷分离是本架构的关键设计。</figcaption>
+      </figure>
+
+      <h3>5.1 为什么轨迹要分层存</h3>
+
+      <p>一次 CLI 型智能体的试次，可能产生上百个 span，其中每个 LLM 调用的 prompt 全文就有几十 KB，shell 输出与文件 diff 更大。<strong>直接塞 MySQL 会有三个后果</strong>：表膨胀到 TB 级、<code>SELECT *</code> 慢查询、备份恢复时间失控。</p>
+
+      <div class="tw"><table>
+        <thead><tr><th>数据</th><th>去处</th><th>判断依据</th></tr></thead>
+        <tbody>
+          <tr><td>span 的 id / parent / name / kind / 起止 / 耗时 / token / 成本</td><td>MySQL</td><td>要按它筛选、排序、聚合</td></tr>
+          <tr><td>span 属性中的短标量（模型名、工具名、状态码）</td><td>MySQL（JSON 列）</td><td>要按它筛选，但结构不固定</td></tr>
+          <tr><td>prompt / completion 全文</td><td>对象存储</td><td>只在打开某条 span 时整体读取</td></tr>
+          <tr><td>shell 输出、文件 diff、产物</td><td>对象存储</td><td>同上，且体积大</td></tr>
+        </tbody>
+      </table></div>
+
+      <p><strong>查询路径</strong>：转录本查看器先从 MySQL 取整棵 span 树（一次查询，索引 <code>(trace_id, start_time)</code>），渲染骨架；用户点开某条 span 时，才按 key 去对象存储拉全文。<strong>首屏不拉大文本</strong>。</p>
+
+      <h3>5.2 数据生命周期</h3>
+
+      <div class="tw"><table>
+        <thead><tr><th>阶段</th><th>时长</th><th>处理</th></tr></thead>
+        <tbody>
+          <tr><td>热</td><td>0–90 天</td><td>全在 MySQL + 对象存储，查询无限制</td></tr>
+          <tr><td>温</td><td>90 天–1 年</td><td>span 明细从 MySQL 归档为对象存储的列式文件，只保留 <code>trace</code> 汇总行</td></tr>
+          <tr><td>冷</td><td>&gt; 1 年</td><td>对象存储转低频存储层；<code>run</code> / <code>trial</code> / <code>rubric_result</code> 永久保留（基线可追溯性要求）</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="note">
+        <span class="note-t">评分结果不归档</span>
+        <p><code>rubric_result</code> 含 <code>evidence_ref</code> 与 <code>evidence_excerpt</code>，是审计链的一环。<strong>摘录（excerpt）必须留在 MySQL</strong>，这样即使原始轨迹归档了，「当时凭什么这么判」仍然可查。这是 PRD §8.2 的设计要点②在数据生命周期上的延伸。</p>
+      </div>
+
+      <h3>5.3 容量估算（粗估，需按实际压测修正）</h3>
+
+      <div class="tw"><table>
+        <thead><tr><th>假设</th><th>值</th></tr></thead>
+        <tbody>
+          <tr><td>首期被测对象</td><td>3 类支撑智能体 × 各 2–3 个版本</td></tr>
+          <tr><td>评测集规模</td><td>每类 20–30 任务</td></tr>
+          <tr><td>运行频次</td><td>冒烟每次提交、回归每次合入、能力集每日</td></tr>
+          <tr><td>试次量</td><td>约 6–8 万试次 / 年</td></tr>
+          <tr><td class="num">MySQL 首年</td><td class="num">&lt; 30 GB（含轨迹索引）</td></tr>
+          <tr><td class="num">对象存储首年</td><td class="num">200–500 GB（CLI 型智能体的 shell 输出是大头）</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ============ 6 ============ -->
+    <section id="s6">
+      <h2><span class="num">6</span>技术架构</h2>
+
+      <h3>6.1 技术栈落位</h3>
+
+      <div class="tw"><table>
+        <thead><tr><th>层</th><th>选型</th><th>版本</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="6">后端</td><td>Python</td><td>3.11+</td><td>部门指定；异步适合编排大量 LLM 调用</td></tr>
+          <tr><td>FastAPI</td><td>0.115+</td><td>部门指定；自动 OpenAPI 便于前后端协作与 CI 集成</td></tr>
+          <tr><td>SQLAlchemy 2.x + Alembic</td><td>—</td><td>ORM 与迁移；仓储层隔离，领域逻辑不依赖 ORM</td></tr>
+          <tr><td>Celery</td><td>5.4+</td><td>试次执行是长任务，必须异步；Redis 作 broker</td></tr>
+          <tr><td>Pydantic v2</td><td>—</td><td>请求校验 + 智能体规格契约的 schema 定义</td></tr>
+          <tr><td>opentelemetry-proto</td><td>—</td><td>解析 OTLP protobuf，自建摄入端点用</td></tr>
+          <tr><td>数据库</td><td>MySQL</td><td>8.0</td><td>部门指定；需 8.0.16+ 才支持 <code>CHECK</code> 约束（rubric 硬规则要用）</td></tr>
+          <tr><td>缓存队列</td><td>Redis</td><td>7</td><td>部门指定；队列 + 缓存 + 限流桶 + 临时凭证</td></tr>
+          <tr><td>对象存储</td><td>MinIO 或已有 S3 兼容服务</td><td>—</td><td>见 6.2 的选型说明</td></tr>
+          <tr><td>执行</td><td>Kubernetes Job 或 Docker</td><td>—</td><td>两种拓扑见 <a href="#s10">§10</a></td></tr>
+          <tr><td rowspan="4">前端</td><td>Vue 3 + Vite</td><td>3.4+</td><td>部门指定；Composition API + <code>&lt;script setup&gt;</code></td></tr>
+          <tr><td>Pinia + Vue Router</td><td>—</td><td>全家桶</td></tr>
+          <tr><td>Element Plus</td><td>2.x</td><td>部门指定</td></tr>
+          <tr><td>ECharts</td><td>5.x</td><td>趋势、雷达、层×柱热力图</td></tr>
+          <tr><td>大模型</td><td>DeepSeek</td><td>—</td><td>双档 flash / pro，OpenAI 兼容端点</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>6.2 需要额外引入的组件，逐个给理由</h3>
+
+      <p>技术栈只指定了 FastAPI + MySQL + Redis + Vue3。下面是必须补的，每个都说清为什么非要不可。</p>
+
+      <div class="tw"><table>
+        <thead><tr><th>组件</th><th>为什么非引不可</th><th>能否省掉</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>对象存储</strong><br><span class="t-s">MinIO / S3 兼容</span></td>
+            <td>轨迹大载荷、智能体制品、工作区快照、试次产物都是大文件，MySQL 存不合适（见 5.1）</td>
+            <td><strong>不能省。</strong> 若部门已有 S3 兼容存储，直接复用，少运维一个组件</td>
+          </tr>
+          <tr>
+            <td><strong>Celery</strong></td>
+            <td>试次执行分钟级到小时级，超出 HTTP 请求生命周期；且要按并发独立扩容</td>
+            <td>可用 FastAPI BackgroundTasks 替代，但没有重试、限流、可观测，不建议</td>
+          </tr>
+          <tr>
+            <td><strong>容器运行时</strong><br><span class="t-s">K8s 或 Docker</span></td>
+            <td>要执行不可信代码，进程级隔离不够（见 §11）</td>
+            <td><strong>不能省。</strong> 这是架构方案的前提</td>
+          </tr>
+          <tr>
+            <td>镜像仓库<br><span class="t-s">Harbor 或已有</span></td>
+            <td>存放平台维护的标准基础镜像</td>
+            <td>可用已有仓库；镜像只有 2–3 个，量很小</td>
+          </tr>
+          <tr>
+            <td>Prometheus + Grafana</td>
+            <td>运行成功率、<code>infra_error</code> 率、判官成本、队列积压要可观测</td>
+            <td>可推后，但 P1；若部门已有监控体系直接对接</td>
+          </tr>
+        </tbody>
+      </table></div>
+
+      <h3>6.3 被否决的选型</h3>
+
+      <div class="dec">
+        <div class="dec-h">否决 · 部署 Langfuse 作证据底座</div>
+        <div class="dec-b"><dl>
+          <dt>否决理由</dt><dd>用户明确只参考实现、不部署。连带后果是三套库变一套、集成与同步逻辑全省，但轨迹存储、转录本查看器、标注台要自研。</dd>
+          <dt>保留了什么</dt><dd>它的设计思路：业务实体与轨迹分库、OTel 语义约定落地方式、评分器分 LLM/CODE 两类、数据集条目版本化、生产轨迹转任务。见 <a href="#s16">§16.2</a>。</dd>
+        </dl></div>
+      </div>
+
+      <div class="dec">
+        <div class="dec-h">否决 · 引入 ClickHouse 存轨迹</div>
+        <div class="dec-b"><dl>
+          <dt>否决理由</dt><dd>首期量级撑不起它。按 5.3 估算，首年轨迹索引 &lt; 30 GB，MySQL 加合适索引完全够用。为这个量引一个列存数据库，运维成本远大于收益。</dd>
+          <dt>什么时候该重新考虑</dt><dd>二期接入产品智能体后，若 <code>span</code> 表超过 5000 万行或聚合查询超过 3 秒，再评估。<strong>架构上留了缝</strong>：轨迹读写走 <code>evidence</code> 模块的仓储抽象，换存储不影响上层。</dd>
+        </dl></div>
+      </div>
+
+      <div class="dec">
+        <div class="dec-h">否决 · 引入 OpenTelemetry Collector</div>
+        <div class="dec-b"><dl>
+          <dt>否决理由</dt><dd>首期只有一个消费端（本平台），Collector 的价值（多后端扇出、采样、批处理）用不上。FastAPI 直接实现 OTLP/HTTP 端点，少一个组件。</dd>
+          <dt>代价</dt><dd>要自己处理 protobuf 解析与背压。用 <code>opentelemetry-proto</code> 官方包，工作量约 3 人日。</dd>
+          <dt>什么时候该重新考虑</dt><dd>轨迹要同时送多个后端时。</dd>
+        </dl></div>
+      </div>
+
+      <div class="dec">
+        <div class="dec-h">否决 · 微服务拆分</div>
+        <div class="dec-b"><dl>
+          <dt>否决理由</dt><dd>三人团队、首期 15 人月。拆微服务会把预算花在服务治理与分布式事务上，而不是业务能力。</dd>
+          <dt>替代</dt><dd>模块化单体 + 严格包边界，见 <a href="#s4">§4</a>。网关与 worker 因安全与生命周期原因单独成进程，这是必要拆分，不是微服务化。</dd>
+        </dl></div>
+      </div>
+    </section>
+
+    <!-- ============ 7 ============ -->
+    <section id="s7">
+      <h2><span class="num">7</span>智能体接入与执行架构</h2>
+
+      <h3>7.1 制品生命周期</h3>
+
+      <p>上传不等于可用。中间必须过两道闸：<strong>静态检查</strong>拦掉明显不该进来的，<strong>冒烟自检</strong>拦掉跑不起来的。</p>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 1000 260" role="img" aria-label="智能体制品生命周期状态机">
+            <rect x="20" y="70" width="120" height="56" rx="8" class="s-box"/>
+            <text x="80" y="94" text-anchor="middle" class="t-b">草稿</text>
+            <text x="80" y="111" text-anchor="middle" class="t-s">已上传未提交</text>
+
+            <rect x="190" y="70" width="120" height="56" rx="8" class="s-self"/>
+            <text x="250" y="94" text-anchor="middle" class="t-b">检查中</text>
+            <text x="250" y="111" text-anchor="middle" class="t-s">依赖 · 体积 · 禁用 API</text>
+
+            <rect x="360" y="70" width="120" height="56" rx="8" class="s-self"/>
+            <text x="420" y="94" text-anchor="middle" class="t-b">自检中</text>
+            <text x="420" y="111" text-anchor="middle" class="t-s">hello-world 试跑</text>
+
+            <rect x="530" y="70" width="120" height="56" rx="8" class="s-data"/>
+            <text x="590" y="94" text-anchor="middle" class="t-b">已验证</text>
+            <text x="590" y="111" text-anchor="middle" class="t-s">可加入评测</text>
+
+            <rect x="700" y="70" width="120" height="56" rx="8" class="s-data"/>
+            <text x="760" y="94" text-anchor="middle" class="t-b">已发布</text>
+            <text x="760" y="111" text-anchor="middle" class="t-s">可进门禁运行</text>
+
+            <rect x="870" y="70" width="110" height="56" rx="8" class="s-box"/>
+            <text x="925" y="94" text-anchor="middle" class="t-b">已下线</text>
+            <text x="925" y="111" text-anchor="middle" class="t-s">历史可查</text>
+
+            <rect x="275" y="180" width="220" height="50" rx="8" class="s-untrust"/>
+            <text x="385" y="202" text-anchor="middle" class="t-b" style="fill:var(--danger-ink)">已拒绝</text>
+            <text x="385" y="219" text-anchor="middle" class="t-s">附失败原因与日志，可修复后重传</text>
+
+            <path d="M140 98 L190 98" class="ln" marker-end="url(#ah7)"/><text x="165" y="90" text-anchor="middle" class="t-s">提交</text>
+            <path d="M310 98 L360 98" class="ln" marker-end="url(#ah7)"/><text x="335" y="90" text-anchor="middle" class="t-s">通过</text>
+            <path d="M480 98 L530 98" class="ln" marker-end="url(#ah7)"/><text x="505" y="90" text-anchor="middle" class="t-s">通过</text>
+            <path d="M650 98 L700 98" class="ln" marker-end="url(#ah7)"/><text x="675" y="90" text-anchor="middle" class="t-s">审批</text>
+            <path d="M820 98 L870 98" class="ln-d" marker-end="url(#ah7)"/><text x="845" y="90" text-anchor="middle" class="t-s">下线</text>
+
+            <path d="M250 126 L250 160 L275 190" class="ln-danger" marker-end="url(#ah-dg7)"/>
+            <path d="M420 126 L420 180" class="ln-danger" marker-end="url(#ah-dg7)"/>
+            <text x="440" y="152" class="t-s" style="fill:var(--danger-ink)">不通过</text>
+
+            <text x="500" y="30" text-anchor="middle" class="t-b">上传 → 可评测，中间必须过两道闸</text>
+            <text x="500" y="48" text-anchor="middle" class="t-s">没有这两道闸，跑不起来的智能体会在正式评测里产生几十条 infra_error，浪费算力还污染统计</text>
+
+            <defs>
+              <marker id="ah7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink-3)"/></marker>
+              <marker id="ah-dg7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--danger)"/></marker>
+            </defs>
+          </svg>
+        </div>
+        <figcaption><b>图 5</b> 制品生命周期：只有「已发布」的版本能进门禁运行。评测中若某版本被下线，进行中的运行不受影响（快照已锁定）。</figcaption>
+      </figure>
+
+      <h3>7.2 智能体规格契约</h3>
+
+      <p>上传时必须声明的元信息。<strong>契约是平台与智能体之间唯一的约定</strong>，不靠口头沟通。</p>
+
+      <div class="tw"><table>
+        <thead><tr><th>字段</th><th>说明</th><th>适用形态</th></tr></thead>
+        <tbody>
+          <tr><td><code>form</code></td><td><code>config</code> / <code>python_pkg</code> / <code>cli_tool</code> / <code>remote</code></td><td>全部</td></tr>
+          <tr><td><code>entrypoint</code></td><td>Python：<code>module:function</code>；CLI：命令行模板</td><td>② ③</td></tr>
+          <tr><td><code>input_schema</code> / <code>output_schema</code></td><td>JSON Schema，平台据此校验并生成表单</td><td>全部</td></tr>
+          <tr><td><code>runtime</code></td><td>基础镜像标识：<code>py311</code> / <code>cli-tools</code></td><td>② ③</td></tr>
+          <tr><td><code>dependencies</code></td><td><code>requirements.txt</code> 或 <code>pyproject.toml</code></td><td>②</td></tr>
+          <tr><td><code>env_declares</code></td><td>需要的环境变量名（<strong>只声明名字，值由平台注入</strong>）</td><td>② ③</td></tr>
+          <tr><td><code>resources</code></td><td>CPU / 内存 / 磁盘上限，超出则拒绝调度</td><td>② ③</td></tr>
+          <tr><td><code>timeout_sec</code></td><td>单试次硬超时</td><td>全部</td></tr>
+          <tr><td><code>workspace_required</code></td><td>是否需要工作区（代码仓库快照）</td><td>③</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="note crit">
+        <span class="note-t">env_declares 只声明名字，不接受值</span>
+        <p>智能体不能在契约里塞自己的 API key。所有密钥由平台在启动容器时注入，且注入的是<strong>试次临时凭证</strong>而非真实密钥（见 <a href="#s8">§8</a>）。若某智能体确实需要访问内部专有服务，走白名单审批，并在报告里标注「轨迹完整性降级」。</p>
+      </div>
+
+      <h3>7.3 四形态的执行路径</h3>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 1000 400" role="img" aria-label="四形态执行路径图">
+            <rect x="20" y="20" width="150" height="330" rx="10" class="s-self"/>
+            <text x="95" y="46" text-anchor="middle" class="t-b">试次调度器</text>
+            <text x="95" y="64" text-anchor="middle" class="t-s">按 form 分流</text>
+            <rect x="34" y="80" width="122" height="34" rx="5" class="s-box"/><text x="95" y="101" text-anchor="middle" class="t-m">锁定快照</text>
+            <rect x="34" y="122" width="122" height="34" rx="5" class="s-box"/><text x="95" y="143" text-anchor="middle" class="t-m">签发凭证</text>
+            <rect x="34" y="164" width="122" height="34" rx="5" class="s-box"/><text x="95" y="185" text-anchor="middle" class="t-m">分配配额</text>
+            <rect x="34" y="206" width="122" height="34" rx="5" class="s-box"/><text x="95" y="227" text-anchor="middle" class="t-m">起执行体</text>
+            <rect x="34" y="248" width="122" height="34" rx="5" class="s-box"/><text x="95" y="269" text-anchor="middle" class="t-m">收产物</text>
+            <rect x="34" y="290" width="122" height="34" rx="5" class="s-box"/><text x="95" y="311" text-anchor="middle" class="t-m">销毁并归档</text>
+
+            <!-- form 1 -->
+            <rect x="210" y="30" width="360" height="70" rx="8" class="s-self"/>
+            <text x="226" y="52" class="t-b">① 配置式</text>
+            <text x="226" y="70" class="t-s">平台内置运行时按配置编排：读提示词模板 → 调网关 → 按工具定义执行 → 产出</text>
+            <text x="226" y="88" class="t-m">无外来代码 · 轨迹由平台直接生成 · 可不起容器（进程内执行）</text>
+
+            <!-- form 2 -->
+            <rect x="210" y="110" width="360" height="80" rx="8" class="s-untrust"/>
+            <text x="226" y="132" class="t-b">② Python 代码包</text>
+            <text x="226" y="150" class="t-s">容器内 pip install → import 入口模块 → 调 entrypoint(input) → 取返回值</text>
+            <text x="226" y="168" class="t-m">依赖预装进镜像层缓存 · 网络仅放行网关</text>
+            <text x="226" y="184" class="t-m">轨迹：网关兜底 +（可选）平台 SDK 装饰器</text>
+
+            <!-- form 3 -->
+            <rect x="210" y="200" width="360" height="98" rx="8" class="s-untrust"/>
+            <text x="226" y="222" class="t-b">③ AI 编程工具 CLI　<tspan class="t-s" style="fill:var(--danger-ink)">最高风险</tspan></text>
+            <text x="226" y="240" class="t-s">解包工作区 → 注入网关环境变量 → 起 CLI 进程 → 等退出 → 工作区 diff</text>
+            <text x="226" y="258" class="t-m">ANTHROPIC_BASE_URL / OPENAI_BASE_URL → 网关</text>
+            <text x="226" y="273" class="t-m">*_API_KEY → 试次临时凭证（非真实密钥）</text>
+            <text x="226" y="289" class="t-m">轨迹：网关为主 + CLI 会话日志解析 + shell 审计</text>
+
+            <!-- form 4 -->
+            <rect x="210" y="308" width="360" height="60" rx="8" class="s-ext"/>
+            <text x="226" y="330" class="t-b">④ 远程服务</text>
+            <text x="226" y="348" class="t-s">直接 HTTP 调用，不起容器；环境不可控，轨迹靠对方埋点</text>
+            <text x="226" y="363" class="t-m">报告中标注「环境不可控」</text>
+
+            <!-- 右侧 -->
+            <rect x="610" y="110" width="180" height="188" rx="10" class="s-self"/>
+            <text x="700" y="134" text-anchor="middle" class="t-b">LLM 网关</text>
+            <text x="700" y="152" text-anchor="middle" class="t-s">唯一出网通道</text>
+            <text x="700" y="176" text-anchor="middle" class="t-m">校验试次凭证</text>
+            <text x="700" y="194" text-anchor="middle" class="t-m">注入真实密钥</text>
+            <text x="700" y="212" text-anchor="middle" class="t-m">记录完整请求响应</text>
+            <text x="700" y="230" text-anchor="middle" class="t-m">token 与成本归集</text>
+            <text x="700" y="248" text-anchor="middle" class="t-m">按模型限流</text>
+            <text x="700" y="272" text-anchor="middle" class="t-s" style="font-weight:700">二期：故障注入点</text>
+
+            <rect x="830" y="150" width="150" height="108" rx="10" class="s-ext"/>
+            <text x="905" y="176" text-anchor="middle" class="t-b">DeepSeek</text>
+            <text x="905" y="196" text-anchor="middle" class="t-m">flash 快档</text>
+            <text x="905" y="214" text-anchor="middle" class="t-m">pro 强档</text>
+            <text x="905" y="238" text-anchor="middle" class="t-s">真实密钥只到这一步</text>
+
+            <path d="M170 150 L210 150" class="ln" marker-end="url(#ah8)"/>
+            <path d="M170 240 L210 240" class="ln" marker-end="url(#ah8)"/>
+            <path d="M170 65 L210 65" class="ln" marker-end="url(#ah8)"/>
+            <path d="M170 330 L210 330" class="ln-d" marker-end="url(#ah8)"/>
+
+            <path d="M570 150 L610 175" class="ln-hot" marker-end="url(#ah-h8)"/>
+            <path d="M570 250 L610 235" class="ln-hot" marker-end="url(#ah-h8)"/>
+            <path d="M570 65 L590 65 L590 130 L610 130" class="ln-hot" marker-end="url(#ah-h8)"/>
+            <path d="M790 204 L830 204" class="ln-hot" marker-end="url(#ah-h8)"/>
+
+            <text x="500" y="388" text-anchor="middle" class="t-s" style="font-weight:700">三种形态、一个出口。红色虚线框内的容器无法直连 DeepSeek——真实密钥只存在于网关。</text>
+
+            <defs>
+              <marker id="ah8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink-3)"/></marker>
+              <marker id="ah-h8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/></marker>
+            </defs>
+          </svg>
+        </div>
+        <figcaption><b>图 6</b> 四形态执行路径：形态 ① 无外来代码可进程内执行；② ③ 必须进容器；④ 不在平台内执行。三者共享同一个 LLM 网关出口。</figcaption>
+      </figure>
+
+      <h3>7.4 容器执行的六条硬规则</h3>
+
+      <div class="tw"><table>
+        <thead><tr><th>规则</th><th>怎么实现</th><th>为什么</th></tr></thead>
+        <tbody>
+          <tr><td>每试次全新容器</td><td>Job / <code>docker run --rm</code>，跑完销毁，不复用</td><td>杜绝跨试次状态污染（<code>06</code> §5.1）</td></tr>
+          <tr><td>默认拒绝出网</td><td>NetworkPolicy 或自定义 bridge + iptables，只放行网关与回调两个地址</td><td>收敛出口，采集与管控才有着力点</td></tr>
+          <tr><td>非 root 运行</td><td><code>runAsNonRoot</code> + 固定 UID，禁用 <code>privileged</code> 与所有 Linux capabilities</td><td>降低逃逸后的破坏面</td></tr>
+          <tr><td>根文件系统只读</td><td><code>readOnlyRootFilesystem</code>，只有工作区与 <code>/tmp</code> 可写且限额</td><td>防止篡改运行时</td></tr>
+          <tr><td>资源硬限制</td><td>CPU / 内存 limits + 磁盘配额 + <code>timeout_sec</code> 硬杀</td><td>单个智能体不能拖垮整个执行池</td></tr>
+          <tr><td>金标准延迟投放</td><td>启动时挂载的载荷<strong>不含金标准</strong>；评分在容器销毁后于平台侧进行</td><td>时间防火墙（<code>03</code> §7.2）</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>7.5 冷启动与预热池</h3>
+
+      <p>冒烟门禁的预算是 <strong>≤ 5 分钟</strong>。若每次起容器都要拉镜像、装依赖，光冷启动就能吃掉一大半。</p>
+
+      <ul>
+        <li><strong>基础镜像只维护两个</strong>：<code>py311-runtime</code>（形态 ②）与 <code>cli-tools</code>（形态 ③，预装 opencode / claude code / codex）。制品<strong>挂载</strong>进去，不为每个智能体版本重新构建镜像。</li>
+        <li><strong>依赖层缓存</strong>：同一智能体版本的 <code>requirements</code> hash 命中时复用已构建的依赖层。</li>
+        <li><strong>预热池</strong>：常驻 N 个空闲容器（可配，默认 4），调度时直接注入制品与工作区，省掉容器创建时间。池子按门禁级别分配优先级——冒烟优先拿预热容器。</li>
+        <li><strong>镜像预拉</strong>：执行节点上常驻基础镜像，不走每次拉取。</li>
+      </ul>
+
+      <div class="note warn">
+        <span class="note-t">CLI 工具版本要锁死并纳入版本三元组</span>
+        <p>形态 ③ 的评测结果同时取决于<strong>模型</strong>和 <strong>CLI 工具本身的版本</strong>。<code>cli-tools</code> 镜像里各工具的版本必须锁定，且写进运行记录的 <code>agent_version</code>。否则某天镜像重建、工具升级，分数变了却查不出原因——这正是 WildClawBench「同一模型换 harness 分数差 6 个百分点以上」揭示的问题。</p>
+      </div>
+    </section>
+
+    <!-- ============ 8 ============ -->
+    <section id="s8">
+      <h2><span class="num">8</span>LLM 网关架构</h2>
+
+      <p><strong>这是整个架构最关键的一环。</strong> 它同时解决四个问题：轨迹完整性、成本归集、密钥安全、故障注入点。</p>
+
+      <div class="note">
+        <span class="note-t">核心思路</span>
+        <p>被测智能体不会主动埋点——claude code、codex 这些工具更不会为你的平台改代码。<strong>但它们都要调模型。</strong> 把模型调用收敛成唯一出口，就能在不修改智能体一行代码的前提下拿到完整的 LLM 调用轨迹。</p>
+      </div>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 1000 420" role="img" aria-label="LLM 网关数据流图">
+            <!-- 左：容器 -->
+            <rect x="20" y="60" width="210" height="200" rx="10" class="s-untrust"/>
+            <text x="36" y="84" class="t-lbl" style="fill:var(--danger-ink)">不可信容器</text>
+            <rect x="36" y="96" width="178" height="60" rx="6" class="s-box"/>
+            <text x="125" y="118" text-anchor="middle" class="t-b">被测智能体</text>
+            <text x="125" y="136" text-anchor="middle" class="t-s">以为自己在调 DeepSeek</text>
+            <text x="125" y="150" text-anchor="middle" class="t-s">实际调的是网关</text>
+
+            <rect x="36" y="166" width="178" height="80" rx="6" class="s-box"/>
+            <text x="48" y="186" class="t-b">注入的环境变量</text>
+            <text x="48" y="204" class="t-m">OPENAI_BASE_URL=…/gw/v1</text>
+            <text x="48" y="220" class="t-m">ANTHROPIC_BASE_URL=…/gw</text>
+            <text x="48" y="236" class="t-m">*_API_KEY=&lt;试次临时凭证&gt;</text>
+
+            <!-- 中：网关 -->
+            <rect x="290" y="30" width="420" height="330" rx="10" class="s-self" style="stroke-width:2.5"/>
+            <text x="306" y="54" class="t-lbl">eval-hub-gateway</text>
+
+            <rect x="306" y="66" width="388" height="46" rx="6" class="s-box"/>
+            <text x="318" y="86" class="t-b">① 凭证校验</text>
+            <text x="318" y="103" class="t-s">解出 trial_id · 校验未过期 · 校验该试次仍在运行中</text>
+
+            <rect x="306" y="120" width="388" height="46" rx="6" class="s-box"/>
+            <text x="318" y="140" class="t-b">② 配额与限流</text>
+            <text x="318" y="157" class="t-s">按模型分桶令牌桶 · 单次运行成本上限 · 强档占比上限</text>
+
+            <rect x="306" y="174" width="388" height="46" rx="6" class="s-box" style="stroke:var(--mem);stroke-width:2;stroke-dasharray:5 3"/>
+            <text x="318" y="194" class="t-b" style="fill:var(--mem-ink)">③ 故障注入（二期）</text>
+            <text x="318" y="211" class="t-s">超时 · 限流 · 部分响应 · schema 漂移　—— 拦截点天然在此</text>
+
+            <rect x="306" y="228" width="388" height="46" rx="6" class="s-box"/>
+            <text x="318" y="248" class="t-b">④ 密钥替换与转发</text>
+            <text x="318" y="265" class="t-s">剥掉临时凭证，换上真实密钥；按 model 路由到对应档位</text>
+
+            <rect x="306" y="282" width="388" height="62" rx="6" class="s-data"/>
+            <text x="318" y="302" class="t-b">⑤ 记录与归集</text>
+            <text x="318" y="319" class="t-s">写 llm_call：trial_id · 模型 · token 进出 · 耗时 · 成本 · 状态</text>
+            <text x="318" y="336" class="t-s">请求响应全文 → 对象存储；同时生成一条 OTel span 挂到该 trial 的 trace 下</text>
+
+            <!-- 右 -->
+            <rect x="770" y="60" width="210" height="70" rx="10" class="s-ext"/>
+            <text x="875" y="86" text-anchor="middle" class="t-b">DeepSeek API</text>
+            <text x="875" y="106" text-anchor="middle" class="t-s">真实密钥只到这一步</text>
+            <text x="875" y="121" text-anchor="middle" class="t-m">DEEPSEEK_API_KEY</text>
+
+            <rect x="770" y="150" width="210" height="90" rx="10" class="s-store"/>
+            <text x="875" y="176" text-anchor="middle" class="t-b">MySQL · llm_call</text>
+            <text x="875" y="196" text-anchor="middle" class="t-s">成本能算到每个试次</text>
+            <text x="875" y="214" text-anchor="middle" class="t-s">报告按档位分列</text>
+            <text x="875" y="231" text-anchor="middle" class="t-m">按 flash / pro 分别统计</text>
+
+            <rect x="770" y="260" width="210" height="84" rx="10" class="s-store"/>
+            <text x="875" y="286" text-anchor="middle" class="t-b">对象存储 + trace</text>
+            <text x="875" y="306" text-anchor="middle" class="t-s">请求响应全文</text>
+            <text x="875" y="324" text-anchor="middle" class="t-s">自动挂到试次轨迹树</text>
+
+            <path d="M230 150 L290 150" class="ln-hot" marker-end="url(#ah9)"/>
+            <text x="260" y="142" text-anchor="middle" class="t-s">调用</text>
+            <path d="M694 96 L770 96" class="ln-hot" marker-end="url(#ah9)"/>
+            <path d="M694 300 L770 195" class="ln" marker-end="url(#ah9)"/>
+            <path d="M694 313 L770 300" class="ln" marker-end="url(#ah9)"/>
+
+            <text x="500" y="386" text-anchor="middle" class="t-s" style="font-weight:700">智能体一行埋点都不用写，LLM 调用轨迹就是完整的——这是选统一网关的首要理由。</text>
+            <text x="500" y="406" text-anchor="middle" class="t-s">副产品：密钥不下发、成本可归集、二期故障注入有现成拦截点。</text>
+
+            <defs><marker id="ah9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/></marker></defs>
+          </svg>
+        </div>
+        <figcaption><b>图 7</b> LLM 网关数据流：五个环节。第 ③ 环是二期故障注入的预留位——因为所有模型调用必经此处，注入点天然存在，不需要额外改造。</figcaption>
+      </figure>
+
+      <h3>8.1 试次临时凭证的设计</h3>
+
+      <p>这是网关能把调用归属到试次的关键。</p>
+
+      <div class="tw"><table>
+        <thead><tr><th>属性</th><th>设计</th><th>理由</th></tr></thead>
+        <tbody>
+          <tr><td>形式</td><td>JWT，载荷含 <code>trial_id</code> / <code>run_id</code> / <code>agent_version_id</code> / <code>jti</code></td><td>无状态校验，网关不必每次查库</td></tr>
+          <tr><td>有效期</td><td>= 该试次的 <code>timeout_sec</code> + 60 秒缓冲</td><td>试次结束凭证即失效，泄露了也用不了多久</td></tr>
+          <tr><td>吊销</td><td>Redis 存 <code>jti</code> 白名单，试次结束立即删除</td><td>硬超时或人工中止时能立刻断掉</td></tr>
+          <tr><td>作用域</td><td>只能调网关，只能用该智能体契约里声明的模型档位</td><td>防止低优先级任务偷用强档</td></tr>
+          <tr><td>格式伪装</td><td>对外看起来就是一个 <code>sk-</code> 前缀的普通 key</td><td>CLI 工具会校验 key 格式，不伪装会被拒绝</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="note crit">
+        <span class="note-t">凭证泄露的处置</span>
+        <p>凭证会出现在容器环境变量里，被测智能体理论上能读到并外传。缓解是<strong>纵深防御</strong>：容器不能出网（除网关外）→ 传不出去；凭证短时效 → 传出去也快过期；作用域受限 → 只能调网关的模型接口，做不了别的。<strong>残余风险仍然存在</strong>，接受它并靠审计发现异常调用量。</p>
+      </div>
+
+      <h3>8.2 网关必须做到的三件事</h3>
+      <ul>
+        <li><strong>协议兼容要真。</strong> 支持 OpenAI 的 <code>/v1/chat/completions</code>（含流式 SSE）与 Anthropic 的 <code>/v1/messages</code>——CLI 工具用哪套协议不由我们决定。流式响应要边转发边累积记录，不能等全部收完再转发（会破坏交互体验并可能触发工具超时）。</li>
+        <li><strong>失败要透传语义。</strong> 上游 429 / 500 要原样传回，不能吞掉转成自己的错误码，否则智能体的重试逻辑会失效，测出来的鲁棒性是假的。</li>
+        <li><strong>网关自身不能成为瓶颈。</strong> 它在所有试次的关键路径上。用 <code>httpx.AsyncClient</code> 连接池 + 无状态设计，可水平扩多副本。</li>
+      </ul>
+    </section>
+
+    <!-- ============ 9 ============ -->
+    <section id="s9">
+      <h2><span class="num">9</span>轨迹采集与存储架构</h2>
+
+      <p>三条证据通道，<strong>各自独立采集</strong>，互为交叉验证。任何一条被智能体污染，另外两条还在。</p>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 1000 440" role="img" aria-label="三通道证据采集与分层存储">
+            <rect x="20" y="30" width="250" height="250" rx="10" class="s-untrust"/>
+            <text x="36" y="54" class="t-lbl" style="fill:var(--danger-ink)">容器内（不可信）</text>
+            <rect x="36" y="66" width="218" height="50" rx="6" class="s-box"/>
+            <text x="145" y="88" text-anchor="middle" class="t-b">被测智能体执行</text>
+            <text x="145" y="105" text-anchor="middle" class="t-s">读写文件 · 调模型 · 跑 shell</text>
+
+            <rect x="36" y="126" width="218" height="42" rx="6" class="s-ext"/>
+            <text x="145" y="147" text-anchor="middle" class="t-s">（可选）平台 SDK 主动埋点</text>
+            <text x="145" y="161" text-anchor="middle" class="t-m">锦上添花，不作依赖</text>
+
+            <rect x="36" y="178" width="218" height="42" rx="6" class="s-box"/>
+            <text x="145" y="199" text-anchor="middle" class="t-b">CLI 会话日志</text>
+            <text x="145" y="213" text-anchor="middle" class="t-m">工具自己写的 session 文件</text>
+
+            <rect x="36" y="230" width="218" height="38" rx="6" class="s-box"/>
+            <text x="145" y="253" text-anchor="middle" class="t-b">工作区（执行前后各一次快照）</text>
+
+            <!-- 三通道 -->
+            <rect x="310" y="30" width="290" height="76" rx="8" class="s-self"/>
+            <text x="326" y="52" class="t-b">通道一 · 执行轨迹</text>
+            <text x="326" y="70" class="t-s">OTLP 端点接收 span（protobuf / json）</text>
+            <text x="326" y="87" class="t-m">来源：SDK 埋点 + 网关自动生成的 LLM span</text>
+            <text x="326" y="101" class="t-s" style="font-weight:700">采集在容器外，智能体不可篡改</text>
+
+            <rect x="310" y="116" width="290" height="94" rx="8" class="s-self"/>
+            <text x="326" y="138" class="t-b">通道二 · 服务端审计</text>
+            <text x="326" y="156" class="t-s">网关侧：每一次模型调用的完整请求响应</text>
+            <text x="326" y="173" class="t-s">执行侧：shell 命令审计 + stdout / stderr</text>
+            <text x="326" y="190" class="t-m">CLI 会话日志由适配器解析后并入此通道</text>
+            <text x="326" y="205" class="t-s" style="font-weight:700">安全类判据只认这一通道</text>
+
+            <rect x="310" y="220" width="290" height="60" rx="8" class="s-self"/>
+            <text x="326" y="242" class="t-b">通道三 · 环境快照</text>
+            <text x="326" y="260" class="t-s">执行前后工作区差异 → 产物 diff</text>
+            <text x="326" y="275" class="t-m">形态 ③ 的主要评分依据</text>
+
+            <!-- 存储 -->
+            <rect x="640" y="30" width="340" height="118" rx="10" class="s-store"/>
+            <text x="656" y="54" class="t-lbl">MySQL · 结构化索引</text>
+            <rect x="656" y="66" width="308" height="34" rx="5" class="s-box"/>
+            <text x="668" y="87" class="t-m">trace(trial_id, 起止, span 数, token, 成本)</text>
+            <rect x="656" y="106" width="308" height="34" rx="5" class="s-box"/>
+            <text x="668" y="127" class="t-m">span(id, parent, name, kind, 起止, attrs, ref)</text>
+
+            <rect x="640" y="160" width="340" height="120" rx="10" class="s-store"/>
+            <text x="656" y="184" class="t-lbl">对象存储 · 大载荷</text>
+            <rect x="656" y="196" width="308" height="30" rx="5" class="s-box"/>
+            <text x="668" y="215" class="t-m">prompt.txt · completion.txt</text>
+            <rect x="656" y="232" width="308" height="30" rx="5" class="s-box"/>
+            <text x="668" y="251" class="t-m">shell_out.log · diff.patch · artifacts/</text>
+
+            <!-- 查询 -->
+            <rect x="310" y="306" width="670" height="90" rx="10" class="s-data"/>
+            <text x="326" y="330" class="t-lbl">转录本查看器的查询路径</text>
+            <text x="326" y="352" class="t">① 一次查询从 MySQL 取整棵 span 树 → 渲染骨架（首屏<tspan style="font-weight:700">不拉大文本</tspan>）</text>
+            <text x="326" y="372" class="t">② 用户点开某条 span → 按 <tspan class="t-m">payload_ref</tspan> 去对象存储拉全文 → 懒加载渲染</text>
+            <text x="326" y="390" class="t-s">这样即使一次试次有上百个 span、几十 MB 文本，首屏也在百毫秒级</text>
+
+            <path d="M270 90 L310 68" class="ln" marker-end="url(#aha)"/>
+            <path d="M270 150 L310 160" class="ln" marker-end="url(#aha)"/>
+            <path d="M270 199 L310 175" class="ln" marker-end="url(#aha)"/>
+            <path d="M270 249 L310 250" class="ln" marker-end="url(#aha)"/>
+            <path d="M600 68 L640 90" class="ln" marker-end="url(#aha)"/>
+            <path d="M600 165 L640 110" class="ln" marker-end="url(#aha)"/>
+            <path d="M600 190 L640 215" class="ln" marker-end="url(#aha)"/>
+            <path d="M600 250 L640 245" class="ln" marker-end="url(#aha)"/>
+            <path d="M810 280 L810 306" class="ln-d" marker-end="url(#aha)"/>
+
+            <defs><marker id="aha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink-3)"/></marker></defs>
+          </svg>
+        </div>
+        <figcaption><b>图 8</b> 三通道采集与分层存储：通道一二三互相独立。安全类判据只认通道二三，因为轨迹可能被智能体的自述污染。</figcaption>
+      </figure>
+
+      <h3>9.1 OTLP 摄入端点</h3>
+
+      <div class="tw"><table>
+        <thead><tr><th>项</th><th>设计</th></tr></thead>
+        <tbody>
+          <tr><td>路径</td><td><code>POST /otlp/v1/traces</code>，同时接受 <code>application/x-protobuf</code> 与 <code>application/json</code></td></tr>
+          <tr><td>鉴权</td><td>复用试次临时凭证，据此把 span 归属到 trial</td></tr>
+          <tr><td>解析</td><td><code>opentelemetry-proto</code> 官方包，遵循 GenAI 语义约定（<code>gen_ai.*</code> 属性）</td></tr>
+          <tr><td>背压</td><td>接收即写 Redis 队列返回 202，worker 异步落库；队列积压超阈值时返回 429</td></tr>
+          <tr><td>大载荷拆分</td><td>单个属性超过 8 KB 即转存对象存储，span 行只留 <code>payload_ref</code></td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>9.2 CLI 会话日志适配器</h3>
+
+      <p>形态 ③ 的特殊处理。opencode / claude code / codex 各自有自己的会话记录格式（JSON Lines 或 SQLite），<strong>格式不统一且会随版本变</strong>。</p>
+
+      <ul>
+        <li><strong>适配器按工具分别实现</strong>，放在 <code>evidence/cli_adapters/</code> 下，每个工具一个模块，解析结果统一转成 OTel span。</li>
+        <li><strong>适配器是尽力而为，不是依赖项。</strong> 某个工具升级后格式变了、解析失败，只影响轨迹的丰富度，<strong>不影响评分</strong>——因为 LLM 调用轨迹来自网关，产物来自工作区 diff，这两条都不依赖会话日志。</li>
+        <li>解析失败要显式记录并在报告标注「该试次 CLI 会话日志未解析」，不静默吞掉。</li>
+      </ul>
+
+      <h3>9.3 shell 审计</h3>
+
+      <p>形态 ③ 会执行任意 shell。要知道它做了什么，有三种做法，按可行性排序：</p>
+
+      <div class="tw"><table>
+        <thead><tr><th>做法</th><th>覆盖度</th><th>代价</th><th>取舍</th></tr></thead>
+        <tbody>
+          <tr><td><strong>包装 shell</strong>：容器内把 <code>/bin/sh</code> 替换为记录后转发的包装脚本</td><td>中——能记 CLI 工具通过 shell 执行的命令</td><td>低</td><td><strong>首期采用</strong></td></tr>
+          <tr><td>容器内 auditd</td><td>高——系统调用级</td><td>中，需要额外 capability，与「禁用所有 capabilities」冲突</td><td>不采用</td></tr>
+          <tr><td>宿主 eBPF 探针</td><td>最高</td><td>高，需内核支持与专门运维</td><td>二期评估</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="note warn">
+        <span class="note-t">包装 shell 能被绕过，要说清楚</span>
+        <p>智能体若直接用 <code>subprocess</code> 调二进制而不经 shell，包装脚本就记不到。<strong>它是取证辅助，不是安全边界。</strong> 真正的安全边界是容器隔离与网络策略（<a href="#s11">§11</a>）。审计的目的是「事后能查」，不是「事前能防」。</p>
+      </div>
+
+      <h3>9.4 转录本查看器（自研）</h3>
+
+      <p>前端最大的一块，也是「不部署 Langfuse」后新增的主要工作量。功能清单：</p>
+
+      <div class="grid2">
+        <div class="card">
+          <h4 style="margin-top:0">必须有（P0）</h4>
+          <ul style="margin-bottom:0">
+            <li>span 树形展开 / 折叠，按耗时着色</li>
+            <li>时间轴甘特视图，看清并发与阻塞</li>
+            <li>按 span 类型筛选（LLM / 工具 / shell / 文件）</li>
+            <li>LLM 调用的 prompt / completion 左右对照</li>
+            <li>大文本懒加载</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4 style="margin-top:0">应该有（P1）</h4>
+          <ul style="margin-bottom:0">
+            <li>工作区文件 diff 视图（形态 ③ 必需）</li>
+            <li>全文搜索并高亮定位到 span</li>
+            <li>与评分结果联动：点 rubric 项跳到证据 span</li>
+            <li>两次试次的轨迹并排 diff</li>
+          </ul>
+        </div>
+      </div>
+
+      <p><strong>「点 rubric 项跳到证据 span」这一条是审计链闭环的最后一环。</strong> <code>rubric_result.evidence_ref</code> 存的就是 span id 或对象存储 key，查看器据此直接定位。没有这一环，<code>evidence_ref</code> 就只是个躺在库里没人用的字段。</p>
+    </section>
+
+    <!-- ============ 10 ============ -->
+    <section id="s10">
+      <h2><span class="num">10</span>部署架构</h2>
+
+      <p>五类组件。<strong>执行节点与平台节点必须分开</strong>——那是唯一跑不可信代码的地方，故障域与安全域都要隔离。</p>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 1000 440" role="img" aria-label="部署拓扑图">
+            <rect x="20" y="24" width="300" height="180" rx="10" class="s-self"/>
+            <text x="36" y="48" class="t-lbl">平台节点组（可信）</text>
+            <rect x="36" y="60" width="128" height="44" rx="6" class="s-box"/><text x="100" y="79" text-anchor="middle" class="t-b">eval-hub-api</text><text x="100" y="95" text-anchor="middle" class="t-s">2 副本 · 2C4G</text>
+            <rect x="174" y="60" width="130" height="44" rx="6" class="s-box"/><text x="239" y="79" text-anchor="middle" class="t-b">eval-hub-web</text><text x="239" y="95" text-anchor="middle" class="t-s">Nginx 静态</text>
+            <rect x="36" y="114" width="128" height="44" rx="6" class="s-box"/><text x="100" y="133" text-anchor="middle" class="t-b">eval-hub-worker</text><text x="100" y="149" text-anchor="middle" class="t-s">2–6 副本 · 弹性</text>
+            <rect x="174" y="114" width="130" height="44" rx="6" class="s-box" style="stroke:var(--danger);stroke-width:2"/><text x="239" y="133" text-anchor="middle" class="t-b">gateway</text><text x="239" y="149" text-anchor="middle" class="t-s">2 副本 · 持密钥</text>
+            <text x="36" y="180" class="t-s">网关单独部署且独立网络策略：它是唯一持真实密钥、</text>
+            <text x="36" y="195" class="t-s">又直接暴露给不可信容器的组件。</text>
+
+            <!-- 执行节点 -->
+            <rect x="345" y="24" width="330" height="180" rx="10" class="s-untrust"/>
+            <text x="361" y="48" class="t-lbl" style="fill:var(--danger-ink)">执行节点组（不可信 · 物理隔离）</text>
+            <rect x="361" y="60" width="140" height="44" rx="6" class="s-box"/><text x="431" y="79" text-anchor="middle" class="t-b">试次容器 × N</text><text x="431" y="95" text-anchor="middle" class="t-s">跑完即销毁</text>
+            <rect x="511" y="60" width="148" height="44" rx="6" class="s-box"/><text x="585" y="79" text-anchor="middle" class="t-b">预热池</text><text x="585" y="95" text-anchor="middle" class="t-s">默认 4 常驻</text>
+            <rect x="361" y="114" width="298" height="44" rx="6" class="s-box"/><text x="510" y="133" text-anchor="middle" class="t-b">基础镜像：py311-runtime · cli-tools</text><text x="510" y="149" text-anchor="middle" class="t-s">节点常驻预拉，制品挂载进去，不为每版本重建镜像</text>
+            <text x="361" y="180" class="t-s" style="fill:var(--danger-ink)">出网默认拒绝，仅放行 gateway 与平台回调两个地址。</text>
+            <text x="361" y="195" class="t-s" style="fill:var(--danger-ink)">建议独立节点池 / 独立子网，不与平台节点混部。</text>
+
+            <!-- 数据 -->
+            <rect x="700" y="24" width="280" height="180" rx="10" class="s-store"/>
+            <text x="716" y="48" class="t-lbl">数据组</text>
+            <rect x="716" y="60" width="248" height="40" rx="6" class="s-box"/><text x="840" y="78" text-anchor="middle" class="t-b">MySQL 8.0</text><text x="840" y="93" text-anchor="middle" class="t-s">主从 · 4C8G · 首年 &lt;30GB</text>
+            <rect x="716" y="108" width="248" height="40" rx="6" class="s-box"/><text x="840" y="126" text-anchor="middle" class="t-b">Redis 7</text><text x="840" y="141" text-anchor="middle" class="t-s">2C4G · 队列与缓存</text>
+            <rect x="716" y="156" width="248" height="40" rx="6" class="s-box"/><text x="840" y="174" text-anchor="middle" class="t-b">对象存储</text><text x="840" y="189" text-anchor="middle" class="t-s">MinIO 或已有 S3 · 首年 200–500GB</text>
+
+            <!-- 两种编排 -->
+            <rect x="20" y="226" width="470" height="130" rx="10" class="s-self"/>
+            <text x="36" y="250" class="t-lbl">拓扑甲 · 有 Kubernetes（推荐）</text>
+            <text x="36" y="272" class="t">平台组件为 Deployment；试次执行为 <tspan class="t-m">Job</tspan>，一试次一 Pod</text>
+            <text x="36" y="292" class="t-s">· NetworkPolicy 做出网管控，声明式、可审计</text>
+            <text x="36" y="310" class="t-s">· ResourceQuota / LimitRange 做资源限制</text>
+            <text x="36" y="328" class="t-s">· 执行节点打 taint，用 nodeSelector 隔离节点池</text>
+            <text x="36" y="346" class="t-s">· 天然支持弹性扩缩与故障自愈</text>
+
+            <rect x="510" y="226" width="470" height="130" rx="10" class="s-box"/>
+            <text x="526" y="250" class="t-lbl">拓扑乙 · 只有 Docker（降级方案）</text>
+            <text x="526" y="272" class="t">平台组件用 compose；试次执行由 worker 直接调 Docker API</text>
+            <text x="526" y="292" class="t-s">· 出网管控靠自定义 bridge + iptables 规则，手工维护</text>
+            <text x="526" y="310" class="t-s">· 并发池与容器生命周期由 worker 自己管，多写一层调度</text>
+            <text x="526" y="328" class="t-s">· <tspan style="font-weight:700">worker 需挂载 docker.sock —— 这是提权路径，必须单独加固</tspan></text>
+            <text x="526" y="346" class="t-s">· 扩容靠加机器 + 手工分片，无自愈</text>
+
+            <text x="500" y="386" text-anchor="middle" class="t-s" style="font-weight:700">两种拓扑都能落地，但安全与运维成本差距明显。拓扑乙的 docker.sock 挂载是最大隐患。</text>
+            <text x="500" y="408" text-anchor="middle" class="t-s">若最终只有 Docker，建议把执行节点做成独立物理机 / 虚机，与平台节点完全分离，并接受更高的残余风险。</text>
+          </svg>
+        </div>
+        <figcaption><b>图 9</b> 部署拓扑：五类组件、两种编排选择。执行节点组与平台节点组分离是安全设计的第一道防线，两种拓扑下都不可省。</figcaption>
+      </figure>
+
+      <h3>10.1 环境划分</h3>
+
+      <div class="tw"><table>
+        <thead><tr><th>环境</th><th>用途</th><th>规模</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>开发</td><td>本地开发</td><td>compose 单机</td><td>MySQL / Redis / MinIO 容器化；执行用本地 Docker</td></tr>
+          <tr><td>预发</td><td>Langfuse 式集成验证、CLI 工具兼容性验证</td><td>最小副本</td><td><strong>基础镜像升级必须先过这里</strong>——CLI 工具版本变化会直接改变评测结果</td></tr>
+          <tr><td>生产</td><td>部门日常评测与 CI 门禁</td><td>见图 9</td><td>执行节点独立池</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>10.2 容量与扩缩</h3>
+
+      <div class="tw"><table>
+        <thead><tr><th>组件</th><th>瓶颈在哪</th><th>怎么扩</th></tr></thead>
+        <tbody>
+          <tr><td><code>eval-hub-api</code></td><td>基本不会成为瓶颈</td><td>2 副本足够，前置负载均衡</td></tr>
+          <tr><td><code>eval-hub-worker</code></td><td><strong>并发试次数</strong>，受 LLM 配额与执行节点资源双重限制</td><td>水平扩副本；但先确认瓶颈是 CPU 还是模型配额，配额不够时扩 worker 无用</td></tr>
+          <tr><td><code>gateway</code></td><td>在所有试次关键路径上，但只做转发</td><td>无状态，可水平扩；注意上游 DeepSeek 的总配额是共享的</td></tr>
+          <tr><td>执行节点</td><td>容器并发数、磁盘 IO（工作区解包）</td><td>加节点；预热池数量按冒烟并发峰值配</td></tr>
+          <tr><td>MySQL</td><td>首期不会；二期看 <code>span</code> 表</td><td>先加索引与归档，超 5000 万行再评估列存</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ============ 11 ============ -->
+    <section id="s11">
+      <h2><span class="num">11</span>安全架构</h2>
+
+      <div class="note crit">
+        <span class="note-t">这是本架构的首要风险，不粉饰</span>
+        <p>平台要<strong>执行用户上传的任意代码</strong>，其中形态 ③（AI 编程工具 CLI）还会<strong>执行任意 shell 命令</strong>。这在安全上等价于「对内提供了一个可编程的远程执行服务」。所有隔离手段都是降低风险，<strong>没有一种能把风险降到零</strong>。下面写清楚每一层挡什么、挡不住什么。</p>
+      </div>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 1000 400" role="img" aria-label="安全信任边界与隔离层次">
+            <!-- 同心边界 -->
+            <rect x="20" y="24" width="620" height="352" rx="12" class="s-zone"/>
+            <text x="36" y="46" class="t-lbl">信任边界一 · 内网</text>
+
+            <rect x="44" y="58" width="572" height="300" rx="10" class="s-box"/>
+            <text x="60" y="80" class="t-lbl">信任边界二 · 执行节点池（独立子网 / 节点池）</text>
+
+            <rect x="68" y="92" width="524" height="250" rx="10" class="s-untrust"/>
+            <text x="84" y="114" class="t-lbl" style="fill:var(--danger-ink)">信任边界三 · 单个试次容器（零信任）</text>
+
+            <rect x="88" y="126" width="484" height="42" rx="6" class="s-box"/>
+            <text x="100" y="145" class="t-b">被测智能体进程</text>
+            <text x="100" y="160" class="t-s">非 root · 无 capabilities · 只读根文件系统 · 资源硬限</text>
+
+            <rect x="88" y="178" width="234" height="72" rx="6" class="s-data"/>
+            <text x="100" y="197" class="t-b">可写区（限额）</text>
+            <text x="100" y="214" class="t-m">/workspace　工作区</text>
+            <text x="100" y="230" class="t-m">/tmp　　　　临时</text>
+            <text x="100" y="245" class="t-s">跑完随容器销毁</text>
+
+            <rect x="338" y="178" width="234" height="72" rx="6" class="s-box"/>
+            <text x="350" y="197" class="t-b">出网白名单（仅两个）</text>
+            <text x="350" y="214" class="t-m">→ eval-hub-gateway</text>
+            <text x="350" y="230" class="t-m">→ 平台回调 / OTLP</text>
+            <text x="350" y="245" class="t-s">其余全部 DROP</text>
+
+            <rect x="88" y="260" width="484" height="66" rx="6" class="s-box"/>
+            <text x="100" y="280" class="t-b">注入的凭证</text>
+            <text x="100" y="297" class="t-s">只有试次临时凭证（短 TTL · 作用域受限 · 可即时吊销）</text>
+            <text x="100" y="314" class="t-s" style="font-weight:700">真实的 DEEPSEEK_API_KEY 从不进入这个边界</text>
+
+            <!-- 右侧：挡不住什么 -->
+            <rect x="670" y="24" width="310" height="352" rx="12" class="s-box" style="stroke:var(--danger);stroke-width:2"/>
+            <text x="686" y="46" class="t-lbl" style="fill:var(--danger-ink)">挡不住的（残余风险）</text>
+
+            <rect x="686" y="58" width="278" height="66" rx="6" class="s-box"/>
+            <text x="698" y="78" class="t-b">容器逃逸 0day</text>
+            <text x="698" y="95" class="t-s">内核漏洞导致的逃逸无法靠配置防住</text>
+            <text x="698" y="112" class="t-m">缓解：执行节点独立、及时打补丁</text>
+
+            <rect x="686" y="132" width="278" height="66" rx="6" class="s-box"/>
+            <text x="698" y="152" class="t-b">凭证被读取外传</text>
+            <text x="698" y="169" class="t-s">凭证在环境变量里，智能体能读到</text>
+            <text x="698" y="186" class="t-m">缓解：出网受限传不出 + 短 TTL + 吊销</text>
+
+            <rect x="686" y="206" width="278" height="66" rx="6" class="s-box"/>
+            <text x="698" y="226" class="t-b">shell 审计被绕过</text>
+            <text x="698" y="243" class="t-s">直接 subprocess 调二进制不经包装 shell</text>
+            <text x="698" y="260" class="t-m">缓解：审计是取证不是边界，边界靠隔离</text>
+
+            <rect x="686" y="280" width="278" height="80" rx="6" class="s-box"/>
+            <text x="698" y="300" class="t-b">恶意制品（内部威胁）</text>
+            <text x="698" y="317" class="t-s">静态检查只能拦已知模式，拦不住有心人</text>
+            <text x="698" y="334" class="t-m">缓解：上传者实名 + 操作审计 + 部门内使用</text>
+            <text x="698" y="351" class="t-s" style="font-weight:700">这是部门内网工具，不是公网 SaaS</text>
+
+            <path d="M640 200 L670 200" class="ln-danger" marker-end="url(#ahb)"/>
+
+            <defs><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--danger)"/></marker></defs>
+          </svg>
+        </div>
+        <figcaption><b>图 10</b> 三层信任边界与四类残余风险。左边是能做到的，右边是做不到的——两边都要让评审者看见。</figcaption>
+      </figure>
+
+      <h3>11.1 威胁与缓解</h3>
+
+      <div class="tw"><table>
+        <thead><tr><th>威胁</th><th>缓解手段</th><th>残余风险</th></tr></thead>
+        <tbody>
+          <tr><td>智能体读取其他试次的数据</td><td>每试次独立容器与工作区；数据库凭证不进容器；对象存储不对容器开放</td><td>低</td></tr>
+          <tr><td>智能体外连互联网（数据外泄 / 拉恶意载荷）</td><td>出网默认 DROP，白名单仅两个地址</td><td>低（依赖网络策略配置正确）</td></tr>
+          <tr><td>智能体盗用真实模型密钥</td><td>真实密钥只在网关；容器只拿短时效受限凭证</td><td>低</td></tr>
+          <tr><td>智能体耗尽资源影响其他试次</td><td>CPU / 内存 / 磁盘硬限 + 硬超时 + 独立节点池</td><td>中（磁盘 IO 争抢难完全隔离）</td></tr>
+          <tr><td>容器逃逸获取节点权限</td><td>非 root、无 capabilities、只读根 FS、独立节点池、及时补丁</td><td><strong>中——0day 无法防住</strong></td></tr>
+          <tr><td>worker 的 docker.sock 被利用（仅拓扑乙）</td><td>worker 与执行节点同机隔离部署；socket 代理限制可调用的 API</td><td><strong>高——这是拓扑乙的主要短板</strong></td></tr>
+          <tr><td>恶意制品上传</td><td>静态检查 + 上传者实名 + 操作审计</td><td>中（内部威胁模型下接受）</td></tr>
+          <tr><td>轨迹数据泄露敏感信息</td><td>入库前脱敏规则；对象存储访问走签名 URL 且短时效</td><td>中（脱敏规则覆盖不全）</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>11.2 密钥流转</h3>
+
+      <div class="tw"><table>
+        <thead><tr><th>密钥</th><th>存放</th><th>谁能读</th></tr></thead>
+        <tbody>
+          <tr><td><code>DEEPSEEK_API_KEY</code></td><td>密钥管理服务 / K8s Secret</td><td><strong>只有 gateway 进程</strong></td></tr>
+          <tr><td>MySQL / Redis / 对象存储凭证</td><td>同上</td><td>api 与 worker，<strong>不进容器</strong></td></tr>
+          <tr><td>试次临时凭证</td><td>运行时签发，Redis 存吊销白名单</td><td>容器（这是它唯一拿到的凭证）</td></tr>
+          <tr><td>JWT 签名密钥</td><td>同上</td><td>api 与 gateway</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="note">
+        <span class="note-t">密钥纪律（沿用 PRD §5.5）</span>
+        <p>代码与文档中只出现环境变量名：<code>DEEPSEEK_API_KEY</code> / <code>DEEPSEEK_BASE_URL</code> / <code>DEEPSEEK_MODEL_FAST</code> / <code>DEEPSEEK_MODEL_PRO</code>。CI 加 secret 扫描，命中即阻断。密钥一旦出现在聊天、工单、文档中，<strong>立即轮换</strong>。</p>
+      </div>
+
+      <h3>11.3 权限模型</h3>
+
+      <p>单一系统，权限全在中枢侧实现（PRD 原设计里这部分因 Langfuse oss 无项目级 RBAC 而放在中枢，结论不变，理由变了）。</p>
+
+      <div class="tw"><table>
+        <thead><tr><th>角色</th><th>能做</th><th>不能做</th></tr></thead>
+        <tbody>
+          <tr><td>任务作者</td><td>建任务、写 rubric、提交评审</td><td>发布任务、改基线、改阈值</td></tr>
+          <tr><td>智能体维护者</td><td>上传制品、管版本、触发自检</td><td>发布制品到门禁可用</td></tr>
+          <tr><td>评分器维护者</td><td>写确定性检查器、改判官模板</td><td>改已生效的基线</td></tr>
+          <tr><td>校准标注者</td><td>领标注任务、提交标注</td><td>看其他标注者的结果（防锚定）</td></tr>
+          <tr><td>发布审批人</td><td>发布任务与制品、改基线与阈值</td><td>—</td></tr>
+          <tr><td>只读</td><td>看报告与轨迹</td><td>任何写操作</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ============ 12 ============ -->
+    <section id="s12">
+      <h2><span class="num">12</span>关键流程</h2>
+
+      <h3>12.1 一次运行的端到端时序</h3>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 1000 500" role="img" aria-label="一次运行端到端时序图">
+            <!-- 泳道头 -->
+            <rect x="20" y="20" width="120" height="34" rx="6" class="s-box"/><text x="80" y="42" text-anchor="middle" class="t-b">CI</text>
+            <rect x="160" y="20" width="130" height="34" rx="6" class="s-self"/><text x="225" y="42" text-anchor="middle" class="t-b">api</text>
+            <rect x="310" y="20" width="130" height="34" rx="6" class="s-self"/><text x="375" y="42" text-anchor="middle" class="t-b">worker</text>
+            <rect x="460" y="20" width="140" height="34" rx="6" class="s-untrust"/><text x="530" y="42" text-anchor="middle" class="t-b">试次容器</text>
+            <rect x="620" y="20" width="130" height="34" rx="6" class="s-self"/><text x="685" y="42" text-anchor="middle" class="t-b">gateway</text>
+            <rect x="770" y="20" width="130" height="34" rx="6" class="s-self"/><text x="835" y="42" text-anchor="middle" class="t-b">scoring</text>
+
+            <!-- 生命线 -->
+            <line x1="80" y1="54" x2="80" y2="470" class="ln-d"/>
+            <line x1="225" y1="54" x2="225" y2="470" class="ln-d"/>
+            <line x1="375" y1="54" x2="375" y2="470" class="ln-d"/>
+            <line x1="530" y1="54" x2="530" y2="470" class="ln-d"/>
+            <line x1="685" y1="54" x2="685" y2="470" class="ln-d"/>
+            <line x1="835" y1="54" x2="835" y2="470" class="ln-d"/>
+
+            <path d="M80 76 L225 76" class="ln-hot" marker-end="url(#ahc)"/><text x="152" y="70" text-anchor="middle" class="t-s">POST /runs</text>
+            <text x="235" y="98" class="t-m">锁定三件套快照 · 校验 rubric 合法性 · 拒绝非法配置</text>
+            <path d="M225 116 L80 116" class="ln-d" marker-end="url(#ahc)"/><text x="152" y="110" text-anchor="middle" class="t-s">202 run_id</text>
+            <path d="M225 140 L375 140" class="ln" marker-end="url(#ahc)"/><text x="300" y="134" text-anchor="middle" class="t-s">派发 k×N 试次</text>
+
+            <rect x="330" y="156" width="600" height="216" rx="8" class="s-zone"/>
+            <text x="344" y="176" class="t-lbl">每个试次（并发，受配额限制）</text>
+
+            <path d="M375 196 L530 196" class="ln" marker-end="url(#ahc)"/><text x="452" y="190" text-anchor="middle" class="t-s">起容器 · 注入凭证与工作区</text>
+            <text x="452" y="212" text-anchor="middle" class="t-s" style="font-weight:700;fill:var(--danger-ink)">载荷不含金标准</text>
+
+            <path d="M530 234 L685 234" class="ln-hot" marker-end="url(#ahc)"/><text x="607" y="228" text-anchor="middle" class="t-s">模型调用（多次）</text>
+            <path d="M685 254 L530 254" class="ln-d" marker-end="url(#ahc)"/><text x="607" y="248" text-anchor="middle" class="t-s">响应 · 同时落 llm_call 与 span</text>
+
+            <path d="M530 280 L375 280" class="ln" marker-end="url(#ahc)"/><text x="452" y="274" text-anchor="middle" class="t-s">产物 · 退出码</text>
+            <text x="344" y="300" class="t-m">采集三通道：OTLP span · shell 审计 · 工作区 diff</text>
+            <path d="M375 318 L530 318" class="ln-danger" marker-end="url(#ahc)"/><text x="452" y="312" text-anchor="middle" class="t-s" style="fill:var(--danger-ink)">销毁容器</text>
+
+            <path d="M375 344 L835 344" class="ln" marker-end="url(#ahc)"/><text x="600" y="338" text-anchor="middle" class="t-s">交评分（容器已销毁，金标准此刻才参与）</text>
+            <text x="600" y="364" text-anchor="middle" class="t-s" style="font-weight:700">① 先跑确定性安全项，不通过则短路，不调判官</text>
+
+            <path d="M835 396 L225 396" class="ln" marker-end="url(#ahc)"/><text x="530" y="390" text-anchor="middle" class="t-s">rubric_result（含 evidence_ref）</text>
+            <text x="235" y="418" class="t-m">聚合 task_score · Average / pass@k / pass^k · 与基线做统计判定</text>
+            <path d="M225 440 L80 440" class="ln-hot" marker-end="url(#ahc)"/><text x="152" y="434" text-anchor="middle" class="t-s">门禁结论 + 报告 URL</text>
+            <text x="80" y="462" text-anchor="middle" class="t-s" style="font-weight:700">硬门禁不过 → exit 1</text>
+
+            <defs><marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink-3)"/></marker></defs>
+          </svg>
+        </div>
+        <figcaption><b>图 11</b> 端到端时序：注意两个时刻——载荷投放时不含金标准，评分发生在容器销毁之后。这两点合起来构成时间防火墙。</figcaption>
+      </figure>
+
+      <h3>12.2 CI 集成的 exit code 语义</h3>
+
+      <p>沿用 PRD §9.3，语义必须稳定，CI 依赖它。</p>
+
+      <div class="tw"><table>
+        <thead><tr><th class="num">code</th><th>含义</th><th>CI 行为</th></tr></thead>
+        <tbody>
+          <tr><td class="num">0</td><td>全部通过</td><td>继续</td></tr>
+          <tr><td class="num">1</td><td><strong>硬门禁不达标</strong></td><td>阻断</td></tr>
+          <tr><td class="num">2</td><td>告警项劣化（软门禁）</td><td>继续，但要求 PR 里写说明</td></tr>
+          <tr><td class="num">3</td><td>运行超时或被中止</td><td>阻断，标记需人工介入</td></tr>
+          <tr><td class="num">4</td><td>基础设施失败率超阈值（<code>infra_error</code> &gt; 2%）</td><td><strong>不判定质量</strong>，标记环境问题并重跑</td></tr>
+          <tr><td class="num">5</td><td>配置错误（rubric 非法、快照缺失、制品未发布）</td><td>阻断</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>12.3 上传到可评测</h3>
+      <ol>
+        <li>维护者上传制品（zip / wheel / Git URL），填规格契约 → 状态 <code>草稿</code></li>
+        <li>提交 → 静态检查（依赖漏洞、体积、禁用 API）→ 不过则 <code>已拒绝</code> 并附原因</li>
+        <li>过 → 自动起一个容器跑 hello-world 任务 → 验证依赖装得上、入口调得通、能走通网关</li>
+        <li>过 → <code>已验证</code>；审批人确认后 → <code>已发布</code></li>
+        <li>创建运行时可选该智能体的任一已发布版本；支持多版本并排 A/B</li>
+      </ol>
+    </section>
+
+    <!-- ============ 13 ============ -->
+    <section id="s13">
+      <h2><span class="num">13</span>非功能设计</h2>
+
+      <h3>13.1 性能：时长预算怎么保证</h3>
+
+      <p>三级门禁的时长是<strong>硬约束不是期望值</strong>（<code>07</code> §2.2）。架构上分解到每个环节：</p>
+
+      <div class="tw"><table>
+        <thead><tr><th>环节</th><th>冒烟预算内的目标</th><th>保证手段</th></tr></thead>
+        <tbody>
+          <tr><td>容器冷启动</td><td>&lt; 3 秒</td><td>预热池 + 镜像节点常驻 + 依赖层缓存</td></tr>
+          <tr><td>工作区解包</td><td>&lt; 5 秒</td><td>zstd 压缩；大仓库用增量快照</td></tr>
+          <tr><td>智能体执行</td><td>受 <code>timeout_sec</code> 约束</td><td>硬超时杀进程</td></tr>
+          <tr><td>评分</td><td>&lt; 30 秒</td><td>安全项前置短路；判官并发调用；结果缓存</td></tr>
+          <tr><td>聚合与门禁</td><td>&lt; 2 秒</td><td>纯计算，无外部调用</td></tr>
+          <tr><td><strong>整体</strong></td><td><strong>≤ 5 分钟</strong></td><td>任务数 × k 与并发度自动匹配预算；超时中止返回 exit 3</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>13.2 并发与配额</h3>
+
+      <div class="tw"><table>
+        <thead><tr><th>项</th><th>设计</th></tr></thead>
+        <tbody>
+          <tr><td>全局并发试次</td><td>默认 20，受 worker 副本数、执行节点资源、LLM 配额三重限制</td></tr>
+          <tr><td>LLM 限流</td><td>Redis 令牌桶，<strong>按模型分桶</strong>——flash 与 pro 共用一把 key，不分桶强档会拖住快档批量判定</td></tr>
+          <tr><td>强档占比上限</td><td>可配置，建议 ≤ 20%；超限告警，防止有人把所有 rubric 项改成 pro</td></tr>
+          <tr><td>单次运行成本上限</td><td>可配置；预估超阈值需二次确认，实际超限中止并告警</td></tr>
+          <tr><td>门禁优先级</td><td>冒烟 &gt; 回归 &gt; 能力集；预热池与配额优先给冒烟</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>13.3 判官成本控制</h3>
+
+      <p><strong>总调用次数 = 任务数 × k × j × LLM 类 rubric 项数</strong>，是乘出来的。25 任务、k=3、j=3、每任务 5 个 LLM 项 = 1125 次调用。架构上四个抓手：</p>
+      <ul>
+        <li><strong>安全门控前置短路</strong>——安全项是确定性检查，不通过直接不调判官</li>
+        <li><strong>结果缓存</strong>——key = 产物 hash + 模板 hash + <strong>模型名</strong>。模型名必须在 key 里，否则换档后命中旧结果</li>
+        <li><strong>按档位分别预估与统计</strong>——报告分列 flash / pro 的调用量与成本，让「谁把项改成了 pro」可见</li>
+        <li><strong>Judge 项占比控制在 25–40%</strong>（<code>03</code> 分册要求），其余用确定性检查</li>
+      </ul>
+
+      <h3>13.4 可观测</h3>
+      <div class="tw"><table>
+        <thead><tr><th>指标</th><th>为什么要盯</th></tr></thead>
+        <tbody>
+          <tr><td><code>infra_error</code> 率</td><td>超 2% 说明环境有问题，此时的质量结论不可信</td></tr>
+          <tr><td>容器冷启动 P95</td><td>直接决定冒烟能否守住 5 分钟</td></tr>
+          <tr><td>判官调用量与成本（分档）</td><td>预算控制；异常暴涨通常是有人误配了 pro</td></tr>
+          <tr><td>队列积压深度</td><td>积压说明并发配置与实际负载不匹配</td></tr>
+          <tr><td>网关错误率与上游 429</td><td>模型配额是否吃紧</td></tr>
+          <tr><td>轨迹落库延迟</td><td>OTLP 异步落库，延迟过高会导致报告里轨迹缺失</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>13.5 容灾与降级</h3>
+      <div class="tw"><table>
+        <thead><tr><th>故障</th><th>降级策略</th></tr></thead>
+        <tbody>
+          <tr><td><strong>评测平台整体不可用</strong></td><td>CI 侧配超时，<strong>降级放行并告警</strong>——不能因为评测挂了卡住所有合入</td></tr>
+          <tr><td>DeepSeek 不可用</td><td>判官项标记为「未判定」，<strong>只跑确定性项 + 安全门控</strong>，报告明确标注判官项缺失，门禁按确定性项结论走</td></tr>
+          <tr><td>对象存储不可用</td><td>轨迹大载荷暂存本地磁盘队列，恢复后补传；结构化索引不受影响</td></tr>
+          <tr><td>执行节点不足</td><td>试次排队而非失败；超时后按 <code>infra_error</code> 处理，不计入质量分</td></tr>
+          <tr><td>Redis 不可用</td><td>队列不可用 → 新运行拒绝创建；已在跑的试次继续；这是可接受的短时停摆</td></tr>
+        </tbody>
+      </table></div>
+
+      <p><strong>一条原则：评测平台不是生产系统，可接受计划内停机；但它绝不能成为研发流程的单点阻塞。</strong></p>
+    </section>
+
+    <!-- ============ 14 ============ -->
+    <section id="s14">
+      <h2><span class="num">14</span>演进路线</h2>
+
+      <p>对应 <code>08</code> 分册的 L1→L4。<strong>人月为粗估，±30%</strong>，依据见 <a href="#s16">§16.3</a>。</p>
+
+      <div class="tw"><table>
+        <thead><tr><th>期</th><th>目标（对应成熟度）</th><th>架构增量</th><th class="num">粗估</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>首期</strong></td>
+            <td>支撑智能体闭环<br><span class="t-s">L1 → L2</span></td>
+            <td>中枢骨架 · 智能体制品管理 · 容器化执行 · LLM 网关 · 轨迹子系统 · 评分与门禁 · 转录本查看器 · 标注工作台 · 全套前端</td>
+            <td class="num"><strong>~15 人月</strong></td>
+          </tr>
+          <tr>
+            <td><strong>二期</strong></td>
+            <td>产品智能体与鲁棒性<br><span class="t-s">L2 → L3</span></td>
+            <td>网关侧故障注入（ε/λ 两轴，拦截点首期已备）· Mock 服务 · 多模态产物评判 · 四形态产品智能体接入 · 健康度巡检自动化 · 对接点 ③⑥①<br><span class="t-s">沙箱与环境重置已在首期做掉，不重复计入</span></td>
+            <td class="num">~5.8 人月</td>
+          </tr>
+          <tr>
+            <td><strong>三期</strong></td>
+            <td>闭环进化<br><span class="t-s">L3 → L4</span></td>
+            <td>生产反馈自动回流 · 自适应评测深度 · 毕业机制自动化 · 失效自检 · ROI 度量上报</td>
+            <td class="num">~3.6 人月</td>
+          </tr>
+        </tbody>
+      </table></div>
+
+      <h3>14.1 为二期预留的四个扩展点</h3>
+
+      <div class="grid2">
+        <div class="card">
+          <h4 style="margin-top:0">网关的故障注入位</h4>
+          <p style="margin-bottom:0">所有模型调用必经网关，<strong>拦截点天然存在</strong>。二期只需在图 7 的第 ③ 环插入注入策略，不改执行链路。</p>
+        </div>
+        <div class="card">
+          <h4 style="margin-top:0">轨迹存储的仓储抽象</h4>
+          <p style="margin-bottom:0"><code>evidence</code> 模块的读写走仓储接口，二期若量大到需要换列存，上层无感。</p>
+        </div>
+        <div class="card">
+          <h4 style="margin-top:0">基础镜像的形态扩展</h4>
+          <p style="margin-bottom:0">现有两个镜像（Python / CLI）。二期加 GUI 操作型只需加第三个镜像与对应运行时适配器，调度逻辑不变。</p>
+        </div>
+        <div class="card">
+          <h4 style="margin-top:0">评分器插件位</h4>
+          <p style="margin-bottom:0">三类评分器走统一接口。二期加多模态评判（看渲染结果）时，作为新的确定性检查器注册即可。</p>
+        </div>
+      </div>
+
+      <div class="note warn">
+        <span class="note-t">首期不做但要留位的：Mock 服务</span>
+        <p>支撑智能体不需要 Mock，但产品智能体（尤其工作流编排型）离不开。架构上，Mock 服务的位置与 LLM 网关对称——都是「容器唯一能访问的外部服务」。二期加它时，出网白名单从两个地址变成三个，其余不变。</p>
+      </div>
+    </section>
+
+    <!-- ============ 15 ============ -->
+    <section id="s15">
+      <h2><span class="num">15</span>风险与取舍</h2>
+
+      <div class="tw"><table>
+        <thead><tr><th>风险</th><th>影响</th><th>对策</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>执行任意代码与 shell</strong><br><span class="t-s">首要风险</span></td>
+            <td>容器逃逸可导致执行节点失陷</td>
+            <td>三层信任边界（§11）；执行节点独立池；非 root + 无 capabilities + 只读根 FS；<strong>接受 0day 残余风险</strong>，靠节点隔离限制爆炸半径</td>
+          </tr>
+          <tr>
+            <td>拓扑乙的 <code>docker.sock</code> 挂载</td>
+            <td>等价于宿主 root，是明确的提权路径</td>
+            <td>若最终无 K8s：worker 与执行节点独立机器；用 socket 代理限制可调用的 Docker API；<strong>这是拓扑乙的主要短板，选型时要知情</strong></td>
+          </tr>
+          <tr>
+            <td>CLI 工具版本漂移</td>
+            <td>镜像重建导致工具升级，分数变了查不出原因</td>
+            <td>版本锁死并写入 <code>agent_version</code>；镜像升级必须先过预发；升级视为「换测量仪器」，需重跑基线</td>
+          </tr>
+          <tr>
+            <td>自研轨迹存储的容量失控</td>
+            <td>MySQL <code>span</code> 表膨胀导致慢查询</td>
+            <td>分层存储 + 90 天归档；监控行数与查询 P95；超 5000 万行触发列存评估（架构已留仓储抽象）</td>
+          </tr>
+          <tr>
+            <td>转录本查看器工作量被低估</td>
+            <td>首期延期</td>
+            <td>P0 功能（树 + 时间轴 + 对照 + 懒加载）先上；diff 视图、并排 diff、全文搜索排到 P1</td>
+          </tr>
+          <tr>
+            <td>判官成本失控</td>
+            <td>预算超支</td>
+            <td>分档预估 + 配额 + 前置短路 + 缓存；强档占比上限</td>
+          </tr>
+          <tr>
+            <td>单一模型供应商依赖</td>
+            <td>DeepSeek 不可用则判官全线停摆</td>
+            <td>⚠️ <strong>flash + pro 两档不构成冗余</strong>——同供应商、同端点、同一把 key。网关预留第二供应商配置位；故障时降级为「只跑确定性项」</td>
+          </tr>
+          <tr>
+            <td>四形态并行支持导致复杂度膨胀</td>
+            <td>执行层难维护</td>
+            <td>四形态共用同一调度骨架，差异收敛在「运行时适配器」一层；新增形态只加适配器</td>
+          </tr>
+          <tr>
+            <td>评测集质量不够</td>
+            <td>平台建好了但结论不可信</td>
+            <td>平台不解决这个，<code>02</code> 分册解决。架构上强制：参考解满分校验、坏任务扫描、rubric 硬约束</td>
+          </tr>
+        </tbody>
+      </table></div>
+
+      <h3>15.1 明确接受的三个取舍</h3>
+      <ol>
+        <li><strong>接受容器逃逸的残余风险。</strong> 替代方案（虚机级隔离、gVisor）成本远高于收益，且这是部门内网工具、上传者实名、有操作审计——威胁模型不是公网 SaaS。</li>
+        <li><strong>接受 shell 审计可被绕过。</strong> 它是取证辅助不是安全边界。真正的边界是容器隔离与网络策略。</li>
+        <li><strong>接受形态 ④（远程服务）的轨迹不完整。</strong> 它是兼容性选项，报告里标注「环境不可控」，不假装它和容器内执行等价。</li>
+      </ol>
+    </section>
+
+    <!-- ============ 16 ============ -->
+    <section id="s16">
+      <h2><span class="num">16</span>附录</h2>
+
+      <h3>16.1 组件清单</h3>
+      <div class="tw"><table>
+        <thead><tr><th>组件</th><th>技术</th><th>副本</th><th>职责</th></tr></thead>
+        <tbody>
+          <tr><td><code>eval-hub-api</code></td><td>FastAPI</td><td class="num">2</td><td>REST 接口、领域逻辑、OTLP 摄入</td></tr>
+          <tr><td><code>eval-hub-worker</code></td><td>Celery</td><td class="num">2–6</td><td>试次执行、评分、定时任务、集成</td></tr>
+          <tr><td><code>eval-hub-gateway</code></td><td>FastAPI + httpx</td><td class="num">2</td><td>LLM 反向代理、凭证校验、计量限流</td></tr>
+          <tr><td><code>eval-hub-web</code></td><td>Vue3 + Nginx</td><td class="num">1</td><td>前端静态资源</td></tr>
+          <tr><td>MySQL</td><td>8.0（需 ≥8.0.16）</td><td class="num">主从</td><td>业务实体 + 轨迹索引</td></tr>
+          <tr><td>Redis</td><td>7</td><td class="num">1（可主从）</td><td>队列、缓存、限流桶、凭证吊销</td></tr>
+          <tr><td>对象存储</td><td>MinIO 或已有 S3</td><td class="num">—</td><td>制品、快照、大载荷、报告</td></tr>
+          <tr><td>执行节点</td><td>K8s Job 或 Docker</td><td class="num">按并发</td><td>不可信代码执行</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>16.2 Langfuse 借鉴了什么（仅设计参考，不部署）</h3>
+      <p>以下断言均通过阅读 <code>langfuse/langfuse</code> 主干代码核实，核实日期 2026-08-10。列出来是说明<strong>设计灵感的来源</strong>，不构成依赖。</p>
+
+      <div class="tw"><table>
+        <thead><tr><th>借鉴的设计</th><th>代码依据</th><th>本架构怎么用</th></tr></thead>
+        <tbody>
+          <tr><td>业务实体与轨迹分库</td><td>Prisma schema 无 trace/observation/score；ClickHouse 迁移里才有</td><td>改为 MySQL 索引 + 对象存储载荷的分层（§5.1）</td></tr>
+          <tr><td>OTLP 摄入端点</td><td><code>web/src/pages/api/public/otel/{v1, otlp-proto}</code></td><td>自建 <code>/otlp/v1/traces</code>，同样支持 protobuf + json（§9.1）</td></tr>
+          <tr><td>评分器分两类</td><td><code>EvalTemplateType</code> = <code>LLM_AS_JUDGE</code> | <code>CODE</code>；<code>EvalTemplateSourceCodeLanguage</code> 支持 Python</td><td>确定性检查器与 LLM 判官分开建模</td></tr>
+          <tr><td>数据集条目版本化</td><td><code>DatasetItem.validFrom</code> / <code>validTo</code> / <code>isDeleted</code></td><td>任务版本与三件套快照绑定（§5）</td></tr>
+          <tr><td>生产轨迹转任务</td><td><code>DatasetItem.sourceTraceId</code></td><td>三期生产反馈回流的通路设计</td></tr>
+          <tr><td>判官触发的过滤与采样</td><td><code>JobConfiguration</code> 的 <code>filter</code> / <code>sampling</code> / <code>timeScope</code></td><td>二期生产轨迹持续抽样评分</td></tr>
+          <tr><td>自定义 OpenAI 兼容端点</td><td><code>LlmApiKeys.baseURL</code> / <code>customModels</code> / <code>withDefaultModels</code></td><td>DeepSeek 双档接入方式（§8）</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>16.3 工作量估算依据</h3>
+      <ul>
+        <li>单位为人月，按一名熟练工程师全职一个月计</li>
+        <li>后端按「数据模型 + API + 业务逻辑 + 单测」计入，不含需求澄清与评审</li>
+        <li>前端按页面数 × 复杂度系数：列表页 0.15、编辑器 0.4、报告页 0.5、<strong>转录本查看器 1.5</strong>、标注台 0.5</li>
+        <li><strong>不确定度 ±30%</strong>，主要来自：容器编排环境未定、CLI 工具适配的未知问题、部门系统对接的配合成本</li>
+        <li>未计入：容器平台的运维准备（假定运维承担）、部门账号体系对接的对方工作量</li>
+      </ul>
+
+      <h3>16.4 架构组件与 PRD 需求编号对应</h3>
+      <div class="tw"><table>
+        <thead><tr><th>架构组件</th><th>PRD 需求</th></tr></thead>
+        <tbody>
+          <tr><td>接入适配器（四形态）</td><td>F1-01 ~ F1-05</td></tr>
+          <tr><td>夹具与工作区管理、金标准延迟投放</td><td>F2-01、F2-02</td></tr>
+          <tr><td>容器化执行引擎、预热池</td><td>F2-03（本轮由 P2 提为 P0）</td></tr>
+          <tr><td>试次调度器、配额、infra_error 区分</td><td>F3-01 ~ F3-06</td></tr>
+          <tr><td>OTLP 端点、审计采集、快照采集</td><td>F4-01 ~ F4-05</td></tr>
+          <tr><td>rubric 引擎、门控短路、打分公式、判官 j 次重评</td><td>F5-01 ~ F5-12</td></tr>
+          <tr><td>状态机、双轨制、基线、校准记录、操作审计</td><td>F6-01 ~ F6-08</td></tr>
+          <tr><td>三指标、统计判定、分解、热力图、门禁回写</td><td>F7-01 ~ F7-11</td></tr>
+          <tr><td><strong>智能体制品管理</strong></td><td>PRD 新增 F8 组（本轮同步）</td></tr>
+          <tr><td><strong>LLM 网关</strong></td><td>PRD 新增 F9 组（本轮同步）</td></tr>
+          <tr><td><strong>转录本查看器、标注工作台</strong></td><td>PRD §10 前端设计（本轮同步补充）</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>16.5 术语</h3>
+      <p>全部沿用 <code>00</code> 总纲术语表。本文档特有的三个：</p>
+      <div class="tw"><table>
+        <thead><tr><th>术语</th><th>含义</th></tr></thead>
+        <tbody>
+          <tr><td><strong>不可信执行区</strong></td><td>运行被测智能体代码的容器边界内部。平台对其中发生的一切不做信任假设</td></tr>
+          <tr><td><strong>试次临时凭证</strong></td><td>每个试次签发的短时效受限 token，智能体用它调 LLM 网关；网关据此把调用归属到试次</td></tr>
+          <tr><td><strong>运行时适配器</strong></td><td>把四种智能体形态的差异收敛到一层的组件，上层调度逻辑对形态无感</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="footer">
+        <p>智能体评测平台 · 架构设计说明书 v0.1 · 2026-08-10 · 质量测试部</p>
+        <p>配套文档：<code>平台PRD/智能体评测平台PRD.md</code>（需求）· <code>智能体评测体系/</code> 10 份分册（方法论）</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var btn = document.getElementById('themeBtn');
+  function current() {
+    var set = root.getAttribute('data-theme');
+    if (set) return set;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  btn.addEventListener('click', function () {
+    var next = current() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    btn.textContent = next === 'dark' ? '切到浅色' : '切到深色';
+  });
+  btn.textContent = current() === 'dark' ? '切到浅色' : '切到深色';
+
+  // 章节高亮：用 scroll 事件自己算，不依赖 IntersectionObserver
+  // （某些内嵌浏览器环境下 IO 对程序化滚动不触发）
+  var rail = document.querySelector('.rail');
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var pairs = links.map(function (a) {
+    return { link: a, sec: document.querySelector(a.getAttribute('href')) };
+  }).filter(function (p) { return p.sec; });
+
+  var currentLink = null;
+  function setActive(link) {
+    if (link === currentLink) return;
+    if (currentLink) currentLink.classList.remove('on');
+    currentLink = link;
+    if (!link) return;
+    link.classList.add('on');
+    if (rail && rail.scrollHeight > rail.clientHeight) {
+      var t = link.offsetTop - rail.clientHeight / 2;
+      rail.scrollTop = t > 0 ? t : 0;
+    }
+  }
+
+  function refresh() {
+    if (!pairs.length) return;
+    var probe = 140; // 视口顶部下方一点，避开吸顶栏
+    var pick = pairs[0];
+    for (var i = 0; i < pairs.length; i++) {
+      if (pairs[i].sec.getBoundingClientRect().top <= probe) pick = pairs[i];
+      else break;
+    }
+    // 滚到底时强制选中最后一节
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+      pick = pairs[pairs.length - 1];
+    }
+    setActive(pick.link);
+  }
+
+  // 时间戳节流：不依赖 requestAnimationFrame（后台标签页里 rAF 会被暂停）
+  var last = 0, timer = null;
+  function onScroll() {
+    var now = Date.now();
+    if (now - last >= 80) { last = now; refresh(); return; }
+    if (timer) return;
+    timer = setTimeout(function () { timer = null; last = Date.now(); refresh(); }, 80);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  links.forEach(function (a) {
+    a.addEventListener('click', function () {
+      var p = pairs.filter(function (x) { return x.link === a; })[0];
+      if (p) setActive(p.link);
+    });
+  });
+  refresh();
+})();
+</script>
