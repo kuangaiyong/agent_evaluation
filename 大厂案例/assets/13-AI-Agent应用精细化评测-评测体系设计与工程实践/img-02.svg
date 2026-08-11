@@ -1,0 +1,270 @@
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif">
+   <defs>
+    <marker markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+     <polygon points="0 0, 8 3, 0 6" fill="#64748b">
+     </polygon>
+    </marker>
+    <filter x="-1%" y="-1%" width="102%" height="106%">
+     <fedropshadow dx="1" dy="1" stdDeviation="2" flood-opacity="0.07">
+     </fedropshadow>
+    </filter>
+   </defs>
+   <rect width="800" height="640" fill="#f8fafc">
+   </rect>
+   <text x="400" y="30" text-anchor="middle" fill="#1e293b" font-size="16" font-weight="bold">
+    
+    
+    
+    商品中心 AI Agent 应用架构图
+   </text>
+   <rect x="320" y="48" width="160" height="36" rx="4" fill="white" stroke="#64748b" stroke-width="1.5" filter="url(#s)">
+   </rect>
+   <text x="400" y="71" text-anchor="middle" fill="#334155" font-size="11" font-weight="bold">
+    
+    
+    
+    用户输入
+   </text>
+   <line x1="400" y1="84" x2="400" y2="110" stroke="#64748b" stroke-width="1.2" marker-end="url(#a)">
+   </line>
+   <rect x="40" y="113" width="720" height="100" rx="4" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.8" filter="url(#s)">
+   </rect>
+   <rect x="40" y="113" width="720" height="26" rx="4" fill="#3b82f6">
+   </rect>
+   <text x="400" y="131" text-anchor="middle" fill="white" font-size="12" font-weight="bold">
+    
+    
+    
+    感知模块 Perception
+   </text>
+   <rect x="60" y="149" width="220" height="48" rx="4" fill="white" stroke="#93c5fd" stroke-width="1">
+   </rect>
+   <text x="170" y="170" text-anchor="middle" fill="#1e40af" font-size="10" font-weight="bold">
+    
+    
+    
+    SkillRoutingNode
+   </text>
+   <text x="170" y="185" text-anchor="middle" fill="#94a3b8" font-size="8">
+    
+    
+    
+    LLM 意图识别 + Skill 匹配
+   </text>
+   <rect x="300" y="149" width="220" height="48" rx="4" fill="white" stroke="#93c5fd" stroke-width="1">
+   </rect>
+   <text x="410" y="170" text-anchor="middle" fill="#1e40af" font-size="10" font-weight="bold">
+    
+    
+    
+    RagRetrievalNode
+   </text>
+   <text x="410" y="185" text-anchor="middle" fill="#94a3b8" font-size="8">
+    
+    
+    
+    未命中 Skill → RAG 知识检索
+   </text>
+   <rect x="540" y="149" width="200" height="48" rx="4" fill="white" stroke="#93c5fd" stroke-width="1">
+   </rect>
+   <text x="640" y="170" text-anchor="middle" fill="#1e40af" font-size="10" font-weight="bold">
+    
+    
+    
+    RagAnswerNode
+   </text>
+   <text x="640" y="185" text-anchor="middle" fill="#94a3b8" font-size="8">
+    
+    
+    
+    RAG 兜底回答
+   </text>
+   <line x1="400" y1="213" x2="400" y2="243" stroke="#64748b" stroke-width="1.2" marker-end="url(#a)">
+   </line>
+   <rect x="40" y="246" width="720" height="100" rx="4" fill="#fefce8" stroke="#eab308" stroke-width="1.8" filter="url(#s)">
+   </rect>
+   <rect x="40" y="246" width="720" height="26" rx="4" fill="#eab308">
+   </rect>
+   <text x="400" y="264" text-anchor="middle" fill="white" font-size="12" font-weight="bold">
+    
+    
+    
+    规划模块 Planning
+   </text>
+   <rect x="60" y="282" width="700" height="48" rx="4" fill="white" stroke="#fde68a" stroke-width="1">
+   </rect>
+   <text x="400" y="302" text-anchor="middle" fill="#854d0e" font-size="10" font-weight="bold">
+    
+    
+    
+    Spring AI Alibaba Graph
+   </text>
+   <text x="400" y="318" text-anchor="middle" fill="#94a3b8" font-size="8">
+    
+    
+    
+    conversationContext → skillRouting → ragRetrieval → [ executeAgent | ragAnswer ] → conversationSave
+   </text>
+   <line x1="220" y1="346" x2="220" y2="380" stroke="#64748b" stroke-width="1.2" marker-end="url(#a)">
+   </line>
+   <line x1="580" y1="346" x2="580" y2="380" stroke="#64748b" stroke-width="1.2" marker-end="url(#a)">
+   </line>
+   <rect x="40" y="383" width="340" height="168" rx="4" fill="#fdf2f8" stroke="#ec4899" stroke-width="1.8" filter="url(#s)">
+   </rect>
+   <rect x="40" y="383" width="340" height="26" rx="4" fill="#ec4899">
+   </rect>
+   <text x="210" y="401" text-anchor="middle" fill="white" font-size="12" font-weight="bold">
+    
+    
+    
+    工具模块 Action
+   </text>
+   <rect x="60" y="419" width="145" height="60" rx="4" fill="white" stroke="#f9a8d4" stroke-width="1">
+   </rect>
+   <text x="132" y="439" text-anchor="middle" fill="#9d174d" font-size="10" font-weight="bold">
+    
+    
+    
+    McpConfig
+   </text>
+   <text x="132" y="455" text-anchor="middle" fill="#94a3b8" font-size="8">
+    
+    
+    
+    McpSyncClient 连接池
+   </text>
+   <text x="132" y="468" text-anchor="middle" fill="#94a3b8" font-size="8">
+    
+    
+    
+    热更新与持久化
+   </text>
+   <rect x="215" y="419" width="145" height="60" rx="4" fill="white" stroke="#f9a8d4" stroke-width="1">
+   </rect>
+   <text x="287" y="439" text-anchor="middle" fill="#9d174d" font-size="10" font-weight="bold">
+    
+    
+    
+    SkillsConfig
+   </text>
+   <text x="287" y="455" text-anchor="middle" fill="#94a3b8" font-size="8">
+    
+    
+    
+    FileSystemSkillRegistry
+   </text>
+   <text x="287" y="468" text-anchor="middle" fill="#94a3b8" font-size="8">
+    
+    
+    
+    热更新与持久化
+   </text>
+   <rect x="60" y="500" width="145" height="30" rx="4" fill="#fce7f3" stroke="#f9a8d4" stroke-width="1">
+   </rect>
+   <text x="132" y="520" text-anchor="middle" fill="#9d174d" font-size="9">
+    
+    
+    
+    远程 MCP Server
+   </text>
+   <rect x="215" y="500" width="145" height="30" rx="4" fill="#fce7f3" stroke="#f9a8d4" stroke-width="1">
+   </rect>
+   <text x="287" y="520" text-anchor="middle" fill="#9d174d" font-size="9">
+    
+    
+    
+    Diamond / contextlab
+   </text>
+   <line x1="132" y1="480" x2="132" y2="500" stroke="#64748b" stroke-width="1" marker-end="url(#a)" stroke-dasharray="3,2">
+   </line>
+   <line x1="287" y1="480" x2="287" y2="500" stroke="#64748b" stroke-width="1" marker-end="url(#a)" stroke-dasharray="3,2">
+   </line>
+   <rect x="420" y="383" width="340" height="168" rx="4" fill="#ecfdf5" stroke="#10b981" stroke-width="1.8" filter="url(#s)">
+   </rect>
+   <rect x="420" y="383" width="340" height="26" rx="4" fill="#10b981">
+   </rect>
+   <text x="590" y="401" text-anchor="middle" fill="white" font-size="12" font-weight="bold">
+    
+    
+    
+    记忆模块 Memory
+   </text>
+   <rect x="440" y="419" width="145" height="60" rx="4" fill="white" stroke="#86efac" stroke-width="1">
+   </rect>
+   <text x="512" y="439" text-anchor="middle" fill="#065f46" font-size="10" font-weight="bold">
+    
+    
+    
+    短期记忆
+   </text>
+   <text x="512" y="455" text-anchor="middle" fill="#94a3b8" font-size="8">
+    
+    
+    
+    ConversationContextNode
+   </text>
+   <text x="512" y="468" text-anchor="middle" fill="#94a3b8" font-size="8">
+    
+    
+    
+    用户画像注入
+   </text>
+   <rect x="595" y="419" width="145" height="60" rx="4" fill="white" stroke="#86efac" stroke-width="1">
+   </rect>
+   <text x="667" y="439" text-anchor="middle" fill="#065f46" font-size="10" font-weight="bold">
+    
+    
+    
+    长期记忆
+   </text>
+   <text x="667" y="455" text-anchor="middle" fill="#94a3b8" font-size="8">
+    
+    
+    
+    ConversationSaveNode
+   </text>
+   <text x="667" y="468" text-anchor="middle" fill="#94a3b8" font-size="8">
+    
+    
+    
+    检索结果注入 Prompt
+   </text>
+   <rect x="440" y="500" width="145" height="30" rx="4" fill="#d1fae5" stroke="#86efac" stroke-width="1">
+   </rect>
+   <text x="512" y="520" text-anchor="middle" fill="#065f46" font-size="9">
+    
+    
+    
+    Aone Memory Client
+   </text>
+   <rect x="595" y="500" width="145" height="30" rx="4" fill="#d1fae5" stroke="#86efac" stroke-width="1">
+   </rect>
+   <text x="667" y="520" text-anchor="middle" fill="#065f46" font-size="9">
+    
+    
+    
+    iDEALab 向量知识库
+   </text>
+   <line x1="512" y1="480" x2="512" y2="500" stroke="#64748b" stroke-width="1" marker-end="url(#a)" stroke-dasharray="3,2">
+   </line>
+   <line x1="667" y1="480" x2="667" y2="500" stroke="#64748b" stroke-width="1" marker-end="url(#a)" stroke-dasharray="3,2">
+   </line>
+   <line x1="210" y1="551" x2="210" y2="578" stroke="#64748b" stroke-width="1.2" marker-end="url(#a)">
+   </line>
+   <line x1="590" y1="551" x2="590" y2="578" stroke="#64748b" stroke-width="1.2" marker-end="url(#a)">
+   </line>
+   <rect x="40" y="580" width="720" height="40" rx="4" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5" filter="url(#s)">
+   </rect>
+   <text x="400" y="605" text-anchor="middle" fill="#334155" font-size="11" font-weight="bold">
+    
+    
+    
+    ExecuteAgentNode - ReactAgent 统一调度执行
+   </text>
+   <text x="400" y="650" text-anchor="middle" fill="#cbd5e1" font-size="9">
+    
+    
+    
+    Spring AI + Alibaba Cloud AI Graph | StateGraph + ReactAgent + Skills + MCP + RAG
+   </text>
+  </svg>

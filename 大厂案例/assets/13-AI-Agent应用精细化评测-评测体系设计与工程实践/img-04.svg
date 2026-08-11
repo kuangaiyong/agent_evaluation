@@ -1,0 +1,348 @@
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 800" font-family="'PingFang SC','Microsoft YaHei',sans-serif">
+   <defs>
+    <marker markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+     <polygon points="0 0,7 3,0 6" fill="#475569">
+     </polygon>
+    </marker>
+    <marker markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+     <polygon points="0 0,7 3,0 6" fill="#10B981">
+     </polygon>
+    </marker>
+    <marker markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+     <polygon points="0 0,7 3,0 6" fill="#D97706">
+     </polygon>
+    </marker>
+   </defs>
+   <rect width="860" height="800" fill="#fff">
+   </rect>
+   <text x="430" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#1e293b">
+    
+    
+    
+    评测执行引擎 — 完整链路
+   </text>
+   <rect x="310" y="48" width="240" height="36" rx="4" fill="#EEF2FF" stroke="#6366F1" stroke-width="1.2">
+   </rect>
+   <text x="430" y="71" text-anchor="middle" font-size="11" font-weight="600" fill="#4338CA">
+    
+    
+    
+    提交评测请求
+   </text>
+   <text x="570" y="68" font-size="8" fill="#6366F1">
+    
+    
+    
+    datasetType / evalMode
+   </text>
+   <line x1="430" y1="84" x2="430" y2="108" stroke="#475569" stroke-width="1.2" marker-end="url(#a)">
+   </line>
+   <rect x="310" y="108" width="240" height="36" rx="4" fill="#ECFEFF" stroke="#06B6D4" stroke-width="1.2">
+   </rect>
+   <text x="430" y="131" text-anchor="middle" font-size="11" font-weight="600" fill="#0E7490">
+    
+    
+    
+    根据评测范围自动装配数据集
+   </text>
+   <text x="570" y="128" font-size="8" fill="#06B6D4">
+    
+    
+    
+    8 类数据集 × 6 种模式组合
+   </text>
+   <line x1="430" y1="144" x2="430" y2="168" stroke="#475569" stroke-width="1.2" marker-end="url(#a)">
+   </line>
+   <rect x="310" y="168" width="240" height="36" rx="4" fill="#F0FDF4" stroke="#10B981" stroke-width="1.2">
+   </rect>
+   <text x="430" y="191" text-anchor="middle" font-size="11" font-weight="600" fill="#047857">
+    
+    
+    
+    并行执行评测用例（×3）
+   </text>
+   <text x="570" y="188" font-size="8" fill="#10B981">
+    
+    
+    
+    重试≤2 · 超时 120s
+   </text>
+   <line x1="430" y1="204" x2="430" y2="232" stroke="#475569" stroke-width="1.2" marker-end="url(#a)">
+   </line>
+   <rect x="50" y="232" width="760" height="370" rx="4" fill="#FAFBFC" stroke="#94a3b8" stroke-width="1.2">
+   </rect>
+   <text x="70" y="252" font-size="10" font-weight="600" fill="#64748b">
+    
+    
+    
+    单条用例执行链路
+   </text>
+   <rect x="80" y="268" width="130" height="44" rx="4" fill="#fff" stroke="#475569" stroke-width="1">
+   </rect>
+   <text x="145" y="287" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">
+    
+    
+    
+    构造 Agent 输入
+   </text>
+   <text x="145" y="302" text-anchor="middle" font-size="8.5" fill="#64748b">
+    
+    
+    
+    session / mock 注入
+   </text>
+   <line x1="210" y1="290" x2="242" y2="290" stroke="#475569" stroke-width="1.2" marker-end="url(#a)">
+   </line>
+   <rect x="244" y="268" width="160" height="44" rx="4" fill="#fff" stroke="#475569" stroke-width="1">
+   </rect>
+   <text x="324" y="287" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">
+    
+    
+    
+    调用 Agent 完整链路
+   </text>
+   <text x="324" y="302" text-anchor="middle" font-size="8.5" fill="#64748b">
+    
+    
+    
+    感知→规划→记忆→工具→生成
+   </text>
+   <line x1="404" y1="290" x2="436" y2="290" stroke="#475569" stroke-width="1.2" marker-end="url(#a)">
+   </line>
+   <rect x="438" y="268" width="150" height="44" rx="4" fill="#F0FDF4" stroke="#10B981" stroke-width="1">
+   </rect>
+   <text x="513" y="287" text-anchor="middle" font-size="10" font-weight="600" fill="#047857">
+    
+    
+    
+    采集 EvalTrace
+   </text>
+   <text x="513" y="302" text-anchor="middle" font-size="8.5" fill="#64748b">
+    
+    
+    
+    各节点写入中间指标
+   </text>
+   <line x1="588" y1="290" x2="620" y2="290" stroke="#475569" stroke-width="1.2" marker-end="url(#a)">
+   </line>
+   <rect x="622" y="268" width="160" height="44" rx="4" fill="#FFFBEB" stroke="#D97706" stroke-width="1.2">
+   </rect>
+   <text x="702" y="287" text-anchor="middle" font-size="10" font-weight="600" fill="#92400E">
+    
+    
+    
+    Judge Task
+   </text>
+   <text x="702" y="302" text-anchor="middle" font-size="8.5" fill="#B45309">
+    
+    
+    
+    结构化评分
+   </text>
+   <polyline points="513,312 513,328 252,328 252,342" fill="none" stroke="#10B981" stroke-width="1.2" marker-end="url(#ag)">
+   </polyline>
+   <text x="390" y="323" font-size="7.5" fill="#10B981">
+    
+    
+    
+    Trace 指标
+   </text>
+   <line x1="702" y1="312" x2="702" y2="340" stroke="#D97706" stroke-width="1.2" marker-end="url(#ao)">
+   </line>
+   <text x="732" y="329" font-size="7.5" fill="#D97706">
+    
+    
+    
+    Agent 输出
+   </text>
+   <rect x="80" y="342" width="345" height="148" rx="4" fill="#fff" stroke="#CBD5E1" stroke-width="0.8">
+   </rect>
+   <text x="92" y="360" font-size="9" font-weight="600" fill="#047857">
+    
+    
+    
+    EvalTrace 采集内容
+   </text>
+   <line x1="80" y1="366" x2="425" y2="366" stroke="#e2e8f0">
+   </line>
+   <text x="92" y="382" font-size="9" fill="#3B82F6" font-weight="600">
+    
+    
+    
+    Agent 模块：
+   </text>
+   <text x="98" y="398" font-size="8.5" fill="#334155">
+    
+    
+    
+    感知：是否命中 Skill · 实际命中 Skill · 实际意图类型 · 意图识别耗时
+   </text>
+   <text x="98" y="412" font-size="8.5" fill="#334155">
+    
+    
+    
+    规划：规划决策耗时
+   </text>
+   <text x="98" y="426" font-size="8.5" fill="#334155">
+    
+    
+    
+    记忆：记忆注入耗时 · 会话历史轮数
+   </text>
+   <text x="98" y="440" font-size="8.5" fill="#334155">
+    
+    
+    
+    工具：工具名 · 调用参数 · 是否成功 · 调用耗时
+   </text>
+   <text x="92" y="455" font-size="9" fill="#10B981" font-weight="600">
+    
+    
+    
+    其他信息：
+   </text>
+   <text x="98" y="471" font-size="8.5" fill="#334155">
+    
+    
+    
+    检索：RAG 检索耗时 · 检索结果数 · 检索文本块
+   </text>
+   <text x="98" y="485" font-size="8.5" fill="#334155">
+    
+    
+    
+    模型：调用次数 · 输入 Token · 输出 Token · 首 Token 延迟
+   </text>
+   <rect x="435" y="342" width="345" height="148" rx="4" fill="#fff" stroke="#CBD5E1" stroke-width="0.8">
+   </rect>
+   <text x="447" y="360" font-size="9" font-weight="600" fill="#92400E">
+    
+    
+    
+    Judge 双路径评估
+   </text>
+   <line x1="435" y1="366" x2="780" y2="366" stroke="#e2e8f0">
+   </line>
+   <text x="447" y="382" font-size="9" fill="#3B82F6" font-weight="600">
+    
+    
+    
+    LLM 语义判断（15 项）：
+   </text>
+   <text x="453" y="398" font-size="8.5" fill="#334155">
+    
+    
+    
+    任务完成率 · 幻觉率 · 多轮对话完成率 · 指令遵循能力 · 异常输入处理率
+   </text>
+   <text x="453" y="412" font-size="8.5" fill="#334155">
+    
+    
+    
+    意图识别准确率 · 多意图识别率 · 模糊意图澄清率
+   </text>
+   <text x="453" y="426" font-size="8.5" fill="#334155">
+    
+    
+    
+    工具调用决策准确率 · 工具调用准确率 · 参数映射准确率
+   </text>
+   <text x="453" y="440" font-size="8.5" fill="#334155">
+    
+    
+    
+    短期记忆保留率 · 记忆衰减曲线 · 长期记忆检索精确率 · 长期记忆检索召回率
+   </text>
+   <text x="447" y="455" font-size="9" fill="#10B981" font-weight="600">
+    
+    
+    
+    埋点确定性计算（6 项）：
+   </text>
+   <text x="453" y="471" font-size="8.5" fill="#334155">
+    
+    
+    
+    意图精确率 · 意图召回率 · 路由决策准确率
+   </text>
+   <text x="453" y="485" font-size="8.5" fill="#334155">
+    
+    
+    
+    降级触发准确率 · 检索决策准确率 · 工具调用成功率
+   </text>
+   <line x1="252" y1="490" x2="252" y2="516" stroke="#475569" stroke-width="1" marker-end="url(#a)">
+   </line>
+   <line x1="607" y1="490" x2="607" y2="516" stroke="#475569" stroke-width="1" marker-end="url(#a)">
+   </line>
+   <rect x="180" y="518" width="500" height="40" rx="4" fill="#fff" stroke="#475569" stroke-width="1.2">
+   </rect>
+   <text x="430" y="534" text-anchor="middle" font-size="10" font-weight="600" fill="#1e293b">
+    
+    
+    
+    组装单条用例评测结果
+   </text>
+   <text x="430" y="548" text-anchor="middle" font-size="8.5" fill="#64748b">
+    
+    
+    
+    是否通过（主指标判定） · Agent 输出 · 评分详情 · 中间指标 · 响应延迟 · Token消耗
+   </text>
+   <line x1="430" y1="602" x2="430" y2="630" stroke="#475569" stroke-width="1.2" marker-end="url(#a)">
+   </line>
+   <text x="445" y="620" font-size="8" fill="#64748b">
+    
+    
+    
+    N 条 EvalResult
+   </text>
+   <rect x="310" y="632" width="240" height="36" rx="4" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.2">
+   </rect>
+   <text x="430" y="655" text-anchor="middle" font-size="11" font-weight="600" fill="#5B21B6">
+    
+    
+    
+    汇总统计各维度指标
+   </text>
+   <line x1="430" y1="668" x2="430" y2="692" stroke="#475569" stroke-width="1.2" marker-end="url(#a)">
+   </line>
+   <rect x="180" y="694" width="500" height="36" rx="4" fill="#1e293b">
+   </rect>
+   <text x="430" y="717" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">
+    
+    
+    
+    生成评测报告
+   </text>
+   <line x1="280" y1="730" x2="280" y2="752" stroke="#475569" stroke-width="1" marker-end="url(#a)">
+   </line>
+   <line x1="430" y1="730" x2="430" y2="752" stroke="#475569" stroke-width="1" marker-end="url(#a)">
+   </line>
+   <line x1="580" y1="730" x2="580" y2="752" stroke="#475569" stroke-width="1" marker-end="url(#a)">
+   </line>
+   <rect x="215" y="754" width="130" height="28" rx="3" fill="#EFF6FF" stroke="#BFDBFE">
+   </rect>
+   <text x="280" y="772" text-anchor="middle" font-size="9.5" fill="#1D4ED8">
+    
+    
+    
+    质量（21 项指标 %）
+   </text>
+   <rect x="365" y="754" width="130" height="28" rx="3" fill="#FEF3C7" stroke="#FDE68A">
+   </rect>
+   <text x="430" y="772" text-anchor="middle" font-size="9.5" fill="#B45309">
+    
+    
+    
+    成本（Token / 调用）
+   </text>
+   <rect x="515" y="754" width="130" height="28" rx="3" fill="#ECFDF5" stroke="#A7F3D0">
+   </rect>
+   <text x="580" y="772" text-anchor="middle" font-size="9.5" fill="#047857">
+    
+    
+    
+    性能（P50 / P90）
+   </text>
+  </svg>
