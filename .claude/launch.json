@@ -2,16 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "portal",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["-y", "http-server", "智能体评测体系/portal", "-p", "4173", "-c-1"],
+      "name": "docs",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["-e", "const h=require('http'),f=require('fs'),p=require('path');const R=process.cwd();h.createServer((q,s)=>{let u=decodeURIComponent(q.url.split('?')[0]);if(u==='/')u='/智能体评测体系/智能体评测体系.html';const fp=p.join(R,u);if(!f.existsSync(fp)||f.statSync(fp).isDirectory()){s.writeHead(404);return s.end('404');}const e=p.extname(fp);const t={'.html':'text/html; charset=utf-8','.svg':'image/svg+xml','.css':'text/css','.js':'text/javascript','.png':'image/png','.json':'application/json'}[e]||'application/octet-stream';s.writeHead(200,{'Content-Type':t});f.createReadStream(fp).pipe(s);}).listen(4173,()=>console.log('docs on 4173'));"],
       "port": 4173
-    },
-    {
-      "name": "arch",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["-y", "http-server", "架构设计", "-p", "4174", "-c-1"],
-      "port": 4174
     }
   ]
 }
