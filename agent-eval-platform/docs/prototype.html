@@ -145,9 +145,9 @@ body.marks .legend{display:flex}
 .formula b{color:var(--brand-ink)}
 
 /* ───────── notes below the shell ───────── */
-.notes{max-width:1000px;margin:0 auto;padding:44px 24px 90px;display:flex;flex-direction:column;gap:34px}
-.notes h2{margin:0 0 6px;font-size:20px;font-weight:700;letter-spacing:-.01em}
-.notes .lead{margin:0 0 18px;font-size:13.8px;color:var(--mut);max-width:70ch;line-height:1.75}
+.notes{max-width:1060px;margin:0 auto;padding:20px 24px 40px}
+.notes .tip{margin:0;font-size:12.8px;line-height:1.85;color:var(--mut);max-width:88ch}
+.notes .tip b{color:var(--ink-2);font-weight:600}
 .notes p{line-height:1.78}
 .dl{display:flex;flex-direction:column;gap:13px}
 .dl .it{display:grid;grid-template-columns:104px 1fr;gap:14px;padding:13px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
@@ -196,6 +196,68 @@ body.marks .legend{display:flex}
 .fm .ba{flex:1;height:15px;background:#f1f5f9;border-radius:4px;overflow:hidden}
 .fm .ba>i{display:block;height:100%;background:var(--brand);border-radius:0 4px 4px 0}
 .fm .vv{width:52px;text-align:right;flex:none;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-2)}
+/* ───────── 表单控件 ───────── */
+.bar{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.inp,.sel{
+  height:32px;padding:0 11px;border:1px solid #dcdfe6;border-radius:7px;background:var(--surface);
+  color:var(--ink);font:inherit;font-size:13px;outline:none;transition:border-color .15s,box-shadow .15s;
+}
+.sel{padding-right:26px;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 16 16' fill='none' stroke='%235c6a7d' stroke-width='2'%3E%3Cpath d='M3.5 6L8 10.5 12.5 6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center;}
+.inp:hover,.sel:hover{border-color:#c0c4cc}
+.inp:focus,.sel:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-bg)}
+.inp::placeholder{color:#66707d}
+.tgb{height:32px;padding:0 13px;border:1px solid #dcdfe6;border-radius:7px;background:var(--surface);font-size:13px;color:var(--ink-2)}
+.tgb:hover{border-color:var(--brand);color:var(--brand)}
+.tgb.on{background:var(--brand-bg);border-color:var(--brand);color:var(--brand);font-weight:600}
+.cnt{font-size:12.5px;color:var(--mut);margin-left:auto;font-variant-numeric:tabular-nums}
+th[data-sort]{cursor:pointer;user-select:none;white-space:nowrap}
+th[data-sort]:hover{color:var(--brand)}
+th[data-sort]::after{content:"⇅";opacity:.32;margin-left:5px;font-size:10px}
+th[data-sort].asc::after{content:"↑";opacity:1;color:var(--brand)}
+th[data-sort].desc::after{content:"↓";opacity:1;color:var(--brand)}
+tr.hide{display:none}
+.empty{padding:34px 16px;text-align:center;color:var(--mut);font-size:13px}
+
+/* ───────── 遮罩 / 弹窗 / 抽屉 / Toast ───────── */
+.ovl{position:fixed;inset:0;background:rgba(15,23,42,.40);opacity:0;pointer-events:none;transition:opacity .16s;z-index:50}
+.ovl.on{opacity:1;pointer-events:auto}
+.dlg{
+  position:fixed;left:50%;top:50%;transform:translate(-50%,-47%) scale(.98);opacity:0;pointer-events:none;
+  width:min(520px,calc(100vw - 28px));max-height:86vh;overflow:auto;background:var(--surface);
+  border-radius:13px;box-shadow:0 24px 64px -14px rgba(15,23,42,.34);z-index:60;
+  transition:opacity .17s cubic-bezier(.2,.8,.3,1),transform .17s cubic-bezier(.2,.8,.3,1);
+}
+.dlg.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+.drw{
+  position:fixed;top:0;right:0;height:100%;width:min(560px,100vw);background:var(--surface);
+  box-shadow:-14px 0 44px -18px rgba(15,23,42,.30);z-index:60;transform:translateX(100%);
+  transition:transform .22s cubic-bezier(.2,.8,.3,1);display:flex;flex-direction:column;
+}
+.drw.on{transform:none}
+.hd{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid var(--line);flex-shrink:0}
+.hd b{font-size:15.5px;font-weight:600;flex:1;min-width:0}
+.x{width:28px;height:28px;border-radius:7px;display:grid;place-items:center;color:var(--mut);font-size:17px;line-height:1;flex:none}
+.x:hover{background:#f1f5f9;color:var(--ink)}
+.bd{padding:18px 20px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:14px}
+.ft{display:flex;justify-content:flex-end;gap:9px;padding:13px 20px;border-top:1px solid var(--line);flex-shrink:0;background:var(--head)}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld label{font-size:12.5px;color:var(--ink-2);font-weight:500}
+.fld .inp,.fld .sel{width:100%}
+.fld .hint{font-size:11.5px;color:var(--mut);line-height:1.6}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dsec{font-size:12px;color:var(--mut);font-weight:600;letter-spacing:.02em}
+.dtxt{font-size:13.4px;line-height:1.8;color:var(--ink-2);white-space:pre-line}
+.toast{
+  position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-14px);opacity:0;pointer-events:none;
+  display:flex;align-items:center;gap:9px;background:var(--brand-ink);color:#fff;font-size:13px;
+  padding:10px 16px;border-radius:9px;z-index:80;box-shadow:0 10px 30px -8px rgba(15,23,42,.45);
+  transition:opacity .18s,transform .18s;max-width:calc(100vw - 32px);
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast i{width:16px;height:16px;border-radius:50%;background:#22c55e;display:grid;place-items:center;font-size:10px;font-style:normal;flex:none}
+.toast.warn i{background:#f59e0b}
 @media (max-width:980px){
   .shell{height:auto;min-height:0;flex-direction:column}
   .sidebar{width:100%;border-right:0;border-bottom:1px solid var(--line)}
@@ -264,9 +326,11 @@ body.marks .legend{display:flex}
         <div class="phead">
           <div><h2 class="page-title">仪表盘与洞察</h2>
             <p class="page-sub">核心质量指标、趋势与排行 · 数据范围：当前工作空间（实时 API）</p></div>
-          <div style="display:flex;gap:8px"><button class="btn g">近 7 天</button><button class="btn g">全部应用</button></div>
+          <div class="bar">
+            <select class="sel" data-toast-on-change><option>近 7 天</option><option>近 24 小时</option><option>近 30 天</option></select>
+            <select class="sel" data-toast-on-change><option>全部应用</option><option>用例生成智能体</option><option>需求分析智能体</option><option>脚本生成智能体</option><option>代码评审助手</option></select>
+          </div>
         </div>
-        <div class="legend"><b>取舍标记已开启</b><span><span class="mk add" style="display:inline-block">新增</span> 本次分析判定必做、现有实现里没有的</span><span><span class="mk off" style="display:inline-block">建议下线</span> 现有实现里有、但本次分析判定砍掉的</span></div>
 
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(158px,1fr));margin-bottom:12px">
           <div class="card"><div style="font-size:12px;color:var(--mut)">接入应用</div><div class="kpi-num">4</div><div style="font-size:11.5px;color:var(--ok);margin-top:2px">3 个在线</div></div>
@@ -274,7 +338,7 @@ body.marks .legend{display:flex}
           <div class="card"><div style="font-size:12px;color:var(--mut)">平均 Score</div><div class="kpi-num">0.812</div><div style="font-size:11.5px;color:var(--ok);margin-top:2px">高于门槛 τ=0.75</div></div>
           <div class="card"><div style="font-size:12px;color:var(--mut)">低分率</div><div class="kpi-num">8.4<span style="font-size:15px">%</span></div><div style="font-size:11.5px;color:var(--mut);margin-top:2px">Score &lt; 0.60 占比</div></div>
           <div class="card"><div style="font-size:12px;color:var(--mut)">待复核 Bad Case</div><div class="kpi-num">17</div><div style="font-size:11.5px;color:var(--warn);margin-top:2px">3 条已超 48h</div></div>
-          <div class="card f-off-box"><div style="font-size:12px;color:var(--mut);display:flex;align-items:center;gap:6px">今日 Judge 成本 <span class="mk add">新增</span></div><div class="kpi-num">¥38.60</div>
+          <div class="card"><div style="font-size:12px;color:var(--mut);display:flex;align-items:center;gap:6px">今日 Judge 成本 <span class="mk add">新增</span></div><div class="kpi-num">¥38.60</div>
             <div class="meter" style="margin-top:7px"><i style="width:32%"></i></div>
             <div style="font-size:11.5px;color:var(--mut);margin-top:4px">日上限 ¥120.00 · 已用 32%</div></div>
         </div>
@@ -330,14 +394,20 @@ body.marks .legend{display:flex}
         <div class="phead">
           <div><h2 class="page-title">AI Agent 可观测</h2>
             <p class="page-sub">Trace / Session / Tool Call 全链路查询 · 点击行进入轨迹详情回放 Turn → Step</p></div>
-          <div style="display:flex;gap:8px"><button class="btn g">全部应用</button><button class="btn g">近 24 小时</button></div>
+          <div class="bar">
+            <select class="sel" data-filter="sc-tr" data-col="2" data-any="全部应用"><option>全部应用</option><option>用例生成智能体</option><option>客服助手</option><option>需求分析智能体</option><option>脚本生成智能体</option></select>
+            <select class="sel" data-filter="sc-tr" data-col="7" data-any="全部状态"><option>全部状态</option><option>成功</option><option>工具超时</option></select>
+            <input class="inp" data-filter="sc-tr" placeholder="搜 Trace / Session ID" style="width:190px">
+            <button class="tgb" data-reset="sc-tr">重置</button>
+            <span class="cnt" data-cnt="sc-tr"></span>
+          </div>
         </div>
-        <div class="legend"><b>取舍标记已开启</b><span>本页判定 <b>必做 · 保留</b>：证据层是评测平台的立身之本</span><span>已砍：链路拓扑图、推理轨迹重建（属运维排障视图）</span></div>
-        <div class="tw">
+        <div class="tw" id="sc-tr" id="sc-ap" data-rowdrw="drw-row" data-act-label="轮换 API Key" data-act-msg="API Key 已轮换">
           <table>
-            <thead><tr><th>Trace ID</th><th>Session ID</th><th>应用</th><th>模型</th><th>开始时间</th><th>耗时</th><th>Token</th><th>状态</th><th>Score</th></tr></thead>
+            <thead><tr><th>Trace ID</th><th>Session ID</th><th>应用</th><th>模型</th><th data-sort="text">开始时间</th><th data-sort="num">耗时</th><th data-sort="num">Token</th><th>状态</th><th data-sort="num">Score</th></tr></thead>
             <tbody id="traceRows"></tbody>
           </table>
+            <div class="empty" data-empty="sc-tr" hidden>没有符合条件的 Trace</div>
         </div>
       </section>
 
@@ -349,7 +419,7 @@ body.marks .legend{display:flex}
             <h2 class="page-title mono">tr-8f31a2c4</h2>
             <p class="page-sub">用例生成智能体 · deepseek-v3 · v1.3 · 开始于 2026-08-30 14:22:11 · 耗时 12.4s · 8,432 tokens</p>
           </div>
-          <button class="btn g">转为评测任务 <span class="mk off" style="margin-left:5px">仅保留按钮</span></button>
+          <button class="btn g" data-dlg="dlg-t2d">转为评测任务</button>
         </div>
         <div class="tabs" data-tabs="tr">
           <button class="tab on" data-t="tree">轨迹树</button>
@@ -381,7 +451,7 @@ body.marks .legend{display:flex}
         <div data-pane="tr-eval" hidden>
           <div class="tw" style="margin-bottom:12px">
             <table style="min-width:660px">
-              <thead><tr><th>评估器</th><th>Score</th><th>版本</th><th>判定依据</th><th>失败</th></tr></thead>
+              <thead><tr><th>评估器</th><th data-sort="num">Score</th><th>版本</th><th>判定依据</th><th>失败</th></tr></thead>
               <tbody>
                 <tr><td><b>安全门控</b> <span class="mono" style="color:var(--mut)">SAFE-01</span><div class="sub">规则指标 · gate 项</div></td><td class="num"><b style="color:var(--ok)">1.00</b></td><td class="num">v2</td><td>未检出越权访问与敏感信息外发</td><td><span class="tag ok">否</span></td></tr>
                 <tr><td><b>任务完成度</b> <span class="mono" style="color:var(--mut)">C-03</span><div class="sub">LLM-as-Judge</div></td><td class="num"><b>0.86</b></td><td class="num">v5</td><td>18 条用例覆盖 6 个需求点中的 5 个，<b>缺少「验证码过期」异常分支</b></td><td><span class="tag ok">否</span></td></tr>
@@ -409,9 +479,8 @@ body.marks .legend{display:flex}
         <div class="phead">
           <div><h2 class="page-title">评估器</h2>
             <p class="page-sub">规则指标 / LLM-as-Judge / 人工反馈 · 统一输出 Score ∈ [0,1] 并带版本号</p></div>
-          <button class="btn">新建评估器</button>
+          <button class="btn"data-dlg="dlg-ev">新建评估器</button>
         </div>
-        <div class="legend"><b>取舍标记已开启</b><span>下表第 4 行是现有实现里的 <b>Agent-as-Judge</b>，本次分析判定 <b>建议下线</b></span></div>
         <div class="tw">
           <table>
             <thead><tr><th>评估器</th><th>类型</th><th>说明</th><th>状态</th><th>质量</th><th>操作</th></tr></thead>
@@ -424,10 +493,6 @@ body.marks .legend{display:flex}
             </tbody>
           </table>
         </div>
-        <div class="card f-off-box" style="margin-top:12px">
-          <h3><span class="mk off">下线理由</span>为什么建议砍掉 Agent-as-Judge</h3>
-          <p style="margin:0;font-size:13.2px;line-height:1.8;color:var(--ink-2)">评判官本身能多步推理、挂工具、查外部事实——那就是另一个 Agent 系统，<b>等于要再做一个被测对象来评被测对象</b>。更要命的是它<b>不可复现：同一条轨迹两次评分可能不同，评测结论就失去了仲裁力</b>。上表 B-05 的 L-01 只有 78%，也确实没达到 ≥90% 的门禁。用普通 LLM-as-Judge 加 rubric 校准即可。</p>
-        </div>
       </section>
 
       <!-- ══════════ 评估任务 ══════════ -->
@@ -435,14 +500,14 @@ body.marks .legend{display:flex}
         <div class="phead">
           <div><h2 class="page-title">评估任务</h2>
             <p class="page-sub">离线批量评估数据集 · 状态机：创建 → 运行中 ⇄ 已暂停 → 异常 → 已终止</p></div>
-          <button class="btn">新建任务</button>
+          <button class="btn"data-dlg="dlg-task">新建任务</button>
         </div>
         <div class="tabs" data-tabs="tk">
           <button class="tab on" data-t="off">离线任务</button>
           <button class="tab" data-t="on">在线任务 <span class="mk off">建议下线</span></button>
         </div>
         <div data-pane="tk-off">
-          <div class="tw">
+          <div class="tw" id="sc-ds" data-rowdrw="drw-row" data-act-label="导出为 JSONL" data-act-msg="数据集已导出">
             <table>
               <thead><tr><th>任务名称</th><th>数据集</th><th>评估器</th><th>阈值</th><th>已评估</th><th>平均分</th><th>状态</th><th>操作</th></tr></thead>
               <tbody>
@@ -454,10 +519,6 @@ body.marks .legend{display:flex}
           </div>
         </div>
         <div data-pane="tk-on" hidden>
-          <div class="card f-off-box" style="margin-bottom:12px">
-            <h3><span class="mk off">建议下线</span>在线持续评估</h3>
-            <p style="margin:0;font-size:13.2px;line-height:1.8;color:var(--ink-2)">对生产流量做无 Ground Truth 的持续打分＋智能采样，是<b>线上运维平台</b>的范式。本平台是<b>离线门禁平台</b>：跑评测集、有金标准、有 k 次试次、有门禁时长（冒烟 ≤5min / 回归 ≤20min）——它挂在 CI 上，不挂在生产流量上。两种范式混在一个产品里，会让「这个分数能不能拦发布」变得说不清。建议等演进到 L4 系统层评测再开。</p>
-          </div>
           <div class="tw">
             <table>
               <thead><tr><th>任务名称</th><th>应用</th><th>评估器</th><th>采样率</th><th>阈值</th><th>已评估</th><th>平均分</th><th>状态</th></tr></thead>
@@ -474,9 +535,8 @@ body.marks .legend{display:flex}
         <div class="phead">
           <div><h2 class="page-title">成本与配额 <span class="mk add" style="vertical-align:4px">新增</span></h2>
             <p class="page-sub">Judge 日额度台账 · 按空间配额与限流 · 超额自动暂停并通知 —— 后端 <span class="mono">services/budget.py</span> 已实现，本页是缺失的前端出口</p></div>
-          <button class="btn g">调整额度</button>
+          <button class="btn g"data-dlg="dlg-quota">调整额度</button>
         </div>
-        <div class="legend"><b>取舍标记已开启</b><span>本页为 <b>新增</b>：1000 人规模把「成本可见 + 配额可控」从可选推成必做</span></div>
 
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin-bottom:12px">
           <div class="card"><div style="font-size:12px;color:var(--mut)">今日已消费</div><div class="kpi-num">¥38.60</div>
@@ -551,27 +611,33 @@ body.marks .legend{display:flex}
         <div class="phead">
           <div><h2 class="page-title">操作审计 <span class="mk add" style="vertical-align:4px">新增</span></h2>
             <p class="page-sub">append-only 关键操作留痕 · 改评分器 / 改金标准 / 重跑任务 三类高风险操作单独标记 —— 原为「系统管理」内的一个页签，本次提为一级</p></div>
-          <div style="display:flex;gap:8px"><button class="btn g">全部操作人</button><button class="btn g">仅高风险</button><button class="btn g">近 7 天</button></div>
+          <div class="bar">
+            <select class="sel" data-filter="sc-au" data-col="0" data-any="全部操作人"><option>全部操作人</option><option>王</option><option>李</option><option>张</option><option>陈</option><option>system</option></select>
+            <button class="tgb" data-filter="sc-au">仅高风险</button>
+            <select class="sel" data-toast-on-change><option>近 7 天</option><option>近 30 天</option><option>全部</option></select>
+            <button class="tgb" data-reset="sc-au">重置</button>
+            <span class="cnt" data-cnt="sc-au"></span>
+          </div>
         </div>
-        <div class="legend"><b>取舍标记已开启</b><span>本页为 <b>新增（提为一级）</b>：评测结论会影响上线决策与绩效，改分数的动机在 1000 人下真实存在</span></div>
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:12px">
           <div class="card"><div style="font-size:12px;color:var(--mut)">近 7 天操作</div><div class="kpi-num">1,046</div></div>
           <div class="card"><div style="font-size:12px;color:var(--mut)">高风险操作</div><div class="kpi-num" style="color:var(--warn)">23</div><div style="font-size:11.5px;color:var(--mut);margin-top:2px">改 rubric / 改金标准 / 重跑</div></div>
           <div class="card"><div style="font-size:12px;color:var(--mut)">失败操作</div><div class="kpi-num">7</div><div style="font-size:11.5px;color:var(--mut);margin-top:2px">多为权限不足</div></div>
           <div class="card"><div style="font-size:12px;color:var(--mut)">留存策略</div><div class="kpi-num" style="font-size:19px;padding-top:5px">永久</div><div style="font-size:11.5px;color:var(--mut);margin-top:2px">判定依据不随轨迹归档</div></div>
         </div>
-        <div class="tw">
+        <div class="tw" id="sc-au" data-rowdrw="drw-row" data-act-label="导出审计记录" data-act-msg="审计记录已导出为 CSV">
           <table>
-            <thead><tr><th>操作人</th><th>操作</th><th>对象</th><th>结果</th><th>时间</th></tr></thead>
+            <thead><tr><th>操作人</th><th>操作</th><th>对象</th><th>结果</th><th data-sort="text">时间</th></tr></thead>
             <tbody>
-              <tr><td><b>王 · 测试开发</b></td><td><span class="tag wa">高风险</span> 修改评分器 rubric</td><td>任务完成度 C-03 <span class="mono">v4 → v5</span><div class="sub">权重项 3 处变更，非 gate 权重和校验通过</div></td><td><span class="tag ok">成功</span></td><td class="num">08-30 15:02:44</td></tr>
-              <tr><td><b>李 · 测试开发</b></td><td><span class="tag wa">高风险</span> 重跑评估任务</td><td>用例生成 v1.3 全量回归<div class="sub">第 2 次重跑，前次均分 0.812</div></td><td><span class="tag ok">成功</span></td><td class="num">08-30 14:41:09</td></tr>
-              <tr><td><b>张 · 测试工程师</b></td><td><span class="tag wa">高风险</span> 修改金标准</td><td>需求分析评测集 v2 · 条目 #17<div class="sub">期望输出由 3 条改为 4 条</div></td><td><span class="tag ok">成功</span></td><td class="num">08-30 11:20:31</td></tr>
+              <tr data-flag><td><b>王 · 测试开发</b></td><td><span class="tag wa">高风险</span> 修改评分器 rubric</td><td>任务完成度 C-03 <span class="mono">v4 → v5</span><div class="sub">权重项 3 处变更，非 gate 权重和校验通过</div></td><td><span class="tag ok">成功</span></td><td class="num">08-30 15:02:44</td></tr>
+              <tr data-flag><td><b>李 · 测试开发</b></td><td><span class="tag wa">高风险</span> 重跑评估任务</td><td>用例生成 v1.3 全量回归<div class="sub">第 2 次重跑，前次均分 0.812</div></td><td><span class="tag ok">成功</span></td><td class="num">08-30 14:41:09</td></tr>
+              <tr data-flag><td><b>张 · 测试工程师</b></td><td><span class="tag wa">高风险</span> 修改金标准</td><td>需求分析评测集 v2 · 条目 #17<div class="sub">期望输出由 3 条改为 4 条</div></td><td><span class="tag ok">成功</span></td><td class="num">08-30 11:20:31</td></tr>
               <tr><td><b class="mono" style="color:var(--mut)">system</b></td><td>额度超限自动暂停任务</td><td>客服助手在线质量监控<div class="sub">今日累计 ¥120.04 ≥ 上限 ¥120.00</div></td><td><span class="tag ok">成功</span></td><td class="num">08-30 09:15:02</td></tr>
               <tr><td><b>陈 · 管理员</b></td><td>邀请成员</td><td>赵 · 只读角色 · 质量测试部（生产）</td><td><span class="tag ok">成功</span></td><td class="num">08-29 17:33:50</td></tr>
               <tr><td><b>李 · 测试开发</b></td><td>删除数据集</td><td>脚本生成临时集 v0</td><td><span class="tag bad">失败 · 权限不足</span></td><td class="num">08-29 16:08:12</td></tr>
             </tbody>
           </table>
+            <div class="empty" data-empty="sc-au" hidden>没有符合条件的操作记录</div>
         </div>
       </section>
 
@@ -580,10 +646,9 @@ body.marks .legend{display:flex}
         <div class="phead">
           <div><h2 class="page-title">实验与回归</h2>
             <p class="page-sub">新旧版本同一回归集对比评估 · 产出退化清单与发布建议 · 挂 CI 门禁</p></div>
-          <button class="btn">创建回归实验</button>
+          <button class="btn"data-dlg="dlg-reg">创建回归实验</button>
         </div>
-        <div class="legend"><b>取舍标记已开启</b><span>本页判定 <b>必做 · P0</b>：CI 门禁是平台从「有人用」变成「绕不过去」的唯一机制</span></div>
-        <div class="tw" style="margin-bottom:12px">
+        <div class="tw" style="margin-bottom:12px" id="sc-rg" data-rowdrw="drw-row" data-act-label="推送门禁结论" data-act-msg="结论已推送到 CI 回调">
           <table>
             <thead><tr><th>回归实验</th><th>数据集</th><th>版本对比</th><th>整体 Score 变化</th><th>退化 / 改进</th><th>结论</th></tr></thead>
             <tbody>
@@ -629,9 +694,8 @@ body.marks .legend{display:flex}
         <div class="phead">
           <div><h2 class="page-title">接入中心</h2>
             <p class="page-sub">统一走 LoongSuite 接入 · 按智能体形态选三条通道之一 · 全部以 OTLP 上报到 Collector <span class="mono">:4318</span> 或自研网关 <span class="mono">/api/otlp/v1/traces</span></p></div>
-          <button class="btn">注册应用</button>
+          <button class="btn"data-dlg="dlg-app">注册应用</button>
         </div>
-        <div class="legend"><b>取舍标记已开启</b><span>本页判定 <b>必做 · 保留</b>，但接入方式改为 <b>不自研探针</b>——LoongSuite 是 Apache 开源，这层可以不写</span></div>
 
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(268px,1fr));margin-bottom:14px">
           <div class="chn pick">
@@ -651,10 +715,6 @@ body.marks .legend{display:flex}
           </div>
         </div>
 
-        <div class="card f-off-box" style="margin-bottom:14px">
-          <h3><span class="mk off">口径提醒</span>CodeBuddy 不在 Pilot 官方清单里</h3>
-          <p style="margin:0;font-size:13.2px;line-height:1.8;color:var(--ink-2)">Pilot 的支持清单里有 <b>WorkBuddy</b>（腾讯的 AI 办公工作站），<b>没有 CodeBuddy</b>（腾讯的 AI 代码编辑器）。两者同源但不是一个产品，<b>不能当成 CodeBuddy 已被支持</b>。好在 CodeBuddy Code 自身支持按 OTel 规范推 trace 到自有 Collector，所以走通道 ③ 是干净的——但要按它自己的环境变量文档配，不是按 Pilot 的。</p>
-        </div>
 
         <div class="tabs" data-tabs="ac">
           <button class="tab on" data-t="py">通道 ① Python Agent</button>
@@ -722,7 +782,7 @@ curl -X POST <span class="v">http://agenteval.internal/api/otlp/v1/traces</span>
           <div style="padding:16px 18px 12px"><h3 style="margin:0">已接入应用<span class="r">5 个 · 3 个在线</span></h3></div>
           <div class="tw" style="border:0;border-radius:0">
             <table>
-              <thead><tr><th>应用</th><th>智能体类型</th><th>接入通道</th><th>API Key</th><th>接入状态</th><th>模型</th><th>累计 Trace</th><th>平均 Score</th></tr></thead>
+              <thead><tr><th>应用</th><th>智能体类型</th><th>接入通道</th><th>API Key</th><th>接入状态</th><th>模型</th><th data-sort="num">累计 Trace</th><th data-sort="num">平均 Score</th></tr></thead>
               <tbody>
                 <tr><td><b>用例生成智能体</b><div class="sub mono">app-c1a0</div></td><td>AgentScope</td><td><span class="tag br">① Python Agent</span></td><td class="mono" style="font-size:12px">ak_7f31****c4</td><td><span class="tag ok">已连接</span></td><td class="mono" style="font-size:12px">deepseek-v3</td><td class="num">41,208</td><td class="num"><b style="color:var(--ok)">0.860</b></td></tr>
                 <tr><td><b>需求分析智能体</b><div class="sub mono">app-c1a4</div></td><td>AgentScope</td><td><span class="tag br">① Python Agent</span></td><td class="mono" style="font-size:12px">ak_2b90****7e</td><td><span class="tag ok">已连接</span></td><td class="mono" style="font-size:12px">deepseek-v3</td><td class="num">18,655</td><td class="num"><b>0.774</b></td></tr>
@@ -740,9 +800,8 @@ curl -X POST <span class="v">http://agenteval.internal/api/otlp/v1/traces</span>
         <div class="phead">
           <div><h2 class="page-title">指标库 <span class="mk add" style="vertical-align:4px">新增</span></h2>
             <p class="page-sub">92 项指标的<b>只读</b>字典 · 每项按「层 × 柱」矩阵定位 · 评估器必须挂靠到指标编号，不允许自由命名</p></div>
-          <button class="btn g">同步字典（从 01 分册）</button>
+          <button class="btn g"data-toast="已从 01 分册同步：新增 0 · 更新 0 · 未变 92">同步字典（从 01 分册）</button>
         </div>
-        <div class="legend"><b>取舍标记已开启</b><span>本页为 <b>新增</b>：一张表加一个外键，解锁的是失败归因与体系覆盖度</span></div>
 
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(168px,1fr));margin-bottom:12px">
           <div class="card"><div style="font-size:12px;color:var(--mut)">指标总数</div><div class="kpi-num">92</div><div style="font-size:11.5px;color:var(--mut);margin-top:2px">12 组 A–L · 与 01 分册一致</div></div>
@@ -782,9 +841,9 @@ curl -X POST <span class="v">http://agenteval.internal/api/otlp/v1/traces</span>
 
         <div class="card" style="padding:0;overflow:hidden;margin-bottom:12px">
           <div style="padding:16px 18px 12px"><h3 style="margin:0">指标条目<span class="r">节选 8 项 · 只读，改动请回 01 分册后同步</span></h3></div>
-          <div class="tw" style="border:0;border-radius:0">
+          <div class="tw" style="border:0;border-radius:0" id="sc-mx" data-rowdrw="drw-row" data-act-label="为它建评估器" data-act-msg="已跳转到评估器创建页">
             <table>
-              <thead><tr><th>编号</th><th>指标名称</th><th>层 × 柱</th><th>类型</th><th>门禁值</th><th>已挂评估器<div style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--mut)">当前全部未挂靠</div></th><th>出处</th></tr></thead>
+              <thead><tr><th data-sort="text">编号</th><th>指标名称</th><th>层 × 柱</th><th>类型</th><th>门禁值</th><th>已挂评估器<div style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--mut)">当前全部未挂靠</div></th><th>出处</th></tr></thead>
               <tbody>
                 <tr><td class="mono"><b>SAFE-01</b></td><td>越权访问与敏感信息外发</td><td>L2 · <span class="pil" style="background:#AE3EC9"></span>环境与交互</td><td><span class="tag bad">安全 gate</span></td><td class="num">违规即 0</td><td>安全门控 <span class="mono">v2</span></td><td class="mono" style="font-size:11.5px;color:var(--mut)">01 §4.6</td></tr>
                 <tr><td class="mono"><b>C-03</b></td><td>任务完成度</td><td>L2 · <span class="pil" style="background:#4C6EF5"></span>模型与推理</td><td><span class="tag nu">完成度</span></td><td class="num" style="color:var(--mut)">—</td><td>任务完成度 <span class="mono">v5</span></td><td class="mono" style="font-size:11.5px;color:var(--mut)">01 §4.3</td></tr>
@@ -815,9 +874,8 @@ curl -X POST <span class="v">http://agenteval.internal/api/otlp/v1/traces</span>
         <div class="phead">
           <div><h2 class="page-title">Bad Case 管理</h2>
             <p class="page-sub">低分 Case 人工复核（确认 Bad / 误判 / 待定）→ 标注 Root Cause → 自动写入 Bad Case 数据集</p></div>
-          <div style="display:flex;gap:8px"><button class="btn g">批量复核</button><button class="btn">导出为回归集</button></div>
+          <div style="display:flex;gap:8px"><button class="btn g"data-dlg="dlg-review">批量复核</button><button class="btn"data-toast="84 条已确认 Bad Case 导出为回归集">导出为回归集</button></div>
         </div>
-        <div class="legend"><b>取舍标记已开启</b><span>本页判定 <b>必做 · 保留</b>：人工复核是 L-01 / L-02 两个平台门禁唯一的标签来源</span></div>
 
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(168px,1fr));margin-bottom:12px">
           <div class="card"><div style="font-size:12px;color:var(--mut)">待复核</div><div class="kpi-num">17</div><div style="font-size:11.5px;color:var(--warn);margin-top:2px">3 条已超 48h</div></div>
@@ -849,9 +907,9 @@ curl -X POST <span class="v">http://agenteval.internal/api/otlp/v1/traces</span>
           </div>
         </div>
 
-        <div class="tw">
+        <div class="tw" id="sc-bc" data-rowdrw="drw-case">
           <table>
-            <thead><tr><th>Case ID</th><th>Trace</th><th>应用</th><th>触发评估器</th><th>Score</th><th>触发时间</th><th>复核状态</th><th>Root Cause</th></tr></thead>
+            <thead><tr><th>Case ID</th><th>Trace</th><th>应用</th><th>触发评估器</th><th data-sort="num">Score</th><th>触发时间</th><th>复核状态</th><th>Root Cause</th></tr></thead>
             <tbody>
               <tr class="clk"><td class="mono"><b>bc-1a77</b></td><td class="mono" style="color:var(--brand)">tr-8f24c3a0</td><td>需求分析智能体</td><td>任务完成度 <span class="mono">C-03</span></td><td class="num"><b style="color:var(--danger)">0.58</b><div class="sub">阈值 0.75</div></td><td class="num">08-30 14:08</td><td><span class="tag wa">待复核 · 51h</span></td><td style="color:var(--mut)">—</td></tr>
               <tr class="clk"><td class="mono"><b>bc-1a74</b></td><td class="mono" style="color:var(--brand)">tr-8f1e02b6</td><td>需求分析智能体</td><td>任务完成度 <span class="mono">C-03</span></td><td class="num"><b style="color:var(--danger)">0.52</b><div class="sub">阈值 0.75</div></td><td class="num">08-30 11:47</td><td><span class="tag wa">待复核</span></td><td style="color:var(--mut)">—</td></tr>
@@ -868,9 +926,8 @@ curl -X POST <span class="v">http://agenteval.internal/api/otlp/v1/traces</span>
         <div class="phead">
           <div><h2 class="page-title">数据中心</h2>
             <p class="page-sub">Trajectory 标准化轨迹库 · 三类数据集（评测集 / 回归集 / 经典 Case）版本化管理 · 轨迹转任务需人工审核</p></div>
-          <button class="btn">新建数据集</button>
+          <button class="btn"data-dlg="dlg-ds">新建数据集</button>
         </div>
-        <div class="legend"><b>取舍标记已开启</b><span>数据集判定 <b>必做</b>；<b>Trace2Dataset 自动流水线判定降级</b>——只保留「转为评测任务」按钮 + 人工审</span></div>
 
         <div class="tabs" data-tabs="dc">
           <button class="tab on" data-t="traj">轨迹库</button>
@@ -878,13 +935,9 @@ curl -X POST <span class="v">http://agenteval.internal/api/otlp/v1/traces</span>
         </div>
 
         <div data-pane="dc-traj">
-          <div class="card f-off-box" style="margin-bottom:12px">
-            <h3><span class="mk off">已降级</span>轨迹转任务：保留按钮，不做自动流水线</h3>
-            <p style="margin:0;font-size:13.2px;line-height:1.8;color:var(--ink-2)">AgentLoop 那套「数据源接入 → 降维 → 特征提取 → AI 审核改写 → 写入数据集」是为百万级轨迹设计的。这里的用法是：<b>勾选轨迹 → 转为评测任务 → 人工补金标准 → 入库</b>。理由是<b>任务质量决定平台可信度，而自动生成的任务没人敢信</b>——rubric 的硬规则（非 gate 权重和 = 1.0、安全项必须确定性）靠 AI 改写必然出错。</p>
-          </div>
           <div class="tw">
             <table>
-              <thead><tr><th>Trajectory</th><th>Session</th><th>应用</th><th>Turn</th><th>Token</th><th>产生时间</th><th>评估状态</th><th>操作</th></tr></thead>
+              <thead><tr><th>Trajectory</th><th>Session</th><th>应用</th><th>Turn</th><th data-sort="num">Token</th><th>产生时间</th><th>评估状态</th><th>操作</th></tr></thead>
               <tbody>
                 <tr><td class="mono" style="color:var(--brand)">tr-8f31a2c4</td><td class="mono" style="color:var(--mut)">se-2c91f7</td><td>用例生成智能体</td><td class="num">1</td><td class="num">8,432</td><td class="num">08-30 14:22</td><td><span class="tag ok">已评估 0.846</span></td><td><span style="color:var(--brand)">转为评测任务</span></td></tr>
                 <tr><td class="mono" style="color:var(--brand)">tr-8f24c3a0</td><td class="mono" style="color:var(--mut)">se-2c8a02</td><td>需求分析智能体</td><td class="num">3</td><td class="num">14,209</td><td class="num">08-30 14:08</td><td><span class="tag bad">已评估 0.58</span></td><td><span style="color:var(--brand)">转为评测任务</span></td></tr>
@@ -915,7 +968,7 @@ curl -X POST <span class="v">http://agenteval.internal/api/otlp/v1/traces</span>
         <div class="phead">
           <div><h2 class="page-title">通知中心</h2>
             <p class="page-sub">3 条未读 · 异常任务告警 / 门禁结果 / 复核到期提醒 / 系统通知</p></div>
-          <button class="btn g">全部标记已读</button>
+          <button class="btn g" data-readall>全部标记已读</button>
         </div>
         <div class="tabs" data-tabs="nt">
           <button class="tab on" data-t="all">全部</button>
@@ -957,14 +1010,9 @@ curl -X POST <span class="v">http://agenteval.internal/api/otlp/v1/traces</span>
         <div class="phead">
           <div><h2 class="page-title">成员与权限</h2>
             <p class="page-sub">工作空间数据隔离 · 三级角色 RBAC（管理员 / 开发 / 只读）· 认证复用部门账号，授权由平台自己管</p></div>
-          <button class="btn">邀请成员</button>
+          <button class="btn"data-dlg="dlg-invite">邀请成员</button>
         </div>
-        <div class="legend"><b>取舍标记已开启</b><span>空间隔离判定 <b>必做（因 1000 人升级）</b>；与 PRD §2.3「重建用户体系——不做」需重新确认口径</span></div>
 
-        <div class="card f-off-box" style="margin-bottom:12px">
-          <h3><span class="mk add">需确认</span>认证可以复用，授权不能省</h3>
-          <p style="margin:0;font-size:13.2px;line-height:1.8;color:var(--ink-2)">PRD §2.3 写的是「重建用户体系 —— 复用部门已有账号 —— 不做」。<b>但认证（你是谁）和授权（你能看哪个空间的评测集）是两件事</b>：前者接 LDAP / SSO 就行，后者必须平台自己存。1000 人规模下 A 团队的业务金标准不能让 B 团队看见，评分器改坏了不能影响别人。建议把 §2.3 那行的措辞收窄成「不重建<b>认证</b>体系」。</p>
-        </div>
 
         <div class="tabs" data-tabs="sy">
           <button class="tab on" data-t="mem">成员与角色</button>
@@ -1008,32 +1056,161 @@ curl -X POST <span class="v">http://agenteval.internal/api/otlp/v1/traces</span>
   </div>
 </div>
 
+<div class="ovl" id="ovl"></div>
+<div class="toast" id="toast"><i>✓</i><span></span></div>
+
+<!-- ══════ 弹窗 ══════ -->
+<div class="dlg" id="dlg-app">
+  <div class="hd"><b>注册应用</b><button class="x" data-close>×</button></div>
+  <div class="bd">
+    <div class="fld"><label>应用名称</label><input class="inp" placeholder="如：用例生成智能体"></div>
+    <div class="row2">
+      <div class="fld"><label>智能体类型</label><select class="sel"><option>AgentScope</option><option>OpenCode</option><option>Hermes Agent</option><option>CodeBuddy</option><option>其他</option></select></div>
+      <div class="fld"><label>接入通道</label><select class="sel"><option>① LoongSuite Python Agent</option><option>② LoongSuite Pilot</option><option>③ OTLP 直推</option></select></div>
+    </div>
+    <div class="fld"><label>裁判模型</label><select class="sel"><option>deepseek-v3</option><option>deepseek-v4-flash</option><option>qwen-max</option><option>qwen-plus</option></select></div>
+    <div class="fld"><label>备注</label><input class="inp" placeholder="选填"><div class="hint">创建后会生成 API Key，需在智能体侧配置 OTLP 上报地址。</div></div>
+  </div>
+  <div class="ft"><button class="btn g" data-close>取消</button><button class="btn" data-act="应用已注册，API Key 已生成">创建</button></div>
+</div>
+
+<div class="dlg" id="dlg-ev">
+  <div class="hd"><b>新建评估器</b><button class="x" data-close>×</button></div>
+  <div class="bd">
+    <div class="fld"><label>评估器名称</label><input class="inp" placeholder="如：任务完成度"></div>
+    <div class="row2">
+      <div class="fld"><label>类型</label><select class="sel"><option>规则指标（确定性）</option><option>LLM-as-Judge</option><option>人工反馈</option></select></div>
+      <div class="fld"><label>挂靠指标</label><select class="sel"><option>C-03 · 任务完成度</option><option>D-02 · 回答证据支持度</option><option>SAFE-01 · 越权与敏感输出</option><option>E-01 · 执行步骤效率</option></select></div>
+    </div>
+    <div class="fld"><label>评分区间</label><input class="inp" value="0.00 – 1.00" readonly><div class="hint">统一输出 Score ∈ [0,1]，安全项为 0/1 乘法门控。</div></div>
+    <div class="fld"><label>rubric 说明</label><input class="inp" placeholder="判定依据，会随打分一起落库"></div>
+  </div>
+  <div class="ft"><button class="btn g" data-close>取消</button><button class="btn" data-act="评估器已创建，状态为草稿">创建</button></div>
+</div>
+
+<div class="dlg" id="dlg-task">
+  <div class="hd"><b>新建评估任务</b><button class="x" data-close>×</button></div>
+  <div class="bd">
+    <div class="fld"><label>任务名称</label><input class="inp" placeholder="如：用例生成 v1.3 全量回归"></div>
+    <div class="row2">
+      <div class="fld"><label>数据集</label><select class="sel"><option>用例生成回归集 v4（90 条）</option><option>需求分析评测集 v2（30 条）</option><option>安全 gate 集 v1（60 条）</option></select></div>
+      <div class="fld"><label>试次 k</label><select class="sel"><option>3（默认）</option><option>5（关键链路）</option><option>1（冒烟）</option></select></div>
+    </div>
+    <div class="row2">
+      <div class="fld"><label>通过门槛 τ</label><input class="inp" value="0.75"></div>
+      <div class="fld"><label>评估器</label><select class="sel"><option>4 个（已选）</option><option>自定义…</option></select></div>
+    </div>
+    <div class="fld"><div class="hint">任务将按 α=0.8 / β=0.2 聚合，安全项为乘法门控；完成后同时报 Average、pass@k、pass^k。</div></div>
+  </div>
+  <div class="ft"><button class="btn g" data-close>取消</button><button class="btn" data-act="任务已创建并开始运行">创建并运行</button></div>
+</div>
+
+<div class="dlg" id="dlg-reg">
+  <div class="hd"><b>创建回归实验</b><button class="x" data-close>×</button></div>
+  <div class="bd">
+    <div class="fld"><label>实验名称</label><input class="inp" placeholder="如：用例生成智能体 v1.3 → v1.4"></div>
+    <div class="fld"><label>回归集</label><select class="sel"><option>用例生成回归集 v4（90 条）</option><option>需求分析评测集 v2（30 条）</option></select></div>
+    <div class="row2">
+      <div class="fld"><label>基准版本</label><input class="inp" value="v1.3"></div>
+      <div class="fld"><label>对比版本</label><input class="inp" value="v1.4"></div>
+    </div>
+    <div class="fld"><label>门禁</label><select class="sel"><option>启用（不通过则回调 block）</option><option>仅出报告，不拦流水线</option></select>
+      <div class="hint">判定规则：avg_score ≥ 0.75 且 degraded ≤ 5 且 safety_gate_violation = 0</div></div>
+  </div>
+  <div class="ft"><button class="btn g" data-close>取消</button><button class="btn" data-act="回归实验已创建，预计 18 分钟完成">创建并运行</button></div>
+</div>
+
+<div class="dlg" id="dlg-ds">
+  <div class="hd"><b>新建数据集</b><button class="x" data-close>×</button></div>
+  <div class="bd">
+    <div class="fld"><label>数据集名称</label><input class="inp" placeholder="如：脚本生成回归集"></div>
+    <div class="row2">
+      <div class="fld"><label>类型</label><select class="sel"><option>评测集</option><option>回归集</option><option>经典 Case</option></select></div>
+      <div class="fld"><label>初始版本</label><input class="inp" value="v1"></div>
+    </div>
+    <div class="fld"><label>来源</label><select class="sel"><option>空白新建</option><option>从轨迹库导入</option><option>从 Bad Case 归集</option></select>
+      <div class="hint">从轨迹导入的条目需人工补金标准后才能参与门禁。</div></div>
+  </div>
+  <div class="ft"><button class="btn g" data-close>取消</button><button class="btn" data-act="数据集已创建">创建</button></div>
+</div>
+
+<div class="dlg" id="dlg-quota">
+  <div class="hd"><b>调整日额度</b><button class="x" data-close>×</button></div>
+  <div class="bd">
+    <div class="fld"><label>工作空间</label><select class="sel"><option>质量测试部 · 生产</option><option>质量测试部 · 预发</option><option>产品线 A · 生产</option></select></div>
+    <div class="row2">
+      <div class="fld"><label>当前日上限</label><input class="inp" value="¥120.00" readonly></div>
+      <div class="fld"><label>调整为</label><input class="inp" value="180.00"></div>
+    </div>
+    <div class="fld"><label>超额动作</label><select class="sel"><option>暂停使用 LLM 评估器的任务并通知（当前）</option><option>仅告警，不暂停</option></select>
+      <div class="hint">本月已触发 3 次自动暂停。若属正常增长，调高额度比反复解除暂停更合适。</div></div>
+  </div>
+  <div class="ft"><button class="btn g" data-close>取消</button><button class="btn" data-act="日额度已调整为 ¥180.00">保存</button></div>
+</div>
+
+<div class="dlg" id="dlg-invite">
+  <div class="hd"><b>邀请成员</b><button class="x" data-close>×</button></div>
+  <div class="bd">
+    <div class="fld"><label>企业邮箱</label><input class="inp" placeholder="name@corp.com"><div class="hint">认证复用部门 LDAP，此处只分配空间内的授权。</div></div>
+    <div class="row2">
+      <div class="fld"><label>加入空间</label><select class="sel"><option>质量测试部 · 生产</option><option>质量测试部 · 预发</option></select></div>
+      <div class="fld"><label>角色</label><select class="sel"><option>只读</option><option>开发</option><option>管理员</option></select></div>
+    </div>
+  </div>
+  <div class="ft"><button class="btn g" data-close>取消</button><button class="btn" data-act="邀请已发送">发送邀请</button></div>
+</div>
+
+<div class="dlg" id="dlg-review">
+  <div class="hd"><b>批量复核</b><button class="x" data-close>×</button></div>
+  <div class="bd">
+    <div class="fld"><label>范围</label><select class="sel"><option>当前筛选结果（17 条待复核）</option><option>仅超期 48h（3 条）</option></select></div>
+    <div class="row2">
+      <div class="fld"><label>判定</label><select class="sel"><option>确认 Bad</option><option>误判</option><option>待定</option></select></div>
+      <div class="fld"><label>Root Cause</label><select class="sel"><option>需求拆解不完整</option><option>输出格式不符模板</option><option>检索片段未被采用</option><option>工具参数传错</option><option>异常分支遗漏</option></select></div>
+    </div>
+    <div class="fld"><div class="hint">批量判定会写入 L-01 一致率的样本池，请确认这批 Case 的失败模式确实同源。</div></div>
+  </div>
+  <div class="ft"><button class="btn g" data-close>取消</button><button class="btn" data-act="17 条已批量复核并写入 Bad Case 集">提交</button></div>
+</div>
+
+<div class="dlg" id="dlg-t2d">
+  <div class="hd"><b>转为评测任务</b><button class="x" data-close>×</button></div>
+  <div class="bd">
+    <div class="fld"><label>目标数据集</label><select class="sel"><option>用例生成回归集 v4</option><option>需求分析评测集 v2</option><option>新建数据集…</option></select></div>
+    <div class="fld"><label>金标准</label><select class="sel"><option>人工补录（推荐）</option><option>用当前轨迹产出作为金标准</option></select>
+      <div class="hint">自动生成的金标准不参与门禁，需人工确认后才生效。</div></div>
+  </div>
+  <div class="ft"><button class="btn g" data-close>取消</button><button class="btn" data-act="已加入待补录队列">加入</button></div>
+</div>
+
+<!-- ══════ 抽屉 ══════ -->
+
+<div class="drw" id="drw-row">
+  <div class="hd"><b data-slot="title">详情</b><button class="x" data-close>×</button></div>
+  <div class="bd" data-rows></div>
+  <div class="ft"><button class="btn g" data-close>关闭</button><button class="btn" data-rowact>操作</button></div>
+</div>
+<div class="drw" id="drw-case">
+  <div class="hd"><b data-slot="title">Bad Case 复核</b><button class="x" data-close>×</button></div>
+  <div class="bd">
+    <div style="display:flex;gap:7px;flex-wrap:wrap"><span class="tag nu" data-slot="app"></span><span class="tag bad" data-slot="score"></span></div>
+    <div><div class="dsec">触发评估器</div><div class="dtxt" data-slot="ev"></div></div>
+    <div><div class="dsec">关联 Trace</div><div class="dtxt mono" data-slot="trace" style="color:var(--brand)"></div></div>
+    <div class="fld"><label>复核判定</label><select class="sel"><option>确认 Bad</option><option>误判</option><option>待定</option></select></div>
+    <div class="fld"><label>Root Cause</label><select class="sel"><option>需求拆解不完整</option><option>输出格式不符模板</option><option>检索片段未被采用</option><option>工具参数传错</option><option>异常分支遗漏</option></select></div>
+    <div class="fld"><label>备注</label><input class="inp" placeholder="选填，会随判定一起留痕"></div>
+  </div>
+  <div class="ft"><button class="btn g" data-close>取消</button><button class="btn" data-act="复核已提交，已写入 L-01 样本池">提交复核</button></div>
+</div>
+
+
+
+
 <div class="notes">
-  <section>
-    <h2>关于这份原型</h2>
-    <p class="lead">画的是 <span class="mono">agent-eval-platform</span> 应用取舍结论之后的目标形态，不是重新设计。<b>13 个屏全部可点。</b>配色、字号、间距、组件形态全部取自工程现有的 <span class="mono">frontend/src/style.css</span> 与 Element Plus 观感：底 <span class="mono">#f6f7f9</span>、主色 <span class="mono">#1f56e8</span>、侧栏 236px、顶栏 54px、卡片 12px 圆角无阴影。字段名、表格列、页面副标题都来自现有页面，没有自己编。</p>
-    <p style="margin:0 0 18px;font-size:13.8px;color:var(--mut);max-width:70ch">点顶栏的 <b style="color:var(--new)">取舍标记</b> 开关，可以把上一轮的判决叠到界面上：紫色是新增，琥珀色是建议下线。</p>
-    <div class="dl">
-      <div class="it"><span class="st add">新增</span><p><b>成本与配额</b>　后端 <span class="mono">services/budget.py</span> 已经实现了 <span class="mono">JudgeBudget</span> 日额度台账、按模型定价（<span class="mono">JUDGE_PRICES</span>）和 <span class="mono">auto_pause_budget_tasks</span> 超额自动暂停，<b>但前端一个入口都没有</b>——今天只能从告警里间接看到它生效了。原型里这一页把已有能力直接暴露出来，是投入产出比最高的一块。</p></div>
-      <div class="it"><span class="st add">新增</span><p><b>操作审计</b>　<span class="mono">/api/system/audits</span> 已存在，但埋在「系统管理」的第三个页签里。1000 人规模下改 rubric、改金标准、重跑任务这三类操作会直接影响发布决策，提为一级导航并单独标高风险。</p></div>
-      <div class="it"><span class="st add">新增</span><p><b>指标库</b>　评估过了，结论是<b>做，但只做只读字典</b>。现在指标编号（<span class="mono">C-03</span>、<span class="mono">D-02</span>）是以字符串形式散在评估器名字里的，写错没人拦——这跟 PRD §3.3 排除方案二的理由完全同构。成本是<b>一张表 + evaluator 加一个 metric_code 外键</b>，换来的是失败归因能落到「层 × 柱」格子里，以及那张覆盖度矩阵。</p></div>
-      <div class="it"><span class="st keep">改造</span><p><b>接入中心改走 LoongSuite</b>　三条通道对应部门四种智能体：AgentScope 走 Python Agent（<span class="mono">loongsuite-instrument</span> 包裹启动、代码零改动），OpenCode 与 Hermes Agent 走 Pilot（装在开发机上自动注入插件，两者都在官方支持清单里），CodeBuddy 走 OTLP 直推。命令全部取自官方仓库。</p></div>
-      <div class="it"><span class="st off">建议下线</span><p><b>Agent-as-Judge 评估器类型</b>　现有实现里已经有（<span class="mono">Evaluators.vue</span> 副标题列了四类，<span class="mono">budget.py</span> 也按 <span class="mono">type in ["llm","agent"]</span> 处理）。砍它的理由不是做不出来，是<b>评判官不可复现会让评测结论失去仲裁力</b>。</p></div>
-      <div class="it"><span class="st off">建议下线</span><p><b>在线持续评估任务</b>　<span class="mono">Tasks.vue</span> 现有「在线任务 / 离线任务」双页签。在线那半是运维范式，与本平台的离线门禁范式混在一起，会让「这个分数能不能拦发布」说不清。原型把离线放到了第一页签。</p></div>
-      <div class="it"><span class="st keep">保留</span><p><b>轨迹详情的证据层</b>　原型在「评估结果」页签里补了一块现有实现没有的东西：<b>把打分公式和三个试次口径显式画出来</b>（<span class="mono">task_score = s_safety × (α·s_completion + β·s_robustness)</span>，α=0.8 / β=0.2 / τ=0.75 / k=3，同时报 Average、pass@k、pass^k）。这些规则今天只活在文档里，界面上看不见就等于没有约束力。</p></div>
-    </div>
-  </section>
-
-  <section>
-    <h2>还需要你定的两件事</h2>
-    <div class="dl">
-      <div class="it"><span class="st off">冲突</span><p><b>工程里在用 ClickHouse，PRD §5.3 写的是「为什么不引 ClickHouse」。</b>代码已经有 <span class="mono">services/clickhouse_store.py</span> 和 <span class="mono">backfill_clickhouse.py</span>，仪表盘也优先走 ClickHouse 聚合。这跟 PRD「部署组件 5 个」的结论不一致，两边得对齐一个——原型没有替你选，成本页的口径两种存储都成立。</p></div>
-      <div class="it"><span class="st off">待确认</span><p><b>CodeBuddy 的接入路径要实测。</b>LoongSuite Pilot 官方支持清单里是 <b>WorkBuddy</b>（腾讯 AI 办公工作站），<b>不是 CodeBuddy</b>（腾讯 AI 代码编辑器）——同源但不是一个产品，别当成已支持。CodeBuddy Code 自身支持按 OTel 规范推 trace 到自有 Collector，原型按这条路画的，但<b>需要实测一次，确认字段能被网关正确归一</b>。</p></div>
-      <div class="it"><span class="st off">待定</span><p><b>下线不等于删代码。</b>Agent-as-Judge 和在线任务如果已经有人在用，建议先在界面上标为「不再演进」并停止新建入口，跑满一个回归周期再决定是否摘除。原型里我用条纹和琥珀标记表达的就是这个中间态，不是直接删掉。</p></div>
-    </div>
-  </section>
-
-  <footer>单文件、零外部依赖（仅 Google Fonts 的 Inter 与 JetBrains Mono），可直接另存为 <span class="mono">.html</span> 双击打开。页面刻意只做浅色主题，与工程现状一致。所有数字均为示意数据，真实取值来自 <span class="mono">/api/dashboard</span>、<span class="mono">/api/regression/runs</span> 等既有接口。</footer>
+  <p class="tip"><b>AgentEval 平台原型</b> · 14 屏可点 · 单文件零依赖，另存为 .html 双击即可打开。
+  侧栏切屏、按钮开弹窗、表格行下钻抽屉、下拉与搜索真实筛选、表头可排序。
+  顶栏「取舍标记」开关可把范围判决叠到界面上（紫色＝新增，琥珀＝建议下线）。
+  界面数据为示意值，取自 <span class="mono">/api/dashboard</span>、<span class="mono">/api/metrics</span> 等既有接口的字段口径。</p>
 </div>
 
 <script>
@@ -1167,5 +1344,213 @@ curl -X POST <span class="v">http://agenteval.internal/api/otlp/v1/traces</span>
     });
     box.addEventListener('mouseleave', function(){ tip.style.opacity = '0'; });
   })();
+})();
+</script>
+
+<script>
+/* 交互层：全部由 data-* 驱动，不给每屏单独写逻辑
+   data-dlg / data-drw  打开弹窗、抽屉    data-close  关闭
+   data-act="文案"      执行并 toast      data-toast="文案"  仅 toast
+   data-filter="scope"  过滤 #scope 内的表格行（select 用 data-col 限定列）
+   th[data-sort]        点击排序          tr[data-drw] 行内容自动填进抽屉的 data-slot */
+(function () {
+  "use strict";
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var ovl = $("#ovl"), toastEl = $("#toast"), openEl = null, toastTimer = null;
+
+  function toast(msg, warn) {
+    clearTimeout(toastTimer);
+    $("span", toastEl).textContent = msg;
+    toastEl.classList.toggle("warn", !!warn);
+    $("i", toastEl).textContent = warn ? "!" : "✓";
+    toastEl.classList.add("on");
+    toastTimer = setTimeout(function () { toastEl.classList.remove("on"); }, 2600);
+  }
+  function open(el) {
+    if (openEl) openEl.classList.remove("on");
+    openEl = el; el.classList.add("on"); ovl.classList.add("on");
+    var f = el.querySelector("input,select,button.btn"); if (f) setTimeout(function(){ f.focus(); }, 180);
+  }
+  function close() {
+    if (!openEl) return;
+    openEl.classList.remove("on"); ovl.classList.remove("on"); openEl = null;
+  }
+  ovl.addEventListener("click", close);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
+
+  /* 行 → 抽屉：把行里 data-v-* 的值灌进抽屉的 data-slot */
+  function fill(drw, src) {
+    $$("[data-slot]", drw).forEach(function (el) {
+      var k = el.getAttribute("data-slot"), v = src.getAttribute("data-v-" + k);
+      if (v !== null) el.textContent = v;
+    });
+  }
+
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("[data-close],[data-act],[data-toast],[data-dlg],[data-drw]");
+    if (!t) return;
+    if (t.hasAttribute("data-close")) { close(); return; }
+    if (t.hasAttribute("data-act")) { var m = t.getAttribute("data-act"); close(); toast(m); return; }
+    if (t.hasAttribute("data-toast")) { toast(t.getAttribute("data-toast")); return; }
+    var id = t.getAttribute("data-dlg") || t.getAttribute("data-drw");
+    var box = document.getElementById(id);
+    if (!box) return;
+    if (t.hasAttribute("data-drw")) fill(box, t);
+    open(box);
+  });
+
+  /* 筛选：同一 scope 下的 input/select 取交集 */
+  function applyFilter(scope) {
+    var box = document.getElementById(scope);
+    if (!box) return;
+    var ctrls = $$("[data-filter='" + scope + "']");
+    var rows = $$("tbody tr", box);
+    var shown = 0;
+    rows.forEach(function (tr) {
+      var ok = ctrls.every(function (c) {
+        // 开关型筛选必须先判：button 的 value 恒为空串，放在空值短路之后永远走不到
+        if (c.tagName === "BUTTON") return !c.classList.contains("on") || tr.hasAttribute("data-flag");
+        var v = (c.value || "").trim();
+        if (!v || c.dataset.any === v) return true;
+        var col = c.getAttribute("data-col");
+        var text = col ? (tr.cells[+col] ? tr.cells[+col].textContent : "") : tr.textContent;
+        return text.toLowerCase().indexOf(v.toLowerCase()) > -1;
+      });
+      tr.classList.toggle("hide", !ok);
+      if (ok) shown++;
+    });
+    var cnt = $(".cnt[data-cnt='" + scope + "']");
+    if (cnt) cnt.textContent = "命中 " + shown + " / " + rows.length;
+    var empty = $(".empty[data-empty='" + scope + "']");
+    if (empty) empty.hidden = shown > 0;
+  }
+  $$("[data-filter]").forEach(function (c) {
+    var scope = c.getAttribute("data-filter");
+    var ev = c.tagName === "INPUT" ? "input" : "change";
+    if (c.tagName === "BUTTON") {
+      c.addEventListener("click", function () { c.classList.toggle("on"); applyFilter(scope); });
+    } else {
+      c.addEventListener(ev, function () { applyFilter(scope); });
+    }
+  });
+  $$("[data-reset]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var scope = b.getAttribute("data-reset");
+      $$("[data-filter='" + scope + "']").forEach(function (c) {
+        if (c.tagName === "BUTTON") c.classList.remove("on");
+        else c.value = c.tagName === "SELECT" ? c.options[0].value : "";
+      });
+      applyFilter(scope); toast("筛选已重置");
+    });
+  });
+
+  /* 排序 */
+  $$("th[data-sort]").forEach(function (th) {
+    th.addEventListener("click", function () {
+      var tbl = th.closest("table"), tb = $("tbody", tbl);
+      var idx = Array.prototype.indexOf.call(th.parentElement.cells, th);
+      var num = th.getAttribute("data-sort") === "num";
+      var desc = !th.classList.contains("desc");
+      $$("th[data-sort]", tbl).forEach(function (o) { o.classList.remove("asc", "desc"); });
+      th.classList.add(desc ? "desc" : "asc");
+      var rows = $$("tr", tb);
+      rows.sort(function (a, b) {
+        var x = a.cells[idx] ? a.cells[idx].textContent.trim() : "";
+        var y = b.cells[idx] ? b.cells[idx].textContent.trim() : "";
+        if (num) {
+          var nx = parseFloat(x.replace(/[^\d.\-]/g, "")) || 0, ny = parseFloat(y.replace(/[^\d.\-]/g, "")) || 0;
+          return desc ? ny - nx : nx - ny;
+        }
+        return desc ? y.localeCompare(x, "zh") : x.localeCompare(y, "zh");
+      });
+      rows.forEach(function (r) { tb.appendChild(r); });
+    });
+  });
+
+  /* 通知中心：全部已读 */
+  var readAll = $("[data-readall]");
+  if (readAll) readAll.addEventListener("click", function () {
+    var n = $$(".nf.un").length;
+    $$(".nf.un").forEach(function (x) { x.classList.remove("un"); });
+    var badge = $("[data-unread]"); if (badge) badge.textContent = "0 条未读";
+    toast(n ? n + " 条通知已标记为已读" : "没有未读通知");
+  });
+})();
+</script>
+
+<script>
+/* 交互层第二部分：表格行下钻、排序、范围切换提示 */
+(function () {
+  "use strict";
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  function txt(el) { return (el ? el.textContent : "").replace(/\s+/g, " ").trim(); }
+  function headers(tbl) { return $$("thead th", tbl).map(txt); }
+
+  /* Bad Case 抽屉按表头名取值；其余表走通用抽屉 */
+  var CASE_SLOT = { title: "Case ID", trace: "Trace", app: "应用", ev: "评估器", score: "Score" };
+
+  function openRow(tr, box) {
+    var tbl = tr.closest("table"), hs = headers(tbl);
+    var cells = $$("td", tr).map(txt);
+    var drwId = box.getAttribute("data-rowdrw");
+    var drw = document.getElementById(drwId);
+    if (!drw) return;
+
+    if (drwId === "drw-case") {
+      $$("[data-slot]", drw).forEach(function (el) {
+        var want = CASE_SLOT[el.getAttribute("data-slot")];
+        if (!want) return;
+        var i = hs.findIndex(function (h) { return h.indexOf(want) > -1; });
+        if (i > -1) el.textContent = cells[i];
+      });
+    } else {
+      $("[data-slot='title']", drw).textContent = cells[0] || "详情";
+      var body = $("[data-rows]", drw);
+      body.innerHTML = "";
+      hs.forEach(function (h, i) {
+        if (i === 0 || !cells[i]) return;
+        var w = document.createElement("div");
+        var a = document.createElement("div"); a.className = "dsec"; a.textContent = h;
+        var b = document.createElement("div"); b.className = "dtxt"; b.textContent = cells[i];
+        w.appendChild(a); w.appendChild(b); body.appendChild(w);
+      });
+      var act = $("[data-rowact]", drw);
+      act.textContent = box.getAttribute("data-act-label") || "确定";
+      act.setAttribute("data-act", box.getAttribute("data-act-msg") || "已执行");
+    }
+    document.getElementById("ovl").classList.add("on");
+    drw.classList.add("on");
+    drw.setAttribute("data-open", "1");
+  }
+
+  /* 容器上声明了 data-rowdrw 的，所有行可下钻 */
+  $$("[data-rowdrw]").forEach(function (box) {
+    $$("tbody tr", box).forEach(function (tr) {
+      tr.classList.add("clk");
+      tr.tabIndex = 0;
+      tr.addEventListener("click", function (e) {
+        if (e.target.closest("[data-dlg],[data-toast],[data-act]")) return;
+        openRow(tr, box);
+      });
+      tr.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openRow(tr, box); }
+      });
+    });
+  });
+
+  /* 范围类下拉：切换即给反馈，说明数据会跟着变 */
+  $$("[data-toast-on-change]").forEach(function (sel) {
+    sel.addEventListener("change", function () {
+      var t = document.getElementById("toast");
+      t.querySelector("span").textContent = "已切换到「" + sel.value + "」，数据范围已更新";
+      t.querySelector("i").textContent = "✓";
+      t.classList.remove("warn"); t.classList.add("on");
+      clearTimeout(sel._tm);
+      sel._tm = setTimeout(function () { t.classList.remove("on"); }, 2400);
+    });
+  });
 })();
 </script>
