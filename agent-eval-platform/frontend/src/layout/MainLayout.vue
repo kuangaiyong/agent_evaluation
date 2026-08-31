@@ -20,7 +20,7 @@
       </nav>
       <div style="padding:12px 18px;border-top:1px solid #eef1f6;font-size:11.5px;color:#94a3b8">
         <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#22c55e;margin-right:6px"></span>
-        上报链路正常 · v0.1.0-alpha
+        上报链路正常 · v0.1.0
       </div>
     </aside>
     <div class="main-area">
