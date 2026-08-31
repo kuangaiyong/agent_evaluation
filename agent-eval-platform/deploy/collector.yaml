@@ -1,0 +1,33 @@
+# OTel Collector 网关（摄入宿主）· 生产化拓扑：
+# Agent(OTLP) → Collector(:4317/:4318) → Kafka(agenteval-ingest) → Worker(归一化/评估)
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch:
+    timeout: 2s
+    send_batch_size: 64
+  resource:
+    attributes:
+      - key: agenteval.ingest
+        value: collector
+        action: upsert
+
+exporters:
+  kafka:
+    brokers: [kafka:9092]
+    topic: agenteval-ingest
+    encoding: otlp_proto
+    protocol_version: 2.5.0
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch, resource]
+      exporters: [kafka]
