@@ -35,6 +35,7 @@
         <el-table-column label="base" width="90"><template #default="{ row }">{{ row.base?.toFixed(2) }}</template></el-table-column>
         <el-table-column label="comp" width="90"><template #default="{ row }">{{ row.comp?.toFixed(2) }}</template></el-table-column>
         <el-table-column label="Δ" width="90"><template #default="{ row }"><b :style="{ color: row.delta > 0.005 ? '#059669' : row.delta < -0.005 ? '#dc2626' : '#94a3b8' }">{{ row.delta >= 0 ? '+' : '' }}{{ row.delta.toFixed(2) }}</b></template></el-table-column>
+        <el-table-column label="主要退化原因" min-width="180"><template #default="{ row }"><span v-if="row.reason">{{ row.reason }}</span><span v-else style="color:#94a3b8">—</span></template></el-table-column>
       </el-table>
     </el-card>
 
@@ -78,12 +79,11 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { api } from '../api'
-import { store } from '../store'
+import { store, canWrite } from '../store'
 
 const runs = ref([]), datasets = ref([]), apps = ref([]), loading = ref(false), dlg = ref(false), report = ref(null)
 const gateInfo = ref(null)
 const form = reactive({ name: '', dataset_id: '', app_id: '', base_ver: 'v1.2', comp_ver: 'v1.3' })
-const canWrite = computed(() => ['admin', 'dev'].includes(store.wsRole))
 const reportCards = computed(() => {
   const r = report.value?.report || {}
   return [['基准版本', r.base_score?.toFixed(3) ?? '—'], ['对比版本', r.comp_score?.toFixed(3) ?? '—'],

@@ -34,7 +34,7 @@ const kpi = ref({}), tracesTotal = ref(0)
 const hasTraces = computed(() => (kpi.value.tasks ?? 0) > 0 || tracesTotal.value > 0)
 const wsName = computed(() => store.workspaces.find(w => w.id === store.wsId)?.name || '当前工作空间')
 const cards = [
-  { title: '接入中心', desc: '管理 Agent 应用接入 · AgentScope / OpenCode / HTTP API 直推，统一 OTLP 网关上报', path: '/access' },
+  { title: '接入中心', desc: '管理 Agent 应用接入 · LoongSuite 三通道（Python Agent / Pilot / OTLP 直推），统一 OTLP 网关上报', path: '/access' },
   { title: 'AI Agent 可观测', desc: 'Trace / Session / Tool Call 全链路查询，轨迹树回放 Turn → Step 完整过程', path: '/traces' },
   { title: '评估器与任务', desc: '规则指标 / LLM-as-Judge / Agent-as-Judge，在线持续评估 + 离线批次评估', path: '/evaluators' },
 ]

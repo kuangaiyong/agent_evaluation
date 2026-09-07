@@ -72,7 +72,7 @@
     </el-card>
 
     <el-table v-loading="loading" :data="items" style="width:100%" @row-click="open">
-      <el-table-column label="编号" width="92">
+      <el-table-column label="编号" width="92" sortable>
         <template #default="{ row }"><b class="mono">{{ row.code }}</b></template>
       </el-table-column>
       <el-table-column prop="name" label="指标名称" min-width="220" />

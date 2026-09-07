@@ -3,12 +3,12 @@
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
       <div>
         <h2 class="page-title">系统管理</h2>
-        <p class="page-sub">工作空间数据隔离 · 三级角色 RBAC（管理员 / 开发 / 只读）· 关键操作审计留痕</p>
+        <p class="page-sub">工作空间数据隔离 · 三级角色 RBAC（管理员 / 开发 / 只读）· 认证复用组织账号，授权由平台维护</p>
       </div>
       <el-button type="primary" :disabled="!canWrite" @click="inviteDlg = true">邀请成员</el-button>
     </div>
     <el-tabs v-model="tab">
-      <el-tab-pane label="成员与权限" name="member">
+      <el-tab-pane label="成员与角色" name="member">
         <el-row :gutter="12">
           <el-col :span="16">
             <el-table :data="members" size="small">
@@ -16,7 +16,9 @@
                 <template #default="{ row }"><b>{{ row.name }}</b><div style="font-size:11px;color:#cbd5e1">{{ row.email }}</div></template>
               </el-table-column>
               <el-table-column label="角色" width="120"><template #default="{ row }"><el-tag size="small" :type="roleMap[row.role]?.type">{{ roleMap[row.role]?.label }}</el-tag></template></el-table-column>
-              <el-table-column label="说明"><template #default="{ row }">{{ roleMap[row.role]?.hint }}</template></el-table-column>
+              <el-table-column label="来源" width="110"><template #default="{ row }">{{ row.source || "—" }}</template></el-table-column>
+              <el-table-column label="可做什么"><template #default="{ row }">{{ roleMap[row.role]?.hint }}</template></el-table-column>
+              <el-table-column label="加入时间" width="120"><template #default="{ row }">{{ row.joined_at || "—" }}</template></el-table-column>
             </el-table>
           </el-col>
           <el-col :span="8">
@@ -37,19 +39,10 @@
             <el-table-column prop="name" label="空间名" width="160" />
             <el-table-column prop="env" label="环境" width="90"><template #default="{ row }"><el-tag size="small" :type="row.env === '生产' ? 'success' : 'primary'">{{ row.env }}</el-tag></template></el-table-column>
             <el-table-column prop="description" label="描述" />
-            <el-table-column label="成员角色" width="120"><template #default="{ row }">{{ roleMap[row.role]?.label }}</template></el-table-column>
+            <el-table-column label="我的角色" width="120"><template #default="{ row }">{{ roleMap[row.role]?.label }}</template></el-table-column>
           </el-table>
           <div style="font-size:12px;color:#94a3b8;margin-top:8px">数据隔离：成员按工作空间授权；URL 直链他空间资源返回 403；热数据 30 天 / 冷数据归档 1 年</div>
         </el-card>
-      </el-tab-pane>
-      <el-tab-pane label="审计日志" name="audit">
-        <el-table :data="audits" size="small" v-loading="auditLoading">
-          <el-table-column prop="actor" label="操作人" width="100" />
-          <el-table-column prop="action" label="操作" width="150" />
-          <el-table-column prop="obj" label="对象" min-width="220" />
-          <el-table-column label="结果" width="110"><template #default="{ row }"><el-tag size="small" :type="row.result.includes('成功') ? 'success' : 'danger'">{{ row.result }}</el-tag></template></el-table-column>
-          <el-table-column prop="time" label="时间" width="170" />
-        </el-table>
       </el-tab-pane>
     </el-tabs>
 
@@ -66,19 +59,16 @@
   </div>
 </template>
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { api } from '../api'
-import { store } from '../store'
+import { store, canWrite } from '../store'
 
-const tab = ref('member'), members = ref([]), audits = ref([]), auditLoading = ref(false), inviteDlg = ref(false)
+const tab = ref('member'), members = ref([]), inviteDlg = ref(false)
 const invite = reactive({ email: '', name: '', role: 'dev' })
-const canWrite = computed(() => ['admin', 'dev'].includes(store.wsRole))
 const roleMap = { admin: { label: '管理员', type: 'danger', hint: '全部操作' }, dev: { label: '开发', type: 'primary', hint: '接入 / 评估 / 复核' }, ro: { label: '只读', type: 'info', hint: '仅查看' } }
 async function load() {
   try { members.value = await api.members() } catch (e) {}
-  auditLoading.value = true
-  try { audits.value = await api.audits() } catch (e) {} finally { auditLoading.value = false }
 }
 async function doInvite() {
   try { await api.invite(invite); ElMessage.success('邀请已发送'); inviteDlg.value = false; load() } catch (e) { ElMessage.error(e.message) }

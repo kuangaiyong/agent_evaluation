@@ -38,11 +38,10 @@ import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { api } from '../api'
-import { store } from '../store'
+import { store, canWrite } from '../store'
 
 const route = useRoute()
 const t = ref(null), results = ref([]), loading = ref(false)
-const canWrite = computed(() => ['admin', 'dev'].includes(store.wsRole))
 const stMap = { running: { label: '运行中', type: 'success' }, paused: { label: '已暂停', type: 'warning' }, error: { label: '异常', type: 'danger' }, terminated: { label: '已终止', type: 'info' }, completed: { label: '已完成', type: 'primary' }, created: { label: '待启动', type: 'info' } }
 const statItems = computed(() => {
   const s = t.value?.stats || {}

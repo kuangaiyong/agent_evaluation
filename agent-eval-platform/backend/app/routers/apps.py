@@ -4,6 +4,7 @@ from ..db import get_db
 from .. import models, schemas
 from ..deps import current_workspace, require_write, audit
 from ..security import gen_api_key
+from ..services.access import channel_of
 
 router = APIRouter(prefix="/api/apps", tags=["apps"])
 
@@ -11,7 +12,8 @@ def _app_json(a: models.App, db):
     traces24 = db.query(models.Trace).filter_by(app_id=a.id).count()
     scores = [t.score_avg for t in db.query(models.Trace).filter_by(app_id=a.id) if t.score_avg is not None]
     return {
-        "id": a.id, "name": a.name, "type": a.type, "model": a.model, "version": a.version,
+        "id": a.id, "name": a.name, "type": a.type, "channel": channel_of(a),
+        "model": a.model, "version": a.version,
         "status": a.status, "api_key_masked": (a.api_key[:7] + "****" + a.api_key[-4:]) if a.api_key else "",
         "traces24h": traces24,
         "avg_score": round(sum(scores) / len(scores), 2) if scores else None,
@@ -41,9 +43,13 @@ def update_app(app_id: str, data: dict, ws=Depends(require_write), db: Session =
     if not a or a.workspace_id != ws["id"]:
         raise HTTPException(404, "应用不存在")
     changes = []
-    for field, label in (("name", "名称"), ("type", "类型"), ("model", "默认被测模型"), ("version", "版本号")):
+    # 截断长度按各列实际定义走：channel/version 是 32，超长再入库会撞 PG 的
+    # StringDataRightTruncation，接口返回 500 而不是可读的错误。
+    limits = {"name": 64, "type": 32, "channel": 32, "model": 64, "version": 32}
+    for field, label in (("name", "名称"), ("type", "类型"), ("channel", "接入通道"),
+                         ("model", "默认被测模型"), ("version", "版本号")):
         if field in data and data[field] is not None:
-            new = str(data[field]).strip()[:64]
+            new = str(data[field]).strip()[:limits[field]]
             if getattr(a, field) != new:
                 changes.append(label + ": " + (getattr(a, field) or "-") + " -> " + new)
                 setattr(a, field, new)

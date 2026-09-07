@@ -98,16 +98,15 @@
   </div>
 </template>
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { api } from '../api'
-import { store } from '../store'
+import { store, canWrite } from '../store'
 
 const items = ref([]), traces = ref([]), loading = ref(false), dlg = ref(false), drawer = ref(false)
 const sel = ref(null), trialTrace = ref(''), trialResult = ref(null), trialing = ref(false)
 const form = reactive({ name: '', type: 'rule' })
 const cfg = reactive({ tool_success: true, no_error: false, keywords_text: '', regex: '', judge_model: 'qwen-max', prompt: '', dims_text: '' })
-const canWrite = computed(() => ['admin', 'dev'].includes(store.wsRole))
 const typeMap = { rule: 'info', llm: 'primary', agent: 'warning', human: 'success' }
 function scoreColor(s) { if (s == null) return '#94a3b8'; return s >= 0.7 ? '#059669' : s >= 0.55 ? '#d97706' : '#dc2626' }
 function configDesc(row) {
