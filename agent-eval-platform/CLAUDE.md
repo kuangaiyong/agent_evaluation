@@ -40,6 +40,7 @@ cd backend && DATABASE_URL="sqlite:///./dev.db" .venv/Scripts/python.exe -m uvic
 cd frontend && npm run dev
 
 # 同步指标字典（幂等，从外层 01 分册解析 92 条）
+#   ⚠️ 该脚本已失去依据：原型侧改用 DeepEval 评估器，不再消费 92 条指标字典
 cd backend && .venv/Scripts/python.exe -m scripts.sync_metrics [--dry-run]
 
 # 原型交互测试（需先 npm i jsdom）
@@ -56,7 +57,8 @@ cd docs && node prototype.smoke.js
 有几条主线要读多个文件才能拼出来 —— 改摄入 / 评估 / 权限 / schema 之前先
 `Skill(ageval-platform-arch)`：摄入有三条写路径但归一化只有一处、处处 fail-open
 （改任何一处都要想降级路径）、迁移靠 `ensure_schema()` 没有 Alembic、
-评估的两个触发点、权限是两层、指标字典是单向同步的只读实体。
+评估的两个触发点、权限是两层。
+（⚠️ 「指标字典是单向同步的只读实体」一条已随 `prototype-saas-redesign` 作废：评估能力来源改为开源库 **DeepEval** 预置评估器，指标字典屏已从原型删除。`backend/` 的 `metric-dictionary` 能力域与 `scripts/sync_metrics.py` **尚未跟进改造**，见该 change 的交付报告。）
 
 ## 改动前必须守住的约定
 
@@ -72,7 +74,7 @@ task_score = s_safety × ( α · s_completion + β · s_robustness )
 
 ### `docs/prototype.html` 是界面的事实来源
 
-14 屏可点原型，界面的字段名、表格列、页签口径以它为准。改界面的顺序是**先改原型、再改代码**。`docs/prototype.smoke.js` 有 28 项 jsdom 断言（导航切屏、弹窗、行下钻、筛选、排序），改原型后必须跑通。
+**20 个导航屏 + 1 个下钻屏**（链路详情）的可点原型，界面的字段名、表格列、页签口径以它为准。改界面的顺序是**先改原型、再改代码**。`docs/prototype.smoke.js` 有 **159 项** jsdom 断言（导航切屏、三切换器、四通道、行下钻、分步表单、三口径、门禁、排序筛选分页、可访问性静态校验），改原型后必须跑通。
 
 ### 评估器类型
 
@@ -95,4 +97,4 @@ openspec validate --changes "<name>" --strict          # 严格校验（注意�
 `README.md` 内容很全（Docker Compose 启动、演示账号、OTLP 接入细节、运维排障），但有两处与实际不符，别照着做：
 
 - 它说「CI：GitHub Actions(.github/workflows/ci.yml) 自动跑」——**该目录不存在**，没有 CI。
-- 它的接入指引按「AgentScope / OpenCode / HTTP API」划分通道，而原型已改为按形态划分的 **LoongSuite 三通道**（Python Agent / Pilot / OTLP 直推）。以原型为准。
+- 它的接入指引按「AgentScope / OpenCode / HTTP API」划分通道，而原型已改为按形态划分的 **LoongSuite 四通道**（Python Agent / Pilot / OTLP 直推 / eBPF 无侵入）。以原型为准。
