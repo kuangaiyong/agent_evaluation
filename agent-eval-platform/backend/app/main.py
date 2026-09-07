@@ -1,7 +1,8 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .core.db import Base, engine, SessionLocal, ensure_schema
+from .core.db import SessionLocal
+from .core.migrate import upgrade_to_head
 from .core.config import settings
 from .seed import seed
 from .pipeline.eval_runner.worker import start_worker
@@ -18,8 +19,8 @@ from .pipeline.ingest import otlp, ingest
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    Base.metadata.create_all(bind=engine)
-    ensure_schema()
+    if settings.auto_migrate:
+        upgrade_to_head()      # 单机部署省事；多实例请关掉它，改在部署流程里跑 alembic upgrade head
     ch_ensure_schema()
     if settings.seed_on_start:
         db = SessionLocal()

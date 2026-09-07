@@ -26,7 +26,7 @@ backend/.venv/bin/python                # Linux/macOS
 ## 常用命令
 
 ```bash
-# 后端测试（基线 42 项通过）
+# 后端测试（基线 80 项通过）
 cd backend && DATABASE_URL="sqlite:///:memory:" .venv/Scripts/python.exe -m pytest tests/ -q
 
 # 单个文件 / 单个用例
@@ -43,7 +43,12 @@ cd frontend && npm run dev
 #   ⚠️ 该脚本已失去依据：原型侧改用 DeepEval 评估器，不再消费 92 条指标字典
 cd backend && .venv/Scripts/python.exe -m scripts.sync_metrics [--dry-run]
 
-# 原型交互测试（需先 npm i jsdom）
+# 数据库迁移（Alembic，已取代早先手写的 ensure_schema）
+cd backend && DATABASE_URL="sqlite:///./dev.db" .venv/Scripts/python.exe -m alembic upgrade head
+#   改了 domains/*/models.py 后必须补一版迁移，否则 test_migrations 的漂移检测会红：
+#   ... -m alembic revision --autogenerate -m "说明"
+
+# 原型交互测试（需先 npm i jsdom，基线 159 项）
 cd docs && node prototype.smoke.js
 ```
 
@@ -56,7 +61,7 @@ cd docs && node prototype.smoke.js
 
 有几条主线要读多个文件才能拼出来 —— 改摄入 / 评估 / 权限 / schema 之前先
 `Skill(ageval-platform-arch)`：摄入有三条写路径但归一化只有一处、处处 fail-open
-（改任何一处都要想降级路径）、迁移靠 `ensure_schema()` 没有 Alembic、
+（改任何一处都要想降级路径）、**迁移用 Alembic**（`alembic upgrade head`，启动时按 `auto_migrate` 自动跑）、
 评估的两个触发点、权限是两层。
 （⚠️ 「指标字典是单向同步的只读实体」一条已随 `prototype-saas-redesign` 作废：评估能力来源改为开源库 **DeepEval** 预置评估器，指标字典屏已从原型删除。`backend/` 的 `metric-dictionary` 能力域与 `scripts/sync_metrics.py` **尚未跟进改造**，见该 change 的交付报告。）
 

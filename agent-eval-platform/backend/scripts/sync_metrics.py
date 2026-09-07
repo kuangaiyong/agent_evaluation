@@ -12,7 +12,8 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
-from app.core.db import SessionLocal, engine, Base, ensure_schema      # noqa: E402
+from app.core.db import SessionLocal                                   # noqa: E402
+from app.core.migrate import upgrade_to_head                           # noqa: E402
 from app.domains.evaluation.metric_dict import parse_dictionary, sync_metrics  # noqa: E402
 
 DEFAULT_DOC = (pathlib.Path(__file__).resolve().parents[3]
@@ -60,8 +61,7 @@ def main() -> int:
         print("  …（--dry-run 未写库）")
         return 0
 
-    Base.metadata.create_all(bind=engine)
-    ensure_schema()
+    upgrade_to_head()
     db = SessionLocal()
     try:
         stat = sync_metrics(db, rows)

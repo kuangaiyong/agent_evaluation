@@ -90,53 +90,26 @@ def test_high_risk_and_actor_intersect_after_pushdown(client):
     assert [r["action"] for r in rows] == ["修改金标准"]
 
 
-def test_new_membership_gets_joined_at_on_migrated_db(monkeypatch):
-    """升级过的库里，此后新增的成员关系必须带上加入时间。
+def test_new_membership_always_gets_joined_at():
+    """新增的成员关系必须带上加入时间。
 
-    修复前：模型用 server_default，而 ensure_schema 补的是裸 TIMESTAMP 没有 DDL 默认值，
-    SQLAlchemy 因 server_default 在 INSERT 中省略该列 → 新成员永远落 NULL。
+    这条测的是**模型定义**，与建表方式无关，所以从 ensure_schema 换成 Alembic 后依然要留着。
+    历史上出过的问题：Membership.created_at 用 server_default，而当时手工补的是裸 TIMESTAMP
+    没有 DDL 默认值，SQLAlchemy 因 server_default 在 INSERT 中省略该列 → 新成员永远落 NULL。
+    修法是改用 Python 侧 default，本测试钉住这个行为。
     """
     engine = create_engine("sqlite://", connect_args={"check_same_thread": False},
                            poolclass=StaticPool)
-    monkeypatch.setattr(dbmod, "engine", engine)
-    # 造一个「没有 created_at 列」的旧版 memberships 表
-    with engine.begin() as conn:
-        conn.execute(sa.text("CREATE TABLE memberships (id INTEGER PRIMARY KEY, "
-                             "user_id VARCHAR(32), workspace_id VARCHAR(32), role VARCHAR(16))"))
-    dbmod.ensure_schema()
-    assert "created_at" in {c["name"] for c in sa.inspect(engine).get_columns("memberships")}
+    Base.metadata.create_all(bind=engine)
 
     Session = sessionmaker(bind=engine)
     s = Session()
     s.add(models.Membership(user_id="u-新", workspace_id="ws-a", role="dev"))
     s.commit()
     row = s.query(models.Membership).filter_by(user_id="u-新").first()
-    assert row.created_at is not None, "升级过的库里新成员的加入时间落了 NULL"
+    assert row.created_at is not None, "新成员的加入时间落了 NULL"
     s.close()
     engine.dispose()
-
-
-def test_ddl_failure_does_not_poison_the_rest(monkeypatch):
-    """一条 DDL 失败不能拖垮其余补列，也不能让 ensure_schema 抛异常。
-
-    修复前所有 DDL 共用一个事务：PG 下首条失败即毒化后续语句，且 COMMIT 抛错会让
-    lifespan 崩溃、服务起不来——与「失败只记日志不抛出」的承诺相反。
-    """
-    engine = create_engine("sqlite://", connect_args={"check_same_thread": False},
-                           poolclass=StaticPool)
-    monkeypatch.setattr(dbmod, "engine", engine)
-    # apps 表存在但列名冲突，必然 ALTER 失败；memberships 正常，应仍被补上
-    with engine.begin() as conn:
-        conn.execute(sa.text("CREATE TABLE apps (id VARCHAR(32) PRIMARY KEY)"))
-        conn.execute(sa.text("CREATE TABLE memberships (id INTEGER PRIMARY KEY)"))
-    monkeypatch.setitem(dbmod.ADD_COLUMNS, "apps", [("id", "VARCHAR(8)")])  # 与主键重名，必失败
-
-    dbmod.ensure_schema()   # 不得抛出
-
-    cols = {c["name"] for c in sa.inspect(engine).get_columns("memberships")}
-    assert "created_at" in cols, "前一条 DDL 失败后，后续补列被连带跳过了"
-    engine.dispose()
-
 
 def test_app_update_truncates_channel_to_column_length(client):
     """channel 列是 VARCHAR(32)，超长输入必须截断而不是撞库报 500。"""

@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     auto_eval_interval: int = 5
     upload_dir: str = "/data/uploads"
     seed_on_start: bool = True
+    # 启动时自动把库升到最新版本。多实例部署要关掉：并发启动会同时抢着跑迁移。
+    auto_migrate: bool = True
     otlp_skip_span_ops: str = "format,embed"   # 网关默认跳过这些操作的 span
     otlp_max_attr_chars: int = 8000
     # Kafka 队列（生产化网关：FastAPI 鉴权入口 → Kafka → Worker 消费 → 归一化/评估）
