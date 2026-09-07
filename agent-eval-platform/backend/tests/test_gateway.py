@@ -1,7 +1,7 @@
 """OTLP 网关归一化测试：JSON/protobuf 双形态、父子关系、脱敏、跨批次合并。"""
 import json
 
-from app.services.otlp_gateway import normalize_export, redact, _decode_bytes64
+from app.pipeline.ingest.otlp_gateway import normalize_export, redact, _decode_bytes64
 
 
 def span(name, tid, sid, pid, op="", attrs=None, code=0, msg=""):

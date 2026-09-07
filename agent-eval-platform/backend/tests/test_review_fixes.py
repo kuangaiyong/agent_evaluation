@@ -12,10 +12,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-import app.db as dbmod
+import app.core.db as dbmod
 from app import models
-from app.db import Base, get_db
-from app.security import hash_password
+from app.core.db import Base, get_db
+from app.core.security import hash_password
 
 
 @pytest.fixture()
@@ -25,7 +25,7 @@ def client():
     Base.metadata.create_all(bind=engine)
     Session = sessionmaker(bind=engine, autoflush=False)
     db = Session()
-    from app.config import settings
+    from app.core.config import settings
     settings.seed_on_start = False
     from app.main import app
 

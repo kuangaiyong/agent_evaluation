@@ -1,10 +1,10 @@
 """评估引擎单元测试：规则指标 / 越界拒绝 / Mock Judge / 成本计算。"""
 import pytest
 
-from app.services.evaluators import _rule_score, _clamp, run_evaluator
-from app.services.budget import judge_cost, daily_key, JudgeBudget
+from app.domains.evaluation.service import _rule_score, _clamp, run_evaluator
+from app.domains.governance.budget import judge_cost, daily_key, JudgeBudget
 from app import models
-from app.config import settings
+from app.core.config import settings
 
 
 def make_ev(ev_type="rule", cfg=None):

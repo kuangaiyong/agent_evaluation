@@ -12,8 +12,8 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
-from app.db import SessionLocal, engine, Base, ensure_schema      # noqa: E402
-from app.services.metric_dict import parse_dictionary, sync_metrics  # noqa: E402
+from app.core.db import SessionLocal, engine, Base, ensure_schema      # noqa: E402
+from app.domains.evaluation.metric_dict import parse_dictionary, sync_metrics  # noqa: E402
 
 DEFAULT_DOC = (pathlib.Path(__file__).resolve().parents[3]
                / "智能体评测体系" / "01-指标体系与指标字典.md")

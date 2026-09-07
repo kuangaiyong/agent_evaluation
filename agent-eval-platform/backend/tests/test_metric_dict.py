@@ -7,7 +7,7 @@ import pathlib
 import pytest
 
 from app import models
-from app.services.metric_dict import parse_dictionary, sync_metrics, coverage
+from app.domains.evaluation.metric_dict import parse_dictionary, sync_metrics, coverage
 
 DOC = (pathlib.Path(__file__).resolve().parents[3]
        / "智能体评测体系" / "01-指标体系与指标字典.md")

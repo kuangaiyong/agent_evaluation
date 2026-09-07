@@ -3,7 +3,7 @@ import datetime
 
 import pytest
 
-from app.services.clickhouse_store import (_trace_row, _score_rows, _bad_rows,
+from app.pipeline.store.clickhouse_store import (_trace_row, _score_rows, _bad_rows,
                                            DDL, enabled, write_trace_and_events)
 from app import models
 
@@ -43,6 +43,6 @@ def test_score_bad_rows_mapping(db):
 
 
 def test_write_disabled_fallback(monkeypatch):
-    monkeypatch.setattr("app.services.clickhouse_store.settings", type("S", (), {"clickhouse_enabled": False})())
+    monkeypatch.setattr("app.pipeline.store.clickhouse_store.settings", type("S", (), {"clickhouse_enabled": False})())
     # 未启用 → 不抛错且返回 False（主链路不受影响）
     assert write_trace_and_events(None, None) is False

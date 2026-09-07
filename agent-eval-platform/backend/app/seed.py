@@ -2,8 +2,8 @@
 import datetime
 from sqlalchemy.orm import Session
 from . import models
-from .security import hash_password
-from .services.evaluators import run_evaluator, quality_hint_of
+from .core.security import hash_password
+from .domains.evaluation.service import run_evaluator, quality_hint_of
 
 def step(kind, name, tool="", status="ok", dur=0, tokens=0, input=None, output=None, error="", model=""):
     return {"kind": kind, "name": name, "tool": tool, "status": status, "duration_ms": dur,
@@ -217,7 +217,7 @@ def seed(db: Session):
     db.add_all(jobs)
     db.flush()
     # ---------- 初始评估（让仪表盘有数据）----------
-    from .services.worker import eval_trace_on_tasks
+    from .pipeline.eval_runner.worker import eval_trace_on_tasks
     online = [j for j in jobs if j.mode == "online" and j.status == "running"]
     for tr in db.query(models.Trace).all():
         eval_trace_on_tasks(db, online, tr, force=False)

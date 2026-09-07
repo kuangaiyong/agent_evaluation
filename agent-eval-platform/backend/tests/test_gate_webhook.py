@@ -3,7 +3,7 @@ import hashlib
 import hmac
 import json
 
-from app.routers.regression import _mask_url, _deliver_gate_webhook
+from app.domains.quality.api_regression import _mask_url, _deliver_gate_webhook
 
 
 def test_mask_url():

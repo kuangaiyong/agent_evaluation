@@ -7,9 +7,9 @@ import sys
 
 sys.path.insert(0, "/app")
 
-from app.db import SessionLocal
+from app.core.db import SessionLocal
 from app import models
-from app.services.clickhouse_store import (_client, _trace_row, _score_rows,
+from app.pipeline.store.clickhouse_store import (_client, _trace_row, _score_rows,
                                            _bad_rows, enabled, ensure_schema)
 
 

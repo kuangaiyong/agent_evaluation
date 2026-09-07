@@ -12,8 +12,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 from app import models
-from app.db import Base
-from app.routers.regression import _run_regression
+from app.core.db import Base
+from app.domains.quality.api_regression import _run_regression
 
 
 @pytest.fixture()

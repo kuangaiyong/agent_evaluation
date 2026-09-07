@@ -1,13 +1,20 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .db import Base, engine, SessionLocal, ensure_schema
-from .config import settings
+from .core.db import Base, engine, SessionLocal, ensure_schema
+from .core.config import settings
 from .seed import seed
-from .services.worker import start_worker
-from .services.clickhouse_store import ensure_schema as ch_ensure_schema
-from .routers import (auth, system, notifications, apps, ingest, traces, evaluators, metrics,
-                      tasks, badcases, datacenter, dashboard, regression, otlp)
+from .pipeline.eval_runner.worker import start_worker
+from .pipeline.store.clickhouse_store import ensure_schema as ch_ensure_schema
+from .domains.identity import api_auth, api_space
+from .domains.access import api as api_access
+from .domains.observability import api as api_traces
+from .domains.evaluation import api_evaluators, api_tasks, api_metrics
+from .domains.dataset import api as api_dataset
+from .domains.quality import api_badcases, api_regression
+from .domains.governance import api as api_notify
+from .domains.console import api as api_dashboard
+from .pipeline.ingest import otlp, ingest
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -27,8 +34,9 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="TAgentEval 智能体评测平台", version="0.1.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True,
                    allow_methods=["*"], allow_headers=["*"])
-for r in (auth, system, notifications, apps, ingest, traces, evaluators, metrics,
-          tasks, badcases, datacenter, dashboard, regression, otlp):
+for r in (api_auth, api_space, api_notify, api_access, ingest, api_traces,
+          api_evaluators, api_metrics, api_tasks, api_badcases, api_dataset,
+          api_dashboard, api_regression, otlp):
     app.include_router(r.router)
 
 @app.get("/api/health")

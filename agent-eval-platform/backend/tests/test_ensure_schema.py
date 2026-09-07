@@ -8,7 +8,7 @@ import sqlalchemy as sa
 from sqlalchemy import create_engine
 from sqlalchemy.pool import StaticPool
 
-import app.db as dbmod
+import app.core.db as dbmod
 
 
 def _cols(engine, table):

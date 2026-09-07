@@ -11,9 +11,9 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 from app import models
-from app.db import Base, get_db
-from app.security import hash_password
-from app.services.metric_dict import parse_dictionary, sync_metrics
+from app.core.db import Base, get_db
+from app.core.security import hash_password
+from app.domains.evaluation.metric_dict import parse_dictionary, sync_metrics
 
 DOC = (pathlib.Path(__file__).resolve().parents[3]
        / "智能体评测体系" / "01-指标体系与指标字典.md")
@@ -45,7 +45,7 @@ def db(api_db):
 def client(api_db):
     """真实 FastAPI 应用 + 真实登录；关掉 seed，只留本用例要的数据。"""
     db, Session = api_db
-    from app.config import settings
+    from app.core.config import settings
     settings.seed_on_start = False
     from app.main import app
 
@@ -78,7 +78,7 @@ def client(api_db):
 
 
 def test_requires_auth():
-    from app.config import settings
+    from app.core.config import settings
     settings.seed_on_start = False
     from app.main import app
     with TestClient(app) as c:
