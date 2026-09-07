@@ -4,7 +4,7 @@
       <div style="height:54px;display:flex;align-items:center;gap:10px;padding:0 20px;border-bottom:1px solid #eef1f6">
         <div class="badge" style="background:#0f172a;color:#fff;font-size:15px;font-weight:800;padding:5px 10px">A</div>
         <div>
-          <div style="font-weight:800;font-size:15px;line-height:1.1">AgentEval</div>
+          <div style="font-weight:800;font-size:15px;line-height:1.1">TAgentEval</div>
           <div style="font-size:10.5px;color:#94a3b8">智能体评测平台 · 全自研</div>
         </div>
       </div>

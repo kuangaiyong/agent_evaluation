@@ -28,7 +28,7 @@
 - [x] Step 1: 写会失败的测试
 
 ```js
-/* TAgenEval 原型交互冒烟测试
+/* TAgentEval 原型交互冒烟测试
  *   cd agent-eval-platform/docs && npm i jsdom && node prototype.smoke.js
  * 静态 grep 只能证明属性写对了，证明不了「点得动」。本文件用 jsdom 真正执行页面
  * 脚本并模拟交互。改原型后必须跑通再提交。 */
@@ -65,7 +65,7 @@ BANNED.forEach((w) => {
   const n = (html.match(new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi")) || []).length;
   ok(n === 0, `禁用词「${w}」命中 ${n}`);
 });
-ok(/TAgenEval/.test(html), "品牌名 TAgenEval 存在");
+ok(/TAgentEval/.test(html), "品牌名 TAgentEval 存在");
 ok(/数据魔方/.test(html), "「数据魔方」存在");
 
 console.log("\n【2】20 屏导航");

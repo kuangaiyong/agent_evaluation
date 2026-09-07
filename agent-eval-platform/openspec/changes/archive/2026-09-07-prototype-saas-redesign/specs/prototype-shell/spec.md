@@ -6,7 +6,7 @@
 
 ### Requirement: 品牌与命名
 
-原型 SHALL 使用品牌名 `TAgenEval`，且 SHALL NOT 在任何可见文本中出现 `AgentLoop`。数据分组的名称 SHALL 为「数据魔方」，SHALL NOT 出现「数据中心」。
+原型 SHALL 使用品牌名 `TAgentEval`，且 SHALL NOT 在任何可见文本中出现 `AgentLoop`。数据分组的名称 SHALL 为「数据魔方」，SHALL NOT 出现「数据中心」。
 
 原型 SHALL NOT 出现下列阿里云商业服务名称：`SLS`、`日志服务`、`云监控`、`CMS 工作空间`、`MSE`、`ARMS`、`AgentSpace`、`AI 积分`、`aliyuncs.com`。
 

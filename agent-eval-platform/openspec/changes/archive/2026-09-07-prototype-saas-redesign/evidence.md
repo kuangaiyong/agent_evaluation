@@ -293,7 +293,7 @@
 |---|---|---|
 | `node prototype.smoke.js` | 0 FAIL，PASS ≥ 150 | **159 / 159**，exit=0 |
 | 禁用词 `AgentLoop / 数据中心 / SLS / 云监控 / MSE / ARMS / AgentSpace / aliyuncs / AI 积分 / LicenseKey` | 各 0 | **全部 0** |
-| 保留项 `TAgenEval / 数据魔方 / LoongSuite / OpenTelemetry / DeepEval / eBPF` | 各 ≥1 | 11 / 2 / 2 / 2 / 2 / 10 |
+| 保留项 `TAgentEval / 数据魔方 / LoongSuite / OpenTelemetry / DeepEval / eBPF` | 各 ≥1 | 11 / 2 / 2 / 2 / 2 / 10 |
 | 图标按钮 aria-label 缺失 | 0 | 0（共 7 个） |
 | 表格未包滚动容器 | 0 | 0（共 27 个） |
 | 运行时错误 | 0 | 0 |

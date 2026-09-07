@@ -1,4 +1,4 @@
-# AgentEval · 智能体评测平台（全自研 MVP）
+# TAgentEval · 智能体评测平台（全自研 MVP）
 
 基于「方案 B · 全自研架构」技术方案与高保真原型实现的 **可运行 MVP 版本**，覆盖核心闭环：
 **接入 → 观测（Trace/Session/Turn/Step）→ 评估（在线/离线）→ Bad Case 复核 → 数据集沉淀 → 回归与门禁**。

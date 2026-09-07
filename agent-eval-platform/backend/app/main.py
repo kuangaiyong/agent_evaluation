@@ -24,7 +24,7 @@ async def lifespan(app: FastAPI):
     yield
     worker.cancel()
 
-app = FastAPI(title="AgentEval 智能体评测平台", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="TAgentEval 智能体评测平台", version="0.1.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True,
                    allow_methods=["*"], allow_headers=["*"])
 for r in (auth, system, notifications, apps, ingest, traces, evaluators, metrics,

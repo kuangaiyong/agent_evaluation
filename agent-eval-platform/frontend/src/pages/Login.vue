@@ -3,7 +3,7 @@
     <el-card style="width:400px;border-radius:16px">
       <div style="text-align:center;margin-bottom:18px">
         <div class="badge" style="background:#0f172a;color:#fff;font-size:22px;font-weight:800;padding:8px 14px;border-radius:10px">A</div>
-        <h2 style="margin:12px 0 2px;font-weight:800">AgentEval 智能体评测平台</h2>
+        <h2 style="margin:12px 0 2px;font-weight:800">TAgentEval 智能体评测平台</h2>
         <div style="color:#94a3b8;font-size:12.5px">观测 → 评估 → 沉淀 → 回归 · 全自研 MVP</div>
       </div>
       <el-form :model="form" label-position="top" @keyup.enter="doLogin">

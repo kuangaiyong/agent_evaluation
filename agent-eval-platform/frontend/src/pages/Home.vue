@@ -2,8 +2,8 @@
   <div>
     <el-card style="margin-bottom:16px;background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;border:none!important">
       <div style="text-align:center;padding:26px 0">
-        <el-tag effect="dark" style="margin-bottom:14px">AGENTEVAL · CONTINUOUS TUNING LOOP</el-tag>
-        <h1 style="font-size:30px;font-weight:800;margin:0 0 10px">在 AgentEval 洞察你的 <span style="color:#67e8f9">Agent 运行状态</span></h1>
+        <el-tag effect="dark" style="margin-bottom:14px">TAGENTEVAL · CONTINUOUS TUNING LOOP</el-tag>
+        <h1 style="font-size:30px;font-weight:800;margin:0 0 10px">在 TAgentEval 洞察你的 <span style="color:#67e8f9">Agent 运行状态</span></h1>
         <p style="color:#cbd5e1;margin:0 0 18px">
           当前工作空间 <b>{{ wsName }}</b>{{ hasTraces ? '：接入应用 ' + kpi.apps + ' 个，累计轨迹 ' + tracesTotal + ' 条' : '尚未检测到 Agent 应用接入，请先前往接入中心完成接入' }}
         </p>
