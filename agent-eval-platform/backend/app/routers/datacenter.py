@@ -14,8 +14,13 @@ def list_datasets(ws=Depends(current_workspace), db: Session = Depends(get_db)):
     out = []
     for d in rows:
         n = db.query(models.DatasetSample).filter_by(dataset_id=d.id).count()
+        # 金标准完成度：未补录金标准的条目不参与门禁，所以这个比值要显式露出来
+        gold = (db.query(models.DatasetSample)
+                .filter(models.DatasetSample.dataset_id == d.id,
+                        models.DatasetSample.gold.isnot(None),
+                        models.DatasetSample.gold != "").count())
         out.append({"id": d.id, "name": d.name, "type": d.type, "version": d.version,
-                    "samples": n, "refs": d.refs or [],
+                    "samples": n, "gold": gold, "refs": d.refs or [],
                     "updated": d.updated_at.strftime("%Y-%m-%d")})
     return out
 

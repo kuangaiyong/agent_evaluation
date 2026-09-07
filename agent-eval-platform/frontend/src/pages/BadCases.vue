@@ -19,13 +19,19 @@
       <el-table-column prop="id" label="Case ID" width="110" />
       <el-table-column prop="trace_id" label="Trace" width="130"><template #default="{ row }"><span class="mono" style="color:#94a3b8">{{ row.trace_id }}</span></template></el-table-column>
       <el-table-column prop="app" label="应用" width="140" />
-      <el-table-column prop="evaluator" label="评估器" width="150" />
-      <el-table-column label="Score" width="110"><template #default="{ row }"><b :style="{ color: scoreColor(row.score) }">{{ row.score.toFixed(2) }}</b> <span style="color:#94a3b8;font-size:11px">/ {{ row.threshold }}</span></template></el-table-column>
-      <el-table-column prop="time" label="触发时间" width="165" />
+      <el-table-column prop="evaluator" label="触发评估器" width="160" />
+      <el-table-column label="Score" width="110" sortable><template #default="{ row }"><b :style="{ color: scoreColor(row.score) }">{{ row.score.toFixed(2) }}</b> <span style="color:#94a3b8;font-size:11px">/ {{ row.threshold }}</span></template></el-table-column>
+      <el-table-column prop="time" label="触发时间" width="165"  sortable/>
       <el-table-column label="复核状态" width="150">
         <template #default="{ row }">
           <el-tag size="small" :type="stMap[row.status]?.type">{{ stMap[row.status]?.label }}</el-tag>
           <div v-if="row.root_cause" style="font-size:11px;color:#94a3b8">{{ row.root_cause }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Root Cause" min-width="150">
+        <template #default="{ row }">
+          <span v-if="row.root_cause">{{ row.root_cause }}</span>
+          <span v-else style="color:#b45309">待复核</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="100" fixed="right">
@@ -99,13 +105,12 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { api } from '../api'
-import { store } from '../store'
+import { store, canWrite } from '../store'
 
 const items = ref([]), loading = ref(false), drawer = ref(false), batchDlg = ref(false)
 const cur = ref(null), conclusion = ref('confirm'), note = ref(''), rcSel = ref([]), batchSel = ref([])
 const batchList = ref([]), batchConcl = ref('confirm'), batchRc = ref('检索失败')
 const filters = reactive({ status: '' })
-const canWrite = computed(() => ['admin', 'dev'].includes(store.wsRole))
 const stMap = { pending: { label: '待复核', type: 'danger' }, confirmed: { label: '已入库', type: 'success' }, misjudged: { label: '已标记误判', type: 'info' }, pending2: { label: '待定', type: 'warning' } }
 const rcGroups = ['幻觉', '检索失败', '指令理解偏差', '逻辑错误', '工具参数错误', '格式不符', '安全合规', '成本超限']
 const stats = computed(() => {

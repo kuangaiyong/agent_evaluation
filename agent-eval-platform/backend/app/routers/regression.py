@@ -27,27 +27,40 @@ def _run_regression(db, ws_id, name, dataset_id, app_id, base_ver, comp_ver):
         traces = q.all()
         rows, scores = [], []
         for t in traces:
-            vals = []
+            vals, per_ev = [], {}
             for ev in evaluators:
                 if ev.type == "human":
                     continue
                 r = run_evaluator(ev, t, quality_hint_of(t), db)
                 if r["score"] is not None and not r["failed"]:
                     vals.append(r["score"])
+                    per_ev[ev.name] = r["score"]
             avg = round(sum(vals) / len(vals), 4) if vals else 0
             if vals:
                 scores.append(avg)
-            rows.append({"trace_id": t.id, "score": avg})
+            # 按 session_id 归并：同一条会话在两个版本各有一条 Trace，trace id 不同
+            rows.append({"session_id": t.session_id, "trace_id": t.id,
+                         "score": avg, "per_ev": per_ev})
         total = round(sum(scores) / len(scores), 4) if scores else 0
         return total, rows
     b, brows = eval_version(base_ver)
     c, crows = eval_version(comp_ver)
-    by_id = {r["trace_id"]: r["score"] for r in crows}
+    by_session = {r["session_id"]: r for r in crows}
     diffs = []
     for r in brows:
-        cscore = by_id.get(r["trace_id"], 0)
-        diffs.append({"trace_id": r["trace_id"], "base": r["score"], "comp": cscore,
-                      "delta": round(cscore - r["score"], 4)})
+        cur = by_session.get(r["session_id"])
+        if cur is None:
+            continue          # 对比版本没跑过这条会话，无从比较
+        delta = round(cur["score"] - r["score"], 4)
+        # 归因 = 跌得最狠的评估器。只有确实退化的行才给原因，否则是噪声。
+        reason = ""
+        if delta < -0.005:
+            drops = [(cur["per_ev"].get(n, 0) - b, n) for n, b in r["per_ev"].items()]
+            if drops:
+                worst = min(drops)
+                reason = worst[1] if worst[0] < 0 else ""
+        diffs.append({"trace_id": cur["trace_id"], "base": r["score"], "comp": cur["score"],
+                      "delta": delta, "reason": reason})
     degraded = [d for d in diffs if d["delta"] < -0.005]
     improved = len([d for d in diffs if d["delta"] > 0.005])
     verdict = "publish" if (c >= b and len(degraded) <= 10) else "block"

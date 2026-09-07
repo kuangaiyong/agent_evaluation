@@ -14,13 +14,12 @@
           <router-link v-for="it in g.items" :key="it.path" :to="it.path" class="side-nav-item"
                        :class="{ active: isActive(it.path) }">
             <el-icon><component :is="it.icon" /></el-icon><span>{{ it.name }}</span>
-            <el-tag v-if="it.v11" size="small" type="warning" effect="plain" style="margin-left:auto">V1.1</el-tag>
           </router-link>
         </template>
       </nav>
       <div style="padding:12px 18px;border-top:1px solid #eef1f6;font-size:11.5px;color:#94a3b8">
         <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#22c55e;margin-right:6px"></span>
-        上报链路正常 · v0.1.0-alpha
+        上报链路正常 · v0.1.0
       </div>
     </aside>
     <div class="main-area">
@@ -93,19 +92,22 @@ const navGroups = [
     { path: '/badcases', name: 'Bad Case 管理', icon: 'Warning' },
   ]},
   { label: '数据中心', items: [
-    { path: '/datacenter?tab=traj', name: '轨迹库', icon: 'Coin' },
-    { path: '/datacenter?tab=ds', name: '数据集', icon: 'FolderOpened' },
+    // 单入口，页内以页签切换轨迹库与数据集（原为两个二级菜单指向同一路由的不同 query）
+    { path: '/datacenter', name: '轨迹库 / 数据集', icon: 'Coin' },
   ]},
   { label: '持续优化', items: [
-    { path: '/regression', name: '实验与回归', icon: 'Sort', v11: true },
+    { path: '/regression', name: '实验与回归', icon: 'Sort' },
   ]},
   { label: '系统管理', items: [
     { path: '/system', name: '成员与权限', icon: 'User' },
+    // 原为系统管理页内的第三个页签，提为独立二级菜单
+    { path: '/audit', name: '操作审计', icon: 'DocumentChecked' },
   ]},
 ]
 function isActive(p) {
-  if (p.includes('datacenter')) return route.path === '/datacenter'
-  return route.path === p || (p === '/traces' && route.path.startsWith('/traces/'))
+  // 统一按路由前缀匹配：列表页高亮自身，下钻页（如 /traces/:id）继续高亮所属列表。
+  // 数据中心合并为单入口后，原先针对 ?tab= 的特判不再需要。
+  return route.path === p || route.path.startsWith(p + '/')
 }
 onMounted(async () => {
   try {

@@ -20,6 +20,7 @@ const routes = [
       { path: 'regression', component: () => import('./pages/Regression.vue') },
       { path: 'notifications', component: () => import('./pages/Notifications.vue') },
       { path: 'system', component: () => import('./pages/System.vue') },
+      { path: 'audit', component: () => import('./pages/Audit.vue') },
     ],
   },
 ]

@@ -29,13 +29,21 @@ class Membership(Base):
     user_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True)
     workspace_id: Mapped[str] = mapped_column(ForeignKey("workspaces.id"), index=True)
     role: Mapped[str] = mapped_column(String(16), default="dev")
+    # 加入该空间的时间。可空——存量成员关系补不出来。
+    # 用 default（Python 侧）而非 server_default：ensure_schema 补的是裸列，没有 DDL 默认值，
+    # 若依赖 server_default，升级过的库里此后所有新成员都会落 NULL。
+    created_at: Mapped[datetime.datetime | None] = mapped_column(DateTime, nullable=True,
+                                                                 default=datetime.datetime.utcnow)
 
 class App(Base):
     __tablename__ = "apps"
     id: Mapped[str] = mapped_column(String(32), primary_key=True, default=lambda: uid("app-"))
     workspace_id: Mapped[str] = mapped_column(ForeignKey("workspaces.id"), index=True)
     name: Mapped[str] = mapped_column(String(64))
-    type: Mapped[str] = mapped_column(String(32), default="AgentScope")  # AgentScope/OpenCode/自研 Agent
+    type: Mapped[str] = mapped_column(String(32), default="AgentScope")  # 智能体类型：AgentScope/OpenCode/Hermes Agent/CodeBuddy/其他
+    # LoongSuite 接入通道。可空——存量应用没有该字段，置 NOT NULL 会让迁移失败；
+    # 为空时读接口按 type 推导（见 services/access.channel_of），显式赋值优先。
+    channel: Mapped[str | None] = mapped_column(String(32), nullable=True)
     model: Mapped[str] = mapped_column(String(64), default="qwen-plus")
     version: Mapped[str] = mapped_column(String(32), default="")
     status: Mapped[str] = mapped_column(String(16), default="none")  # none/reporting/connected/interrupted
@@ -164,6 +172,9 @@ class DatasetSample(Base):
     dataset_id: Mapped[str] = mapped_column(ForeignKey("datasets.id"), index=True)
     session_id: Mapped[str] = mapped_column(String(64), index=True)
     label: Mapped[str] = mapped_column(String(64), default="")  # 优质样本/Bad Case/误判样本
+    # 金标准（期望产出）。可空——从轨迹导入的条目先入库、再人工补录，
+    # 未补录的条目不参与门禁判定（见 specs/data-center）。
+    gold: Mapped[str | None] = mapped_column(Text, nullable=True)
 
 class RegressionRun(Base):
     __tablename__ = "regression_runs"

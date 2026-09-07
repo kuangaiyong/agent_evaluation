@@ -8,3 +8,8 @@ dist/
 
 .pytest_cache/
 .DS_Store
+
+# 本地运行时产物，不入库
+*.db
+*.log
+*.pid

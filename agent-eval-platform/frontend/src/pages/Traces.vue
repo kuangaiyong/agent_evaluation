@@ -20,13 +20,13 @@
       <el-table-column prop="session_id" label="Session ID" width="180"><template #default="{ row }"><span class="mono" style="font-size:12px;color:#94a3b8">{{ row.session_id }}</span></template></el-table-column>
       <el-table-column prop="app" label="应用" width="150" />
       <el-table-column prop="model" label="模型" width="110" />
-      <el-table-column prop="created_at" label="开始时间" width="165" />
-      <el-table-column label="耗时" width="100"><template #default="{ row }">{{ (row.duration_ms / 1000).toFixed(1) }}s</template></el-table-column>
-      <el-table-column prop="tokens" label="Token" width="90" />
+      <el-table-column prop="created_at" label="开始时间" width="165"  sortable/>
+      <el-table-column label="耗时" width="100" sortable><template #default="{ row }">{{ (row.duration_ms / 1000).toFixed(1) }}s</template></el-table-column>
+      <el-table-column prop="tokens" label="Token" width="90"  sortable/>
       <el-table-column label="状态" width="90">
         <template #default="{ row }"><el-tag size="small" :type="row.status === 'ok' ? 'success' : 'danger'">{{ row.status === 'ok' ? '成功' : '失败' }}</el-tag></template>
       </el-table-column>
-      <el-table-column label="Score" width="120">
+      <el-table-column label="Score" width="120" sortable>
         <template #default="{ row }"><el-tag v-if="row.score_avg != null" size="small" :type="scoreType(row.score_avg)">{{ row.score_avg.toFixed(2) }}</el-tag><span v-else style="color:#cbd5e1">未评估</span></template>
       </el-table-column>
     </el-table>
